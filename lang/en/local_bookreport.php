@@ -22,4 +22,6 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['pluginname'] = 'Book report';
+$string['pluginname'] = 'Отчет о прочтении книги';
+$string['bookreport'] = 'Отчет';
+$string['myreports'] = 'Мои отчеты';

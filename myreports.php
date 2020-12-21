@@ -26,22 +26,25 @@ require_once(__DIR__ . '/../../config.php');
 
 global $DB;
 
-$url = new moodle_url('/local/bookreport/index.php');
-$PAGE->set_url($url);
+$myreporturl = new moodle_url('/local/bookreport/myreports.php');
+$indexurl = new moodle_url('/local/bookreport/index.php');
+$PAGE->set_url($myreporturl);
 $PAGE->set_context(\context_system::instance());
-$PAGE->set_title('Отчет по книге');
+$PAGE->set_title('Мои отчеты');
 $PAGE->set_heading(get_string('pluginname', 'local_bookreport'));
 
-$navbookreport = get_string('bookreport', 'local_bookreport');
-$PAGE->navbar->add($navbookreport, $url);
+$navmyreports = get_string('myreports', 'local_bookreport');
+$navindex = get_string('bookreport', 'local_bookreport');
+$PAGE->navbar->add($navindex, $indexurl);
+$PAGE->navbar->add($navmyreports, $myreporturl);
 
-$PAGE->requires->js_call_amd('local_bookreport/selecttypereport', 'typereport');
+$PAGE->requires->js_call_amd('local_bookreport/selecttypemyreport', 'typereport');
 
-$myreporturl = new moodle_url('/local/bookreport/myreports.php');
+
 $templatecontext = [
-    'myreporturl' => $myreporturl
+   
 ];
 
 echo $OUTPUT->header();
-echo $OUTPUT->render_from_template('local_bookreport/index', $templatecontext);
+echo $OUTPUT->render_from_template('local_bookreport/myreports', $templatecontext);
 echo $OUTPUT->footer();
