@@ -17,7 +17,7 @@
 /**
  * Version information
  *
- * @package   local_bookreport
+ * @package   block_bookreport
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -26,19 +26,19 @@ require_once(__DIR__ . '/../../config.php');
 
 global $DB;
 
-$myreporturl = new moodle_url('/local/bookreport/myreports.php');
-$indexurl = new moodle_url('/local/bookreport/index.php');
+$myreporturl = new moodle_url('/block/bookreport/myreports.php');
+$indexurl = new moodle_url('/block/bookreport/index.php');
 $PAGE->set_url($myreporturl);
 $PAGE->set_context(\context_system::instance());
 $PAGE->set_title('Мои отчеты');
-$PAGE->set_heading(get_string('pluginname', 'local_bookreport'));
+$PAGE->set_heading(get_string('pluginname', 'block_bookreport'));
 
-$navmyreports = get_string('myreports', 'local_bookreport');
-$navindex = get_string('bookreport', 'local_bookreport');
+$navmyreports = get_string('myreports', 'block_bookreport');
+$navindex = get_string('bookreport', 'block_bookreport');
 $PAGE->navbar->add($navindex, $indexurl);
 $PAGE->navbar->add($navmyreports, $myreporturl);
 
-$PAGE->requires->js_call_amd('local_bookreport/selecttypemyreport', 'typereport');
+$PAGE->requires->js_call_amd('block_bookreport/selecttypemyreport', 'typereport');
 
 
 $templatecontext = [
@@ -46,5 +46,5 @@ $templatecontext = [
 ];
 
 echo $OUTPUT->header();
-echo $OUTPUT->render_from_template('local_bookreport/myreports', $templatecontext);
+echo $OUTPUT->render_from_template('block_bookreport/myreports', $templatecontext);
 echo $OUTPUT->footer();

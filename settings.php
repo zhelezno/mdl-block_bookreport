@@ -17,7 +17,7 @@
 /**
  * Version information
  *
- * @package   local_bookreport
+ * @package   block_bookreport
  * @author    Chasnikov Andrew
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -27,6 +27,6 @@
  if ($hassiteconfig) {  
 
     $ADMIN->add(
-        'localplugins', new admin_externalpage('local_modalwindow', 'Modal Window',
+        'blockplugins', new admin_externalpage('local_modalwindow', 'Modal Window',
         $CFG->wwwroot.'/local/modalwindow/manage.php')); 
 }

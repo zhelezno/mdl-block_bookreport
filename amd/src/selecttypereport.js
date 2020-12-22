@@ -12,14 +12,14 @@ define([
                     var selectedtypereport = $('#typereport').val();            
                     if (selectedtypereport == "default") {  
                         ajax.call([{
-                            methodname: 'local_bookreport_changetodefaultreporttype',
+                            methodname: 'block_bookreport_changetodefaultreporttype',
                             args: {},
                             done: $('#report').load("forms/standartreport.php"),
                             //fail: notification.exception
                         }]);
                     } else if (selectedtypereport == "presentation") { 
                         ajax.call([{
-                            methodname: 'local_bookreport_changetopresentationreporttype',
+                            methodname: 'block_bookreport_changetopresentationreporttype',
                             args: {},
                             done: $('#report').load("forms/presentationreport.php"),
                             //fail: notification.exception

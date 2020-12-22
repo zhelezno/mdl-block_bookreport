@@ -22,8 +22,6 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
-
-$plugin->component = 'block_bookreport';
-$plugin->version   = 2020112500;
-$plugin->requires  = 2014051200;
+$string['pluginname'] = 'Отчет о прочтении книги';
+$string['bookreport'] = 'Отчет';
+$string['myreports'] = 'Мои отчеты';
