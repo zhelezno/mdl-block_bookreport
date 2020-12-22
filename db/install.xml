@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<XMLDB PATH="blocks/bookreport/db" VERSION="20150203" COMMENT="XMLDB file for Exabis ePortfolio"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
+>
+  <TABLES>
+	<TABLE NAME="block_bookreport" COMMENT="all reports">
+	  <FIELDS>
+		<FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+		<FIELD NAME="user_id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="type" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
+        <FIELD NAME="completed" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
+        <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
+        <FIELD NAME="timemodified" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>        		
+	  </FIELDS>
+	  <KEYS>
+		<KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+		<KEY NAME="user_id" TYPE="foreign-unique" FIELDS="user_id" REFTABLE="user" REFFIELDS="id"/>
+	  </KEYS>
+	</TABLE>
+    <TABLE NAME="block_bookreport_standartreport" COMMENT="standart reports">
+	  <FIELDS>
+		<FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="bookreportid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Bookreport id"/>
+        <FIELD NAME="typeid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Type id"/>
+        <FIELD NAME="author" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="Author"/>
+        <FIELD NAME="book" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="Book"/>
+        <FIELD NAME="mainactors" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="Main actors"/>
+        <FIELD NAME="mainidea" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="Main idea"/>
+        <FIELD NAME="quotes" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="Quotes"/>
+        <FIELD NAME="conclusion" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="Conclusion"/>
+	  </FIELDS>
+	  <KEYS>
+		<KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+        <KEY NAME="bookreportid" TYPE="foreign" FIELDS="bookreportid" REFTABLE="block_bookreport" REFFIELDS="id"/>
+        <KEY NAME="typeid" TYPE="foreign" FIELDS="typeid" REFTABLE="block_bookreport" REFFIELDS="type"/>
+	  </KEYS>
+	</TABLE>
+    <TABLE NAME="block_bookreport_presreport" COMMENT="presentation reports">
+	  <FIELDS>
+		<FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="bookreportid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Bookreport id"/>
+        <FIELD NAME="typeid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Type id"/>
+        <FIELD NAME="author" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="Author"/>
+        <FIELD NAME="book" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="Book"/>        
+	  </FIELDS>
+	  <KEYS>
+		<KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+        <KEY NAME="bookreportid" TYPE="foreign" FIELDS="bookreportid" REFTABLE="block_bookreport" REFFIELDS="id"/>
+        <KEY NAME="typeid" TYPE="foreign" FIELDS="typeid" REFTABLE="block_bookreport" REFFIELDS="type"/>
+	  </KEYS>
+	</TABLE>
+  </TABLES>
+</XMLDB>

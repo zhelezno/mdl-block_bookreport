@@ -25,7 +25,7 @@
 class block_bookreport extends block_base {
 
     function init() {
-        $this->title = get_string('pluginname', 'block_bookreport');
+        $this->title = '<a href="../blocks/bookreport/index.php">' . get_string('pluginname', 'block_bookreport') . "</a>";
     }
 
     function has_config() {
@@ -33,7 +33,7 @@ class block_bookreport extends block_base {
     }
 
     function get_content() {
-        global $CFG;
+        global $CFG, $DB;
 
         require_once($CFG->libdir . '/filelib.php');
 
@@ -42,8 +42,22 @@ class block_bookreport extends block_base {
         }        
 
         $this->content = new stdClass;
-        $this->content->text = 'hi there';  
-        $this->content->footer = 'footer';               
+        $this->content->text = '';
+
+
+        $info = '';
+        $info .= '<h5>'. get_string('lastreports', 'block_bookreport') .'</h5>';
+        
+        $lastreports = $DB->get_records('block_bookreport');
+        for ($i = 0; $i < 5; $i++) {
+            $strLastreports = $lastreports[$i]. '<br>';
+        }
+        
+        $info .= $strLastreports;
+
+
+        $this->content->text .= $info;
+        $this->content->footer = '';               
 
         return $this->content;
     }

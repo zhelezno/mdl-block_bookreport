@@ -7,21 +7,21 @@ define([
         typereport: function(){ 
             $(document).ready(function(){
                 $('#typereport option[value=default]').prop('selected', true);
-                $('#report').load("forms/mystandartreports.php").one();
+                $('#report').load("views/mystandartreports.php").one();
                 $('#typereport').change(function(){                     
                     var selectedtypereport = $('#typereport').val();            
                     if (selectedtypereport == "default") {  
                         ajax.call([{
                             methodname: 'block_bookreport_changetodefaultreporttype',
                             args: {},
-                            done: $('#report').load("forms/mystandartreports.php"),
+                            done: $('#report').load("views/mystandartreports.php"),
                             //fail: notification.exception
                         }]);
                     } else if (selectedtypereport == "presentation") { 
                         ajax.call([{
                             methodname: 'block_bookreport_changetopresentationreporttype',
                             args: {},
-                            done: $('#report').load("forms/mypresentationreports.php"),
+                            done: $('#report').load("views/mypresentationreports.php"),
                             //fail: notification.exception
                         }]);
                     }
