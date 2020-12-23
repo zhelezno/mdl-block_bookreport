@@ -26,24 +26,25 @@ require_once(__DIR__ . '/../../config.php');
 
 global $DB;
 
-$url = new moodle_url('/block/bookreport/index.php');
-$PAGE->set_url($url);
+$allreporturl = new moodle_url('/block/bookreport/allreports.php');
+$indexurl = new moodle_url('/block/bookreport/index.php');
+$PAGE->set_url($allreporturl);
 $PAGE->set_context(\context_system::instance());
-$PAGE->set_title('Отчет по книге');
+$PAGE->set_title('Все отчеты');
 $PAGE->set_heading(get_string('pluginname', 'block_bookreport'));
 
-$navbookreport = get_string('bookreport', 'block_bookreport');
-$PAGE->navbar->add($navbookreport, $url);
+$navmyreports = get_string('allreports', 'block_bookreport');
+$navindex = get_string('bookreport', 'block_bookreport');
+$PAGE->navbar->add($navindex, $indexurl);
+$PAGE->navbar->add($navmyreports, $allreporturl);
 
-$PAGE->requires->js_call_amd('block_bookreport/selecttypereport', 'typereport');
+$PAGE->requires->js_call_amd('block_bookreport/selecttypemyreport', 'typereport');
 
-$myreporturl = new moodle_url('/blocks/bookreport/myreports.php');
-$allreporturl = new moodle_url('/blocks/bookreport/allreports.php');
+
 $templatecontext = [
-    'myreporturl' => $myreporturl,
-    'allreporturl' => $allreporturl
+   
 ];
 
 echo $OUTPUT->header();
-echo $OUTPUT->render_from_template('block_bookreport/index', $templatecontext);
+echo $OUTPUT->render_from_template('block_bookreport/allreports', $templatecontext);
 echo $OUTPUT->footer();

@@ -48,12 +48,12 @@ class block_bookreport extends block_base {
         $info = '';
         $info .= '<h5>'. get_string('lastreports', 'block_bookreport') .'</h5>';
         
-        $lastreports = $DB->get_records('block_bookreport');
-        for ($i = 0; $i < 5; $i++) {
-            $strLastreports = $lastreports[$i]. '<br>';
-        }
+        //$lastreports = $DB->get_records('block_bookreport');
+        //for ($i = 0; $i < 5; $i++) {
+        //    $strLastreports = $lastreports[$i]. '<br>';
+        //}
         
-        $info .= $strLastreports;
+        //$info .= $strLastreports;
 
 
         $this->content->text .= $info;

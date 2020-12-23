@@ -15,7 +15,7 @@
     along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 }}
 {{!
-    @template block_bookreport/myreports
+    @template block_bookreport/mypresentationreport
 
 
     Example context (json):
@@ -23,13 +23,3 @@
         
     }
 }}
-<br>
-<h2>Мои отчеты <span class="badge badge-secondary"></span></h2>
-<br>
-<select class="form-control form-control-lg" name="typereport" id="typereport">
-  <option value="default">Обычные отчеты</option>    
-  <option value="presentation">Отчеты в виде презентации</option> 
-</select>
-<div class="container">
-    <div class="report" id="report" ></div>
-</div>

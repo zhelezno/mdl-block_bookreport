@@ -26,4 +26,5 @@ $string['pluginname'] = 'Отчет о прочтении книги';
 $string['bookreport'] = 'Отчет';
 
 $string['myreports'] = 'Мои отчеты';
+$string['allreports'] = 'Все отчеты';
 $string['lastreports'] = 'Последние отчеты';
