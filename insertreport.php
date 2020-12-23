@@ -18,12 +18,10 @@
  * Version information
  *
  * @package   block_bookreport
- * @author    Chasnikov Andrew
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
 
-$plugin->component = 'block_bookreport';
-$plugin->version   = 2020122400;
-$plugin->requires  = 2014051200;
+require_once(__DIR__ . '/../../config.php');
+
+global $DB;

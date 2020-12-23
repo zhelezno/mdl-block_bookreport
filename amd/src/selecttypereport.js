@@ -8,6 +8,8 @@ define([
         typereport: function(){ 
             $(document).ready(function(){
                 
+                
+
                 $('#typereport option[value=default]').prop('selected', true);
                 
                 element = $('#report');
@@ -16,7 +18,7 @@ define([
                 .then(function(html, js) {                    
                     templates.replaceNodeContents(element, html, js);
                 });
-                
+
                 //$('#report').load("views/standartreport.php").one();
                 $('#typereport').change(function(){ 
                     

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<XMLDB PATH="blocks/bookreport/db" VERSION="20150203" COMMENT="XMLDB file for Exabis ePortfolio"
+<XMLDB PATH="blocks/bookreport/db" VERSION="20201223" COMMENT="XMLDB file for Book Report"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
 >
@@ -14,11 +14,10 @@
         <FIELD NAME="timemodified" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>        		
 	  </FIELDS>
 	  <KEYS>
-		<KEY NAME="primary" TYPE="primary" FIELDS="id"/>
-		<KEY NAME="user_id" TYPE="foreign-unique" FIELDS="user_id" REFTABLE="user" REFFIELDS="id"/>
+		<KEY NAME="primary" TYPE="primary" FIELDS="id"/>		
 	  </KEYS>
 	</TABLE>
-    <TABLE NAME="block_bookreport_standartreport" COMMENT="standart reports">
+    <TABLE NAME="block_bookreport_strep" COMMENT="standart reports">
 	  <FIELDS>
 		<FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
         <FIELD NAME="bookreportid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Bookreport id"/>
@@ -36,7 +35,7 @@
         <KEY NAME="typeid" TYPE="foreign" FIELDS="typeid" REFTABLE="block_bookreport" REFFIELDS="type"/>
 	  </KEYS>
 	</TABLE>
-    <TABLE NAME="block_bookreport_presreport" COMMENT="presentation reports">
+    <TABLE NAME="block_bookreport_prsrep" COMMENT="presentation reports">
 	  <FIELDS>
 		<FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
         <FIELD NAME="bookreportid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Bookreport id"/>

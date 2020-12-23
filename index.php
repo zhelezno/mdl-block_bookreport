@@ -39,9 +39,11 @@ $PAGE->requires->js_call_amd('block_bookreport/selecttypereport', 'typereport');
 
 $myreporturl = new moodle_url('/blocks/bookreport/myreports.php');
 $allreporturl = new moodle_url('/blocks/bookreport/allreports.php');
+$insertreporturl = new moodle_url('/blocks/bookreport/insertreport.php');
 $templatecontext = [
     'myreporturl' => $myreporturl,
-    'allreporturl' => $allreporturl
+    'allreporturl' => $allreporturl,
+    'insertreporturl' => $insertreporturl
 ];
 
 echo $OUTPUT->header();
