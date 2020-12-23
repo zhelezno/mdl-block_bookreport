@@ -26,7 +26,7 @@ require_once(__DIR__ . '/../../config.php');
 
 global $DB;
 
-$url = new moodle_url('/block/bookreport/index.php');
+$url = new moodle_url('/blocks/bookreport/index.php');
 $PAGE->set_url($url);
 $PAGE->set_context(\context_system::instance());
 $PAGE->set_title('Отчет по книге');

@@ -24,4 +24,34 @@
 
 require_once(__DIR__ . '/../../config.php');
 
-global $DB;
+global $DB,$USER;
+
+$type = 1;
+// $author = $_POST['defaulttype_Author'];
+// $book = $_POST['defaulttype_Book'];
+// $heroes = $_POST['defaulttype_Mainheroes'];
+// $idea = $_POST['defaulttype_Mainidea'];
+// $quotes = $_POST['defaulttype_quotes'];
+// $conclusion = $_POST['defaulttype_Conclusion'];
+$user = $USER->id;
+$completed = 1;
+$timecreated = time();
+$timemodified = time();
+
+$params = [
+    'userid' => $user,
+    'type' => $type,
+    'completed' => $completed,
+    'timecreated' => $timecreated,
+    'timemodified' => $timemodified
+];
+
+$sql = "INSERT INTO 
+        mdl_block_bookreport(user_id, type, completed, timecreated, timemodified) 
+        VALUES(:userid, :type, :completed, :timecreated, :timemodified)
+";
+//last_insert_id
+$DB->execute($sql, $params);
+
+$indexurl = new moodle_url('/blocks/bookreport/index.php');
+redirect($indexurl, 'Отчет создан!');
