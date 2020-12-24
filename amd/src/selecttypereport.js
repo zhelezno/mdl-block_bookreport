@@ -33,7 +33,7 @@ define([
                                     .then(function(html, js) {                    
                                        templates.replaceNodeContents(element, html, js);
                                     }),
-                            fail: notification.exception
+                            //fail: notification.exception
                         }]);
                     } else if (selectedtypereport == "presentation") { 
                         
@@ -44,7 +44,7 @@ define([
                                         .then(function(html, js) {                    
                                         templates.replaceNodeContents(element, html, js);
                                     }),
-                            fail: notification.exception
+                            //fail: notification.exception
                         }]);
                     }
                 });

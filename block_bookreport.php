@@ -33,7 +33,7 @@ class block_bookreport extends block_base {
     }
 
     function get_content() {
-        global $CFG, $DB;
+        global $CFG, $DB, $USER;
 
         require_once($CFG->libdir . '/filelib.php');
 
@@ -47,14 +47,28 @@ class block_bookreport extends block_base {
 
         $info = '';
         $info .= '<h5>'. get_string('lastreports', 'block_bookreport') .'</h5>';
-        
-        //$lastreports = $DB->get_records('block_bookreport');
-        //for ($i = 0; $i < 5; $i++) {
-        //    $strLastreports = $lastreports[$i]. '<br>';
-        //}
-        
-        //$info .= $strLastreports;
 
+        $params = [
+            'userid' => $USER->id
+        ];
+        
+        $sql =" SELECT bb.id, bb.type, bb.timecreated, bb.type, bs.author, bs.book
+                FROM {block_bookreport} bb
+                JOIN {block_bookreport_strep} bs ON (bs.bookreportid = bb.id) 
+                WHERE bb.user_id = :userid
+                LIMIT 5               
+        ";
+
+        $lastreports = $DB->get_records_sql($sql, $params);        
+        //$lastreports = json_decode($lastreports, true);
+        //print_r($lastreports); die();    
+        $reports = '';
+
+        foreach ($lastreports as $report) {
+            $reports .= $report->author . ' ' . $report->book . '. Стандартный отчет. ' .date('jS F Y h:i:s A (T)', $report->timecreated) . '<br>';                   
+        }
+        
+        $info .= $reports;
 
         $this->content->text .= $info;
         $this->content->footer = '';               

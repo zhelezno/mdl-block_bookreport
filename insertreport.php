@@ -27,31 +27,48 @@ require_once(__DIR__ . '/../../config.php');
 global $DB,$USER;
 
 $type = 1;
-// $author = $_POST['defaulttype_Author'];
-// $book = $_POST['defaulttype_Book'];
-// $heroes = $_POST['defaulttype_Mainheroes'];
-// $idea = $_POST['defaulttype_Mainidea'];
-// $quotes = $_POST['defaulttype_quotes'];
-// $conclusion = $_POST['defaulttype_Conclusion'];
+
 $user = $USER->id;
 $completed = 1;
 $timecreated = time();
 $timemodified = time();
 
-$params = [
+$author = $_POST['defaulttype_Author'];
+$book = $_POST['defaulttype_Book'];
+$heroes = $_POST['defaulttype_Mainheroes'];
+$idea = $_POST['defaulttype_Mainidea'];
+$quotes = $_POST['defaulttype_quotes'];
+$conclusion = $_POST['defaulttype_Conclusion'];
+
+$params1 = [
     'userid' => $user,
     'type' => $type,
     'completed' => $completed,
     'timecreated' => $timecreated,
-    'timemodified' => $timemodified
+    'timemodified' => $timemodified    
 ];
 
-$sql = "INSERT INTO 
+$params2 = [    
+    'author' => $author,
+    'book' => $book,
+    'mainactors' => $heroes,
+    'mainidea' => $idea,
+    'quotes' => $quotes,
+    'conclusion' => $conclusion
+];
+
+$sql1 = "INSERT INTO 
         mdl_block_bookreport(user_id, type, completed, timecreated, timemodified) 
-        VALUES(:userid, :type, :completed, :timecreated, :timemodified)
+        VALUES(:userid, :type, :completed, :timecreated, :timemodified)       
 ";
-//last_insert_id
-$DB->execute($sql, $params);
+
+$sql2 = "INSERT INTO
+        mdl_block_bookreport_strep(bookreportid, author, book, mainactors, mainidea, quotes, conclusion)
+        VALUES(LAST_INSERT_ID(), :author, :book, :mainactors, :mainidea, :quotes, :conclusion)     
+";
+
+$DB->execute($sql1, $params1);
+$DB->execute($sql2, $params2);
 
 $indexurl = new moodle_url('/blocks/bookreport/index.php');
 redirect($indexurl, 'Отчет создан!');

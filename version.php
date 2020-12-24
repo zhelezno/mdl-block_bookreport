@@ -25,5 +25,5 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'block_bookreport';
-$plugin->version   = 2020122400;
+$plugin->version   = 2020122500;
 $plugin->requires  = 2014051200;
