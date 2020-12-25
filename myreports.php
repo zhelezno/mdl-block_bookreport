@@ -26,8 +26,8 @@ require_once(__DIR__ . '/../../config.php');
 
 global $DB;
 
-$myreporturl = new moodle_url('/block/bookreport/myreports.php');
-$indexurl = new moodle_url('/block/bookreport/index.php');
+$myreporturl = new moodle_url('/blocks/bookreport/myreports.php');
+$indexurl = new moodle_url('/blocks/bookreport/index.php');
 $PAGE->set_url($myreporturl);
 $PAGE->set_context(\context_system::instance());
 $PAGE->set_title('Мои отчеты');
@@ -38,11 +38,27 @@ $navindex = get_string('bookreport', 'block_bookreport');
 $PAGE->navbar->add($navindex, $indexurl);
 $PAGE->navbar->add($navmyreports, $myreporturl);
 
-$PAGE->requires->js_call_amd('block_bookreport/selecttypemyreport', 'typereport');
+$params = [
+    'userid' => $USER->id
+];
 
+$sql =" SELECT bb.id, bb.type, bb.timecreated, bb.type, bs.author, bs.book
+        FROM {block_bookreport} bb
+        JOIN {block_bookreport_strep} bs ON (bs.bookreportid = bb.id) 
+        WHERE bb.user_id = :userid
+";
+
+$reports = $DB->get_records_sql($sql, $params);
+
+$reportsstr = [];
+foreach ($reports as $report) {
+    $reportstr = $report->author . ' ' . $report->book . '. Стандартный отчет. Дата создания: ' .date('jS F Y h:i:s A (T)', $report->timecreated);
+    array_push($reportsstr, $reportstr);
+}
+$reportsstr = array_values($reportsstr);
 
 $templatecontext = [
-   
+    'reportsdata' => $reportsstr
 ];
 
 echo $OUTPUT->header();

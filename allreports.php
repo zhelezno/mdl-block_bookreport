@@ -26,23 +26,41 @@ require_once(__DIR__ . '/../../config.php');
 
 global $DB;
 
-$allreporturl = new moodle_url('/block/bookreport/allreports.php');
-$indexurl = new moodle_url('/block/bookreport/index.php');
+$allreporturl = new moodle_url('/blocks/bookreport/allreports.php');
+$indexurl = new moodle_url('/blocks/bookreport/index.php');
 $PAGE->set_url($allreporturl);
 $PAGE->set_context(\context_system::instance());
 $PAGE->set_title('Все отчеты');
 $PAGE->set_heading(get_string('pluginname', 'block_bookreport'));
 
-$navmyreports = get_string('allreports', 'block_bookreport');
+$navallreports = get_string('allreports', 'block_bookreport');
 $navindex = get_string('bookreport', 'block_bookreport');
 $PAGE->navbar->add($navindex, $indexurl);
-$PAGE->navbar->add($navmyreports, $allreporturl);
+$PAGE->navbar->add($navallreports, $allreporturl);
 
-$PAGE->requires->js_call_amd('block_bookreport/selecttypemyreport', 'typereport');
+$params = [];
 
+$sql =" SELECT bb.id, bb.type, bb.timecreated, bb.type, bb.user_id, bs.author, bs.book, u.firstname, u.lastname
+        FROM {block_bookreport} bb
+        JOIN {block_bookreport_strep} bs ON (bs.bookreportid = bb.id)
+        JOIN {user} u ON (u.id = bb.user_id)       
+";
+
+$reports = $DB->get_records_sql($sql, $params);
+
+$reportsstr = [];
+foreach ($reports as $report) {
+    $reportstr = $report->author . ' ' 
+        .$report->book . '. Стандартный отчет. Дата создания: ' 
+        .date('jS F Y h:i:s A (T)', $report->timecreated)  . ' ' 
+        .$report->firstname . ' ' 
+        .$report->lastname;
+    array_push($reportsstr, $reportstr);
+}
+$reportsstr = array_values($reportsstr);
 
 $templatecontext = [
-   
+    'reportsdata' => $reportsstr
 ];
 
 echo $OUTPUT->header();

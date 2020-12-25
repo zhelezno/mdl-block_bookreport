@@ -33,7 +33,7 @@ class block_bookreport extends block_base {
     }
 
     function get_content() {
-        global $CFG, $DB, $USER;
+        global $CFG, $DB, $USER, $OUTPUT;
 
         require_once($CFG->libdir . '/filelib.php');
 
@@ -56,19 +56,24 @@ class block_bookreport extends block_base {
                 FROM {block_bookreport} bb
                 JOIN {block_bookreport_strep} bs ON (bs.bookreportid = bb.id) 
                 WHERE bb.user_id = :userid
-                LIMIT 5               
+                LIMIT 5
         ";
 
         $lastreports = $DB->get_records_sql($sql, $params);        
-        //$lastreports = json_decode($lastreports, true);
-        //print_r($lastreports); die();    
-        $reports = '';
-
-        foreach ($lastreports as $report) {
-            $reports .= $report->author . ' ' . $report->book . '. Стандартный отчет. ' .date('jS F Y h:i:s A (T)', $report->timecreated) . '<br>';                   
-        }
         
-        $info .= $reports;
+        $info .= '<div class="list-group list-group-flush">';        
+            $reports = '';
+            foreach ($lastreports as $report) {
+            $reports .= '<a href="#" class="list-group-item list-group-item-action">'
+                            .$report->author . ' ' 
+                            .$report->book 
+                            //.'. <img src="'.$OUTPUT->image_url('text', 'block_bookreport');'" class="icon" alt=""/> Дата создания: ' 
+                            .date('jS F Y h:i:s A (T)', $report->timecreated) 
+                        .'</a>';                   
+            }
+            
+            $info .= $reports;
+        $info .= '</div>';
 
         $this->content->text .= $info;
         $this->content->footer = '';               
