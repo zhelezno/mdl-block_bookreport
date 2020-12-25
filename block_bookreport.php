@@ -59,17 +59,17 @@ class block_bookreport extends block_base {
                 LIMIT 5
         ";
 
-        $lastreports = $DB->get_records_sql($sql, $params);        
-        
-        $info .= '<div class="list-group list-group-flush">';        
+        $lastreports = $DB->get_records_sql($sql, $params);   
+        $info .= '<div class="list-group-flush">';        
             $reports = '';
             foreach ($lastreports as $report) {
-            $reports .= '<a href="#" class="list-group-item list-group-item-action">'
-                            .$report->author . ' ' 
-                            .$report->book 
-                            //.'. <img src="'.$OUTPUT->image_url('text', 'block_bookreport');'" class="icon" alt=""/> Дата создания: ' 
-                            .date('jS F Y h:i:s A (T)', $report->timecreated) 
-                        .'</a>';                   
+                $date = DateTime::createFromFormat('U', $report->timecreated+10800);
+                $reports .= '<a href="#" class="list-group-item list-group-item-action text-truncate text-nowrap">'
+                                .'<p class="rounded float-left"><img style="margin-right: 10px;" width="30px" src="../blocks/bookreport/pix/standartreportpix.png"></p>'                
+                                .'<p class="rounded float-right" style="margin-left: 20px">'.$date->format('d.m.Y H:i:s').'</p>' 
+                                .$report->author . ' - ' 
+                                .$report->book                                                               
+                            .'</a>';     
             }
             
             $info .= $reports;
