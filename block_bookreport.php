@@ -56,7 +56,7 @@ class block_bookreport extends block_base {
                 FROM {block_bookreport} bb
                 JOIN {block_bookreport_strep} bs ON (bs.bookreportid = bb.id) 
                 WHERE bb.user_id = :userid
-                LIMIT 5
+                LIMIT 4
         ";
 
         $lastreports = $DB->get_records_sql($sql, $params);   

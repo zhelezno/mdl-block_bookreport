@@ -38,7 +38,8 @@ $navindex = get_string('bookreport', 'block_bookreport');
 $PAGE->navbar->add($navindex, $indexurl);
 $PAGE->navbar->add($navallreports, $allreporturl);
 
-$params = [];
+$params = [
+];
 
 $sql =" SELECT bb.id, bb.type, bb.timecreated, bb.type, bb.user_id, bs.author, bs.book, u.firstname, u.lastname
         FROM {block_bookreport} bb
@@ -59,8 +60,13 @@ foreach ($reports as $report) {
 }
 $reportsstr = array_values($reportsstr);
 
+$firstdaymonth = date_create('first day of last month')->format('Y-m-d');
+$lastdaymonth =  date_create('last day of last month')->format('Y-m-d');
+
 $templatecontext = [
-    'reportsdata' => $reportsstr
+    'reportsdata' => $reportsstr,
+    'firstdaymonth' => $firstdaymonth,
+    'lastdaymonth' => $lastdaymonth
 ];
 
 echo $OUTPUT->header();

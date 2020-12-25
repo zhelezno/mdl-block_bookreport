@@ -23,17 +23,66 @@
         
     }
 }}
-<div class="container">
+
+
+<div class="container-fluid">
     <div class="report" id="report">
+        
+        {{!
+            Заголовок
+        }}
         <br>
         <h2>Все отчеты <span class="badge badge-secondary"></span></h2>
-        <br>    
-        <ul class="list-inline">
-        {{#reportsdata}}
-            {{#.}}
-                <li class="list-inline-item">{{.}}</li>
-            {{/.}}
-        {{/reportsdata}}
-        </ul>
+        <br>
+       
+        
+        {{!
+            Фильтры
+        }}
+        <form class="row" id="generalform" action="allreports.php" method="POST">
+            <div class="col-xs-6 col-md-6 filter">
+                <span>ФИО   <i data-toggle="tooltip" data-placement="right" title="Фильтр по фамилии/имени/отчеству" class="fa fa-question-circle-o" id="tooltip" aria-hidden="true"></i></span>
+                <input placeholder="" type="text" name="fio">
+            </div>
+            <div class="col-xs-2 col-md-2 filter">
+                <span>От <i data-toggle="tooltip" data-placement="right" title="Фильтр по дате совершения операции" class="fa fa-question-circle-o" id="tooltip" aria-hidden="true"></i></span>
+                <input type="date" name="calendar1" value="{{firstdaymonth}}"> 
+            </div>
+            <div class="col-xs-2 col-md-2 filter">
+                <span>До <i data-toggle="tooltip" data-placement="right" title="Фильтр по дате окончания операции" class="fa fa-question-circle-o" id="tooltip" aria-hidden="true"></i></span>
+                <input type="date" name="calendar2" value="{{lastdaymonth}}">
+            </div> 
+            <input class="btn btn-sm btn-report btn-outline-info col-xs-2 col-md-2" name="submitfilters" name="submitfilters" type="submit" value='Фильтровать'>
+        </form>
+        
+
+         {{!
+            Таблица
+        }}
+        <br>
+        <table class="balance">
+            <thead>
+                <tr>
+                    <th>ФИО</th>
+                    <th>Отдел</th>
+                    <th>Автор</th>
+                    <th>Книга</th>
+                    <th>Дата</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        </td><td>
+                        </td><td>
+                        </td><td>
+                        </td><td>
+                        </td><td>                
+                    </td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+
     </div>
 </div>
