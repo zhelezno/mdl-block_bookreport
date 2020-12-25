@@ -60,27 +60,26 @@
             Таблица
         }}
         <br>
-        <table class="balance">
+        <table class="balance table table-hover">
             <thead>
                 <tr>
-                    <th>ФИО</th>
-                    <th>Отдел</th>
-                    <th>Автор</th>
-                    <th>Книга</th>
-                    <th>Дата</th>
+                    <th scope="col">Автор</th>
+                    <th scope="col">Книга</th>
+                    <th scope="col">ФИО</th>
+                    <th scope="col">Отдел</th>
+                    <th scope="col">Дата</th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>
-                        </td><td>
-                        </td><td>
-                        </td><td>
-                        </td><td>
-                        </td><td>                
-                    </td>
+                {{#reportsdata}}
+                <tr>                    
+                    <td>{{author}}</td>
+                    <td>{{book}}</td>
+                    <td>{{firstname}} {{lastname}}</td>
                     <td></td>
+                    <td>{{timecreated}}</td>                                  
                 </tr>
+                {{/reportsdata}} 
             </tbody>
         </table>
 

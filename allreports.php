@@ -48,23 +48,13 @@ $sql =" SELECT bb.id, bb.type, bb.timecreated, bb.type, bb.user_id, bs.author, b
 ";
 
 $reports = $DB->get_records_sql($sql, $params);
-
-$reportsstr = [];
-foreach ($reports as $report) {
-    $reportstr = $report->author . ' ' 
-        .$report->book . '. Стандартный отчет. Дата создания: ' 
-        .date('jS F Y h:i:s A (T)', $report->timecreated)  . ' ' 
-        .$report->firstname . ' ' 
-        .$report->lastname;
-    array_push($reportsstr, $reportstr);
-}
-$reportsstr = array_values($reportsstr);
+$reports = array_values($reports);
 
 $firstdaymonth = date_create('first day of last month')->format('Y-m-d');
 $lastdaymonth =  date_create('last day of last month')->format('Y-m-d');
 
 $templatecontext = [
-    'reportsdata' => $reportsstr,
+    'reportsdata' => $reports,
     'firstdaymonth' => $firstdaymonth,
     'lastdaymonth' => $lastdaymonth
 ];
