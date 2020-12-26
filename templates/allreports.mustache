@@ -26,7 +26,7 @@
 
 
 <div class="container-fluid">
-    <div class="report" id="report">
+    <div class="allreports" id="allreports">
         
         {{!
             Заголовок
@@ -68,6 +68,7 @@
                     <th scope="col">ФИО</th>
                     <th scope="col">Отдел</th>
                     <th scope="col">Дата</th>
+                    <th scope="col">Тип</th>
                 </tr>
             </thead>
             <tbody>
@@ -77,7 +78,8 @@
                     <td>{{book}}</td>
                     <td>{{firstname}} {{lastname}}</td>
                     <td>{{department}}</td>
-                    <td>{{timecreated}}</td>                                  
+                    <td>{{timecreated}}</td>
+                    <td id="typetd"><img style="margin-right: 10px;" width="30px" src="../bookreport/pix/standartreportpix.png"></td>                                       
                 </tr>
                 {{/reportsdata}} 
             </tbody>
@@ -85,3 +87,13 @@
 
     </div>
 </div>
+
+{{#js}}
+    require(['jquery'], function($) {
+
+        if ($('#typetd').attr('value') == 1) {
+            $('#typetd').html('');
+            $('#typetd').append('<img style="margin-right: 10px;" width="30px" src="../bookreport/pix/standartreportpix.png">');
+        };
+    });
+{{/js}}
