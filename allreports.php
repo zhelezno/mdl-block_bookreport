@@ -41,7 +41,7 @@ $PAGE->navbar->add($navallreports, $allreporturl);
 $params = [
 ];
 
-$sql =" SELECT bb.id, bb.type, bb.timecreated, bb.type, bb.user_id, bs.author, bs.book, u.firstname, u.lastname
+$sql =" SELECT bb.id, bb.type, FROM_UNIXTIME(bb.timecreated) AS timecreated, bb.type, bb.user_id, bs.author, bs.book, u.firstname, u.lastname, u.department
         FROM {block_bookreport} bb
         JOIN {block_bookreport_strep} bs ON (bs.bookreportid = bb.id)
         JOIN {user} u ON (u.id = bb.user_id)       

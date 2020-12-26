@@ -41,18 +41,18 @@
         }}
         <form class="row" id="generalform" action="allreports.php" method="POST">
             <div class="col-xs-6 col-md-6 filter">
-                <span>ФИО   <i data-toggle="tooltip" data-placement="right" title="Фильтр по фамилии/имени/отчеству" class="fa fa-question-circle-o" id="tooltip" aria-hidden="true"></i></span>
+                <span>Поиск   <i data-toggle="tooltip" data-placement="right" title="Поиск по ключевому слову" class="fa fa-question-circle-o" id="tooltip" aria-hidden="true"></i></span>
                 <input placeholder="" type="text" name="fio">
             </div>
             <div class="col-xs-2 col-md-2 filter">
-                <span>От <i data-toggle="tooltip" data-placement="right" title="Фильтр по дате совершения операции" class="fa fa-question-circle-o" id="tooltip" aria-hidden="true"></i></span>
+                <span>От </span>
                 <input type="date" name="calendar1" value="{{firstdaymonth}}"> 
             </div>
             <div class="col-xs-2 col-md-2 filter">
-                <span>До <i data-toggle="tooltip" data-placement="right" title="Фильтр по дате окончания операции" class="fa fa-question-circle-o" id="tooltip" aria-hidden="true"></i></span>
+                <span>До </span>
                 <input type="date" name="calendar2" value="{{lastdaymonth}}">
             </div> 
-            <input class="btn btn-sm btn-report btn-outline-info col-xs-2 col-md-2" name="submitfilters" name="submitfilters" type="submit" value='Фильтровать'>
+            <input class="btn btn-sm btn-report btn-outline-info col-xs-2 col-md-2" name="submitfilters" name="submitfilters" type="submit" value='Применить'>
         </form>
         
 
@@ -76,7 +76,7 @@
                     <td>{{author}}</td>
                     <td>{{book}}</td>
                     <td>{{firstname}} {{lastname}}</td>
-                    <td></td>
+                    <td>{{department}}</td>
                     <td>{{timecreated}}</td>                                  
                 </tr>
                 {{/reportsdata}} 
