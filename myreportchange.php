@@ -26,19 +26,19 @@ require_once(__DIR__ . '/../../config.php');
 
 global $DB;
 
-$userreporturl = new moodle_url('/blocks/bookreport/userreport.php');
+$myreportchangeurl = new moodle_url('/blocks/bookreport/myreportchange.php');
 $indexurl = new moodle_url('/blocks/bookreport/index.php');
-$allreportsurl = new moodle_url('/blocks/bookreport/allreports.php');
-$PAGE->set_url($userreporturl);
+$myreportsurl = new moodle_url('/blocks/bookreport/myreports.php');
+$PAGE->set_url($myreportchangeurl);
 $PAGE->set_context(\context_system::instance());
 $PAGE->set_title('Отчет');
 $PAGE->set_heading(get_string('pluginname', 'block_bookreport'));
 
 $navuserreport = get_string('userreport', 'block_bookreport');
-$navallreports = get_string('allreports', 'block_bookreport');
+$navmyreports = get_string('myreports', 'block_bookreport');
 $navindex = get_string('bookreport', 'block_bookreport');
 $PAGE->navbar->add($navindex, $indexurl);
-$PAGE->navbar->add($navallreports, $allreportsurl);
+$PAGE->navbar->add($navmyreports, $allreportsurl);
 $PAGE->navbar->add($navuserreport, $userreporturl);
 
 $id = $_GET['id'];
@@ -64,5 +64,5 @@ $templatecontext = [
 ];
 
 echo $OUTPUT->header();
-echo $OUTPUT->render_from_template('block_bookreport/userreport', $templatecontext);
+echo $OUTPUT->render_from_template('block_bookreport/myreportchange', $templatecontext);
 echo $OUTPUT->footer();       

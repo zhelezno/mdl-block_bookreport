@@ -23,17 +23,63 @@
         
     }
 }}
-<div class="container">
-    <div class="report" id="report">
+
+
+<div class="container-fluid">
+    <div class="allreports" id="allreports">
+        
+        {{!
+            Заголовок
+        }}
         <br>
         <h2>Мои отчеты <span class="badge badge-secondary"></span></h2>
-        <br>    
-        <ul class="list-inline">
-        {{#reportsdata}}
-            {{#.}}
-                <li class="list-inline-item">{{.}}</li>
-            {{/.}}
-        {{/reportsdata}}
-        </ul>
+        <br>
+       
+        
+        {{!
+            Фильтры
+        }}
+        <form class="row" id="generalform" action="allreports.php" method="POST">
+            <div class="col-xs-6 col-md-6 filter">
+                <span>Поиск   <i data-toggle="tooltip" data-placement="right" title="Поиск по ключевому слову" class="fa fa-question-circle-o" id="tooltip" aria-hidden="true"></i></span>
+                <input placeholder="" type="text" name="fio">
+            </div>
+            <div class="col-xs-2 col-md-2 filter">
+                <span>От </span>
+                <input type="date" name="calendar1"> 
+            </div>
+            <div class="col-xs-2 col-md-2 filter">
+                <span>До </span>
+                <input type="date" name="calendar2">
+            </div> 
+            <input class="btn btn-sm btn-report btn-outline-info col-xs-2 col-md-2" name="submitfilters" name="submitfilters" type="submit" value='Применить'>
+        </form>
+        
+
+         {{!
+            Таблица
+        }}
+        <br>
+        <table class="balance table table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">Автор</th>
+                    <th scope="col">Книга</th>                    
+                    <th scope="col">Дата</th>
+                    <th scope="col">Тип</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#reportsdata}}
+                <tr style="cursor: pointer;" onclick="window.location='../bookreport/myreportchange.php?id={{id}}&userid={{user_id}}'">                    
+                    <td>{{author}}</td>
+                    <td>{{book}}</td>                    
+                    <td>{{timecreated}}</td>
+                    <td><img style="margin-right: 10px;" width="30px" src="../bookreport/pix/reportpix{{type}}.png"></td>                                       
+                </tr>
+                {{/reportsdata}} 
+            </tbody>
+        </table>       
+
     </div>
 </div>

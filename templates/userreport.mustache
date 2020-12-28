@@ -1,0 +1,58 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template block_bookreport/userreport
+
+
+    Example context (json):
+    {
+        
+    }
+}}
+
+<div class="container">
+     <form action="" method="POST" id="report">     
+
+        {{#report}}
+        <div class="form-group">
+            <label for="defaulttype_Author">Автор</label>
+            <input type="text" class="form-control" id="defaulttype_Author" name="defaulttype_Author" value="{{author}}" required disabled>
+        </div>
+        <div class="form-group">
+            <label for="defaulttype_Book">Название книги</label>
+            <input type="text" class="form-control" id="defaulttype_Book" name="defaulttype_Book" value="{{book}}" required disabled>
+        </div>    
+        <div class="form-group">
+            <label for="defaulttype_Mainheroes">Основные действующие лица</label>
+            <textarea class="form-control" id="defaulttype_Mainactors" name="defaulttype_Mainheroes" rows="3" required disabled>{{mainactors}}</textarea>
+        </div>
+        <div class="form-group">
+            <label for="defaulttype_Mainidea">Главная идея</label>
+            <textarea class="form-control" id="defaulttype_MainMainidea" name="defaulttype_Mainidea" rows="3" required disabled>{{mainidea}}</textarea>
+        </div>
+        <div class="form-group">
+            <label for="defaulttype_Quotes">Запомнившиеся цитаты</label>
+            <textarea class="form-control" id="defaulttype_quotes" name="defaulttype_quotes" rows="3" required disabled>{{quotes}}</textarea>
+        </div>
+        <div class="form-group">
+            <label for="defaulttype_Conclusion">Вывод/Предложения к внедрению</label>
+            <textarea class="form-control" id="defaulttype_Conclusion" name="defaulttype_Conclusion" rows="3" required disabled >{{conclusion}}</textarea>
+        </div>
+        <br>        
+        {{/report}}
+    </form>
+</div>

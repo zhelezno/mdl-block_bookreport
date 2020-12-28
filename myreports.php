@@ -42,23 +42,17 @@ $params = [
     'userid' => $USER->id
 ];
 
-$sql =" SELECT bb.id, bb.type, bb.timecreated, bb.type, bs.author, bs.book
+$sql =" SELECT bb.id, bb.type, bs.author, bs.book, bb.user_id
         FROM {block_bookreport} bb
-        JOIN {block_bookreport_strep} bs ON (bs.bookreportid = bb.id) 
-        WHERE bb.user_id = :userid
+        JOIN {block_bookreport_strep} bs ON (bs.bookreportid = bb.id)
+        WHERE bb.user_id = :userid   
 ";
 
 $reports = $DB->get_records_sql($sql, $params);
-
-$reportsstr = [];
-foreach ($reports as $report) {
-    $reportstr = $report->author . ' ' . $report->book . '. Стандартный отчет. Дата создания: ' .date('jS F Y h:i:s A (T)', $report->timecreated);
-    array_push($reportsstr, $reportstr);
-}
-$reportsstr = array_values($reportsstr);
+$reports = array_values($reports);
 
 $templatecontext = [
-    'reportsdata' => $reportsstr
+    'reportsdata' => $reports
 ];
 
 echo $OUTPUT->header();
