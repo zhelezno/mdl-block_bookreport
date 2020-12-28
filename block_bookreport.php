@@ -65,7 +65,7 @@ class block_bookreport extends block_base {
             foreach ($lastreports as $report) {
                 $date = DateTime::createFromFormat('U', $report->timecreated+10800);
                 $reports .= '<a href="#" class="list-group-item list-group-item-action text-truncate text-nowrap">'
-                                .'<p class="rounded float-left"><img style="margin-right: 10px;" width="30px" src="../blocks/bookreport/pix/standartreportpix.png"></p>'                
+                                .'<p class="rounded float-left"><img style="margin-right: 10px;" width="30px" src="../blocks/bookreport/pix/reportpix' . $report->type . '.png"></p>'                
                                 .'<p class="rounded float-right" style="margin-left: 20px">'.$date->format('d.m.Y H:i:s').'</p>' 
                                 .$report->author . ' - ' 
                                 .$report->book                                                               

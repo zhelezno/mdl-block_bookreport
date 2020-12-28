@@ -73,27 +73,22 @@
             </thead>
             <tbody>
                 {{#reportsdata}}
-                <tr>                    
+                <tr style="cursor: pointer;" onclick="window.location='../bookreport/userreport.php?id={{id}}'">                    
                     <td>{{author}}</td>
                     <td>{{book}}</td>
                     <td>{{firstname}} {{lastname}}</td>
                     <td>{{department}}</td>
                     <td>{{timecreated}}</td>
-                    <td id="typetd"><img style="margin-right: 10px;" width="30px" src="../bookreport/pix/standartreportpix.png"></td>                                       
+                    <td><img style="margin-right: 10px;" width="30px" src="../bookreport/pix/reportpix{{type}}.png"></td>                                       
                 </tr>
                 {{/reportsdata}} 
             </tbody>
         </table>
 
+
+        <form id="exportform" action="" method="POST">
+				<input class="btn btn-sm btn-report btn-outline-primary col-xs-2 col-md-2" type="submit" name="export" value="Выгрузить XLS отчет" />
+        </form>
+
     </div>
 </div>
-
-{{#js}}
-    require(['jquery'], function($) {
-
-        if ($('#typetd').attr('value') == 1) {
-            $('#typetd').html('');
-            $('#typetd').append('<img style="margin-right: 10px;" width="30px" src="../bookreport/pix/standartreportpix.png">');
-        };
-    });
-{{/js}}
