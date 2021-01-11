@@ -28,16 +28,27 @@ global $DB;
 
 $allreporturl = new moodle_url('/blocks/bookreport/allreports.php');
 $indexurl = new moodle_url('/blocks/bookreport/index.php');
+
 $PAGE->set_url($allreporturl);
 $PAGE->set_context(\context_system::instance());
 $PAGE->set_title('Все отчеты');
 $PAGE->set_heading(get_string('pluginname', 'block_bookreport'));
 
+$PAGE->requires->js_call_amd('block_bookreport/datatables', 'datatablesinit');
+$PAGE->requires->css(new moodle_url($CFG->wwwroot . '/blocks/bookreport/style/css/jquery.datatables.min.css'));
+
 $navallreports = get_string('allreports', 'block_bookreport');
 $navindex = get_string('bookreport', 'block_bookreport');
+
 $PAGE->navbar->add($navindex, $indexurl);
 $PAGE->navbar->add($navallreports, $allreporturl);
 
+
+/**
+ * Получение записей из бд
+ * Передача их в шаблон allreports.usage
+ * Рендер шаблона
+ */
 $params = [
 ];
 

@@ -52,23 +52,24 @@
                 <span>До </span>
                 <input type="date" name="calendar2" value="{{lastdaymonth}}">
             </div> 
-            <input class="btn btn-sm btn-report btn-outline-info col-xs-2 col-md-2" name="submitfilters" name="submitfilters" type="submit" value='Применить'>
+            <input class="btn btn-sm btn-report btn-outline-info col-xs-2 col-md-2" name="submitfilters" type="submit" value='Применить'>
         </form>
         
 
-         {{!
+        {{!
             Таблица
+            balance table table-hover
         }}
         <br>
-        <table class="balance table table-hover">
+        <table class="display" id="reporttable">
             <thead>
                 <tr>
-                    <th scope="col">Автор</th>
-                    <th scope="col">Книга</th>
-                    <th scope="col">ФИО</th>
-                    <th scope="col">Отдел</th>
-                    <th scope="col">Дата</th>
-                    <th scope="col">Тип</th>
+                    <th>Автор</th>
+                    <th>Книга</th>
+                    <th>ФИО</th>
+                    <th>Отдел</th>
+                    <th>Дата</th>
+                    <th>Тип</th>
                 </tr>
             </thead>
             <tbody>
