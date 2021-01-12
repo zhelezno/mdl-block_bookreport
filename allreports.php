@@ -34,8 +34,8 @@ $PAGE->set_context(\context_system::instance());
 $PAGE->set_title('Все отчеты');
 $PAGE->set_heading(get_string('pluginname', 'block_bookreport'));
 
-$PAGE->requires->js_call_amd('block_bookreport/datatables', 'datatablesinit');
-$PAGE->requires->css(new moodle_url($CFG->wwwroot . '/blocks/bookreport/style/css/jquery.datatables.min.css'));
+$PAGE->requires->js_call_amd('block_bookreport/datatablesInit', 'datatablesinit');
+$PAGE->requires->css(new moodle_url($CFG->wwwroot . '/blocks/bookreport/style/css/datatables.min.css'));
 
 $navallreports = get_string('allreports', 'block_bookreport');
 $navindex = get_string('bookreport', 'block_bookreport');
