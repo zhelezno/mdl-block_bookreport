@@ -24,7 +24,7 @@
 
 require_once(__DIR__ . '/../../config.php');
 
-global $DB;
+global $DB, $PAGE;
 
 $allreporturl = new moodle_url('/blocks/bookreport/allreports.php');
 $indexurl = new moodle_url('/blocks/bookreport/index.php');
@@ -34,15 +34,23 @@ $PAGE->set_context(\context_system::instance());
 $PAGE->set_title('Все отчеты');
 $PAGE->set_heading(get_string('pluginname', 'block_bookreport'));
 
-$PAGE->requires->js_call_amd('block_bookreport/datatablesInit', 'datatablesinit');
-$PAGE->requires->css(new moodle_url($CFG->wwwroot . '/blocks/bookreport/style/css/datatables.min.css'));
+/**
+ *  Подключение DataTables Js через cdn
+ */
+$PAGE->requires->jquery();
+$PAGE->requires->css(new moodle_url('https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.10.23/b-1.6.5/b-flash-1.6.5/b-html5-1.6.5/b-print-1.6.5/r-2.2.7/sc-2.0.3/sp-1.2.2/datatables.min.css'));
+$PAGE->requires->js(new moodle_url('https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js'), true);
+$PAGE->requires->js(new moodle_url('https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js'), true);
+$PAGE->requires->js(new moodle_url('https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.10.23/b-1.6.5/b-flash-1.6.5/b-html5-1.6.5/b-print-1.6.5/r-2.2.7/sc-2.0.3/sp-1.2.2/datatables.min.js'), true);
+//$PAGE->requires->js(new moodle_url('https://cdn.datatables.net/plug-ins/1.10.22/filtering/row-based/range_dates.js'), true);
+
+$PAGE->requires->js(new moodle_url($CFG->wwwroot . '/blocks/bookreport/js/datatablesInit.js'));
 
 $navallreports = get_string('allreports', 'block_bookreport');
 $navindex = get_string('bookreport', 'block_bookreport');
 
 $PAGE->navbar->add($navindex, $indexurl);
 $PAGE->navbar->add($navallreports, $allreporturl);
-
 
 /**
  * Получение записей из бд
@@ -70,6 +78,10 @@ $templatecontext = [
     'lastdaymonth' => $lastdaymonth
 ];
 
+
+
 echo $OUTPUT->header();
+
 echo $OUTPUT->render_from_template('block_bookreport/allreports', $templatecontext);
+
 echo $OUTPUT->footer();

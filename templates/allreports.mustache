@@ -37,44 +37,6 @@
         </div>
         <br>
 
-
-        {{!
-            Фильтры
-        }}
-        <p>
-            <button class="btn btn-outline-primary" type="button" data-toggle="collapse" data-target="#multiCollapseFilters" aria-expanded="false" aria-controls="multiCollapseFilters">Фильтры</button>
-            <button class="btn btn-outline-primary" type="button" data-toggle="collapse" data-target="#multiCollapseExport" aria-expanded="false" aria-controls="multiCollapseExport">Экспорт</button>
-        </p>
-        <div class="row">
-            <div class="col">
-                <div class="collapse multi-collapse" id="multiCollapseFilters">
-                    <div class="card card-body">
-                        <form class="row mx-2" id="generalform" action="allreports.php" method="POST">
-                            <div class="col-w-4 filter">
-                                <span>От </span>
-                                <input type="date" name="calendar1" value="{{firstdaymonth}}"> 
-                            </div>
-                            <div class="col-w-4 ml-2 filter">
-                                <span>До </span>
-                                <input type="date" name="calendar2" value="{{lastdaymonth}}">
-                            </div> 
-                            <input class="btn btn-sm btn-report btn-outline-info col-md-2  ml-auto" name="submitfilters" type="submit" value='Применить'>                    
-                        </form>   
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="collapse multi-collapse" id="multiCollapseExport">
-                    <div class="card card-body">
-                        <form method="POST">
-                            <input class="btn btn-sm btn-report btn-outline-success float-right" type="submit" name="export" value="XLS" />
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div> 
-
-
         {{!
             Таблица
             balance table table-hover

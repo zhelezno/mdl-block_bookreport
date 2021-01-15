@@ -1,13 +1,12 @@
 define([
-    'jquery',
-    'block_bookreport/datatables'  
-], function($, datatables){
+    'jquery'
+], function($){
     return{
         datatablesinit: function(){ 
-            $(document).ready(function(){                
+            
 				$('#reporttable').DataTable({				
 				});
-            });
+            
         }
     };
 });  
