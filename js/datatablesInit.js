@@ -1,4 +1,3 @@
-
 $('#reporttable').DataTable({
     dom: 'Bfrtip', 
     buttons: [
@@ -7,7 +6,3 @@ $('#reporttable').DataTable({
         'pdf'
     ],
 });
-
-//var table = $('#reporttable').DataTable();
-//$('#min').keyup( function() { table.draw(); } );
-//$('#max').keyup( function() { table.draw(); } );
