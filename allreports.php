@@ -34,6 +34,12 @@ $PAGE->set_context(\context_system::instance());
 $PAGE->set_title('Все отчеты');
 $PAGE->set_heading(get_string('pluginname', 'block_bookreport'));
 
+$navallreports = get_string('allreports', 'block_bookreport');
+$navindex = get_string('bookreport', 'block_bookreport');
+
+$PAGE->navbar->add($navindex, $indexurl);
+$PAGE->navbar->add($navallreports, $allreporturl);
+
 /**
  *  Подключение DataTables Js через cdn
  */
@@ -61,34 +67,15 @@ $PAGE->requires->js(new moodle_url($CFG->wwwroot . '/blocks/bookreport/js/datata
 //Datepicker init js
 $PAGE->requires->js(new moodle_url($CFG->wwwroot . '/blocks/bookreport/js/datepickerInit.js'));
 
-$navallreports = get_string('allreports', 'block_bookreport');
-$navindex = get_string('bookreport', 'block_bookreport');
-
-$PAGE->navbar->add($navindex, $indexurl);
-$PAGE->navbar->add($navallreports, $allreporturl);
-
 /**
- * Получение записей из бд
- * Передача их в шаблон allreports.usage
+ * 
  * Рендер шаблона
  */
-$params = [
-];
-
-$sql =" SELECT bb.id, bb.type, FROM_UNIXTIME(bb.timecreated) AS timecreated, bb.type, bb.user_id, bs.author, bs.book, u.firstname, u.lastname, u.department
-        FROM {block_bookreport} bb
-        JOIN {block_bookreport_strep} bs ON (bs.bookreportid = bb.id)
-        JOIN {user} u ON (u.id = bb.user_id)       
-";
-
-$reports = $DB->get_records_sql($sql, $params);
-$reports = array_values($reports);
 
 $firstdaymonth = date_create('first day of last month')->format('Y-m-d');
 $lastdaymonth =  date_create('last day of last month')->format('Y-m-d');
 
 $templatecontext = [
-    'reportsdata' => $reports,
     'firstdaymonth' => $firstdaymonth,
     'lastdaymonth' => $lastdaymonth
 ];
