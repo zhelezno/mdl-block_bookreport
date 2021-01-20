@@ -34,16 +34,14 @@ function fetch(){
     $sql =" SELECT bs.author, bs.book, CONCAT(u.firstname, ' ', u.lastname) AS fullname, u.department, FROM_UNIXTIME(bb.timecreated) AS timecreated,  bb.type, bb.id, bb.user_id
             FROM {block_bookreport} bb
             JOIN {block_bookreport_strep} bs ON (bs.bookreportid = bb.id)
-            JOIN {user} u ON (u.id = bb.user_id)       
+            JOIN {user} u ON (u.id = bb.user_id)   
     ";
-    
-    $reports = $DB->get_records_sql($sql, $params);    
-
-    return $reports;
+        
+    return $reports = $DB->get_records_sql($sql, $params);
 };
 
 function date_range($start_date, $end_date){
-    global $DB; 
+    global $DB;     
 
     if (isset($start_date) && isset($end_date)) {
 
@@ -53,16 +51,16 @@ function date_range($start_date, $end_date){
         ];
         
         $sql = "SELECT bs.author, bs.book, CONCAT(u.firstname, ' ', u.lastname) AS fullname, u.department, FROM_UNIXTIME(bb.timecreated) AS timecreated,  bb.type, bb.id, bb.user_id
-        FROM {block_bookreport} bb
-        JOIN {block_bookreport_strep} bs ON (bs.bookreportid = bb.id)
-        JOIN {user} u ON (u.id = bb.user_id)
-        WHERE bb.timecreated > :start_date
-        AND bb.timecreated < :end_date";    
+                FROM {block_bookreport} bb
+                JOIN {block_bookreport_strep} bs ON (bs.bookreportid = bb.id)
+                JOIN {user} u ON (u.id = bb.user_id)
+                WHERE bb.timecreated > :start_date
+                AND bb.timecreated < :end_date
+        ";    
        
     }
-    $reports = $DB->get_records_sql($sql, $params);    
-    
-    return $reports;
+        
+    return $DB->get_records_sql($sql, $params);
 }
 
 
@@ -70,10 +68,10 @@ if (isset($_POST['start_date']) && isset($_POST['end_date'])) {
     $start_date = $_POST['start_date'];
     $end_date = $_POST['end_date'];
 
-    $rows = date_range($start_date, $end_date);
+    $rows = date_range($start_date, $end_date);    
 } else {
-    $rows = fetch();
-    $rows = array_values($rows);  
+    $rows = fetch();    
 }
 
+$rows = array_values($rows);
 echo json_encode($rows);

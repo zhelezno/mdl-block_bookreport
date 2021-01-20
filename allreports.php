@@ -24,7 +24,7 @@
 
 require_once(__DIR__ . '/../../config.php');
 
-global $DB, $PAGE;
+global $DB;
 
 $allreporturl = new moodle_url('/blocks/bookreport/allreports.php');
 $indexurl = new moodle_url('/blocks/bookreport/index.php');
@@ -40,47 +40,10 @@ $navindex = get_string('bookreport', 'block_bookreport');
 $PAGE->navbar->add($navindex, $indexurl);
 $PAGE->navbar->add($navallreports, $allreporturl);
 
-/**
- *  Подключение DataTables Js через cdn
- */
-$PAGE->requires->jquery();
+$PAGE->requires->css(new moodle_url($CFG->wwwroot . '/blocks/bookreport/style/css/jquery-ui.css'));
 
-//DataTables css
-$PAGE->requires->css(new moodle_url('https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.10.23/b-1.6.5/b-flash-1.6.5/b-html5-1.6.5/b-print-1.6.5/r-2.2.7/sc-2.0.3/sp-1.2.2/datatables.min.css'));
-//Datepicker css
-$PAGE->requires->css(new moodle_url('https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css'));
-
-//DateTables js
-$PAGE->requires->js(new moodle_url('https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js'), true);
-$PAGE->requires->js(new moodle_url('https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js'), true);
-$PAGE->requires->js(new moodle_url('https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.10.23/b-1.6.5/b-flash-1.6.5/b-html5-1.6.5/b-print-1.6.5/r-2.2.7/sc-2.0.3/sp-1.2.2/datatables.min.js'), true);
-//Popper js
-$PAGE->requires->js(new moodle_url('https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js'), true);
-//Font awesome js
-$PAGE->requires->js(new moodle_url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js'), true);
-//Datepicker js(jq ui)
-$PAGE->requires->js(new moodle_url('https://code.jquery.com/ui/1.12.1/jquery-ui.js'), true);
-
-//DataTables init/settings js
-$PAGE->requires->js(new moodle_url($CFG->wwwroot . '/blocks/bookreport/js/datatablesInit.js'));
-
-//Datepicker init js
-$PAGE->requires->js(new moodle_url($CFG->wwwroot . '/blocks/bookreport/js/datepickerInit.js'));
-
-/**
- * 
- * Рендер шаблона
- */
-
-$firstdaymonth = date_create('first day of last month')->format('Y-m-d');
-$lastdaymonth =  date_create('last day of last month')->format('Y-m-d');
-
-$templatecontext = [
-    'firstdaymonth' => $firstdaymonth,
-    'lastdaymonth' => $lastdaymonth
-];
-
-
+$PAGE->requires->js_call_amd('block_bookreport/main', 'dtInit');
+$PAGE->requires->js_call_amd('block_bookreport/main', 'dpInit');
 
 echo $OUTPUT->header();
 
