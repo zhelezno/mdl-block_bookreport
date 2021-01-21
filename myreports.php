@@ -24,7 +24,7 @@
 
 require_once(__DIR__ . '/../../config.php');
 
-global $DB;
+global $DB, $USER;
 
 $myreporturl = new moodle_url('/blocks/bookreport/myreports.php');
 $indexurl = new moodle_url('/blocks/bookreport/index.php');
@@ -38,23 +38,22 @@ $navindex = get_string('bookreport', 'block_bookreport');
 $PAGE->navbar->add($navindex, $indexurl);
 $PAGE->navbar->add($navmyreports, $myreporturl);
 
-$params = [
-    'userid' => $USER->id
+$PAGE->requires->css(new moodle_url($CFG->wwwroot . '/blocks/bookreport/style/css/jquery-ui.css'));
+
+$params = [    
+    'allreports' => false,
+    'userid' => $USER->id    
 ];
 
-$sql =" SELECT bb.id, bb.type, bs.author, bs.book, bb.user_id
-        FROM {block_bookreport} bb
-        JOIN {block_bookreport_strep} bs ON (bs.bookreportid = bb.id)
-        WHERE bb.user_id = :userid   
-";
+$PAGE->requires->js_call_amd('block_bookreport/main', 'dtInit', $params);
+$PAGE->requires->js_call_amd('block_bookreport/main', 'dpInit');
 
-$reports = $DB->get_records_sql($sql, $params);
-$reports = array_values($reports);
 
 $templatecontext = [
-    'reportsdata' => $reports
+    'h2head' => $navmyreports
 ];
-
 echo $OUTPUT->header();
-echo $OUTPUT->render_from_template('block_bookreport/myreports', $templatecontext);
+
+echo $OUTPUT->render_from_template('block_bookreport/reports', $templatecontext);
+
 echo $OUTPUT->footer();

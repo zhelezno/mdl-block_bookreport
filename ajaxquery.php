@@ -26,21 +26,29 @@ define('AJAX_SCRIPT', true);
 
 require_once(__DIR__ . '/../../config.php'); 
 
-function fetch(){    
-    global $DB; 
-    
-    $params = [];
+function fetch($userid){    
+    global $DB;
 
-    $sql =" SELECT bs.author, bs.book, CONCAT(u.firstname, ' ', u.lastname) AS fullname, u.department, FROM_UNIXTIME(bb.timecreated) AS timecreated,  bb.type, bb.id, bb.user_id
-            FROM {block_bookreport} bb
-            JOIN {block_bookreport_strep} bs ON (bs.bookreportid = bb.id)
-            JOIN {user} u ON (u.id = bb.user_id)   
-    ";
+    $params = [];
+    $sql = "";
+
+    $sql .= "   SELECT bs.author, bs.book, CONCAT(u.firstname, ' ', u.lastname) AS fullname, u.department, FROM_UNIXTIME(bb.timecreated) AS timecreated,  bb.type, bb.id, bb.user_id
+                FROM {block_bookreport} bb
+                JOIN {block_bookreport_strep} bs ON (bs.bookreportid = bb.id)
+                JOIN {user} u ON (u.id = bb.user_id)   
+        ";   
+
+    if ($userid != null) {
+        $params['userid'] = $userid;        
+        $sql .= "   WHERE
+                    u.id = :userid
+                ";
+    };
         
     return $reports = $DB->get_records_sql($sql, $params);
 };
 
-function date_range($start_date, $end_date){
+function date_range($userid, $start_date, $end_date){
     global $DB;     
 
     if (isset($start_date) && isset($end_date)) {
@@ -49,28 +57,41 @@ function date_range($start_date, $end_date){
             'start_date' => $start_date,
             'end_date' => $end_date
         ];
+        $sql = "";
         
-        $sql = "SELECT bs.author, bs.book, CONCAT(u.firstname, ' ', u.lastname) AS fullname, u.department, FROM_UNIXTIME(bb.timecreated) AS timecreated,  bb.type, bb.id, bb.user_id
-                FROM {block_bookreport} bb
-                JOIN {block_bookreport_strep} bs ON (bs.bookreportid = bb.id)
-                JOIN {user} u ON (u.id = bb.user_id)
-                WHERE bb.timecreated > :start_date
-                AND bb.timecreated < :end_date
-        ";    
+        $sql .= "SELECT bs.author, bs.book, CONCAT(u.firstname, ' ', u.lastname) AS fullname, u.department, FROM_UNIXTIME(bb.timecreated) AS timecreated,  bb.type, bb.id, bb.user_id
+                 FROM {block_bookreport} bb
+                 JOIN {block_bookreport_strep} bs ON (bs.bookreportid = bb.id)
+                 JOIN {user} u ON (u.id = bb.user_id)
+                 WHERE bb.timecreated > :start_date
+                 AND bb.timecreated < :end_date
+        ";
+        
+        if ($userid != null) {
+            $params['userid'] = $userid;                   
+            $sql .= "   AND
+                        u.id = :userid
+                ";
+        };   
        
     }
         
     return $DB->get_records_sql($sql, $params);
 }
 
+if (isset($_POST['userid'])) {
+    $userid = $_POST['userid'];    
+} else {
+    $userid = null;
+}
 
 if (isset($_POST['start_date']) && isset($_POST['end_date'])) {
     $start_date = $_POST['start_date'];
     $end_date = $_POST['end_date'];
 
-    $rows = date_range($start_date, $end_date);    
+    $rows = date_range($userid, $start_date, $end_date);    
 } else {
-    $rows = fetch();    
+    $rows = fetch($userid);    
 }
 
 $rows = array_values($rows);

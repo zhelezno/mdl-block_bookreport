@@ -9,21 +9,23 @@ define([
     'block_bookreport/buttons.bootstrap4', //button.html5 подключает jquery.dataTables
 ], function($, jszip){
     return{
-        dtInit: function(){
-            function fetch(start_date, end_date) {               
+        dtInit: function(allreports, userid){ 
+            function fetch(allreports, userid, start_date, end_date) {  
+                //console.log(userid);            
                 $.ajax({
                     url: "ajaxquery.php",
                     type: "POST",
-                    data: {
+                    data: {                        
                         start_date: start_date,
-                        end_date: end_date
+                        end_date: end_date,
+                        userid: userid
                     },
                     dataType: "json",
                     success: function(data) {            
                         //console.log(data);
                         window.JSZip = jszip;
                         // Datatables            
-                        $('#reporttable').DataTable({
+                        var table = $('#reporttable').DataTable({
                             "data": data,
                             // buttons
                             "dom": "<'row'<'col-sm-12 col-md-4'l><'col-sm-12 col-md-4'B><'col-sm-12 col-md-4'f>>" +
@@ -47,11 +49,11 @@ define([
                                         return '<a href="../bookreport/userreport.php?id='+row.id+'&userid='+row.user_id+'">'+row.book+'</a>';
                                     }                 
                                 },
-                                {
+                                {  
                                     "data": "fullname",
                                     "render": function(data, type, row, meta) {
                                         return '<a href="../bookreport/userreport.php?id='+row.id+'&userid='+row.user_id+'">'+row.fullname+'</a>';
-                                    }          
+                                    }         
                                 }, 
                                 {
                                     "data": "department"                
@@ -69,12 +71,16 @@ define([
                                         }
                                     }
                                 },                   
-                            ]
+                            ]                            
                         });
+                        table.column( 2 ).visible( allreports );
+                        table.column( 3 ).visible( allreports );
                     }
                 });
             }
-            fetch();
+            fetch(allreports, userid);
+
+
             // Filter
             $(document).on("click", "#filter", function(e) {
                 e.preventDefault();
@@ -85,9 +91,8 @@ define([
                 } else {
                     $('#reporttable').DataTable().destroy();                    
                     start_date = new Date(start_date).getTime() / 1000;
-                    end_date = new Date(end_date).getTime() / 1000;
-                    //console.log(start_date+' '+end_date);               
-                    fetch(start_date, end_date);
+                    end_date = new Date(end_date).getTime() / 1000;                                 
+                    fetch(allreports, userid, start_date, end_date);
                 }
             });
             // Reset
@@ -96,9 +101,8 @@ define([
                 $("#start_date").val(''); // empty value
                 $("#end_date").val('');
                 $('#reporttable').DataTable().destroy();
-                fetch();
-            });
-           
+                fetch(allreports, userid);
+            });           
         },
         dpInit: function(){
             $("#start_date").datepicker({

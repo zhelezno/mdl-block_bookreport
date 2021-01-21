@@ -42,11 +42,18 @@ $PAGE->navbar->add($navallreports, $allreporturl);
 
 $PAGE->requires->css(new moodle_url($CFG->wwwroot . '/blocks/bookreport/style/css/jquery-ui.css'));
 
-$PAGE->requires->js_call_amd('block_bookreport/main', 'dtInit');
+$params = [
+    'allreports' => true,
+    'userid' => null
+];
+$PAGE->requires->js_call_amd('block_bookreport/main', 'dtInit', $params);
 $PAGE->requires->js_call_amd('block_bookreport/main', 'dpInit');
 
+$templatecontext = [
+    'h2head' => $navallreports
+];
 echo $OUTPUT->header();
 
-echo $OUTPUT->render_from_template('block_bookreport/allreports', $templatecontext);
+echo $OUTPUT->render_from_template('block_bookreport/reports', $templatecontext);
 
 echo $OUTPUT->footer();
