@@ -27,28 +27,31 @@
  */
 require_once(__DIR__ . '/../../config.php');
 
-$myreportchangeurl = new moodle_url('/blocks/bookreport/myreportchange.php');
 $indexurl = new moodle_url('/blocks/bookreport/index.php');
 $myreportsurl = new moodle_url('/blocks/bookreport/myreports.php');
-$PAGE->set_url($myreportchangeurl);
+$allreportsurl = new moodle_url('/blocks/bookreport/allreports.php');
+$myreporturl = new moodle_url('/blocks/bookreport/myreportchange.php');
+
+$PAGE->set_url($myreporturl);
 $PAGE->set_context(\context_system::instance());
 $PAGE->set_title('Отчет');
 $PAGE->set_heading(get_string('pluginname', 'block_bookreport'));
 
-$navuserreport = get_string('userreport', 'block_bookreport');
-$navmyreports = get_string('myreports', 'block_bookreport');
-$navindex = get_string('bookreport', 'block_bookreport');
-$PAGE->navbar->add($navindex, $indexurl);
-$PAGE->navbar->add($navmyreports, $allreportsurl);
-$PAGE->navbar->add($navuserreport, $userreporturl);
+$reportinfo = std_to_arr(get_report_info());
+$report = std_to_arr(get_standart_report($reportinfo['id']));
+
+$PAGE->navbar->add(get_string('bookreport', 'block_bookreport'), $indexurl);
+if(get_change_control($reportinfo['user_id']) === 'disabled') {
+    $PAGE->navbar->add(get_string('allreports', 'block_bookreport'), $allreportsurl);
+} else {
+    $PAGE->navbar->add(get_string('myreports', 'block_bookreport'), $myreportsurl);
+}
+$PAGE->navbar->add(get_string('userreport', 'block_bookreport'));
 
 
 /**
  * Main
- */
-$reportinfo = std_to_arr(get_report_info());
-$report = std_to_arr(get_standart_report($reportinfo['id']));
-    
+ */    
 $templatecontext = [
     'report' => $report,
     'changecontrol' => get_change_control($reportinfo['user_id'])
@@ -65,9 +68,14 @@ echo $OUTPUT->header();
 echo $OUTPUT->footer();
 
 
-
 /**
+ * 
+ * 
+ * 
  * Functions
+ * 
+ * 
+ * 
  */
 function get_standart_report($report_id) {
 
