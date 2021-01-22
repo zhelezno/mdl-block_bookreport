@@ -13,7 +13,7 @@ define([
             function fetch(allreports, userid, start_date, end_date) {  
                 //console.log(userid);            
                 $.ajax({
-                    url: "ajaxquery.php",
+                    url: "ajaxselect.php",
                     type: "POST",
                     data: {                        
                         start_date: start_date,
@@ -40,19 +40,19 @@ define([
                                 {
                                     "data": "author",
                                     "render": function(data, type, row, meta) {
-                                        return '<a href="../bookreport/userreport.php?id='+row.id+'&userid='+row.user_id+'">'+row.author+'</a>';
+                                        return '<a href="../bookreport/viewreport.php?id='+row.id+'&userid='+row.user_id+'">'+row.author+'</a>';
                                     }           
                                 },
                                 {
                                     "data": "book",
                                     "render": function(data, type, row, meta) {
-                                        return '<a href="../bookreport/userreport.php?id='+row.id+'&userid='+row.user_id+'">'+row.book+'</a>';
+                                        return '<a href="../bookreport/viewreport.php?id='+row.id+'&userid='+row.user_id+'">'+row.book+'</a>';
                                     }                 
                                 },
                                 {  
                                     "data": "fullname",
                                     "render": function(data, type, row, meta) {
-                                        return '<a href="../bookreport/userreport.php?id='+row.id+'&userid='+row.user_id+'">'+row.fullname+'</a>';
+                                        return '<a href="../bookreport/viewreport.php?id='+row.id+'&userid='+row.user_id+'">'+row.fullname+'</a>';
                                     }         
                                 }, 
                                 {

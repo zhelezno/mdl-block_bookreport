@@ -15,7 +15,7 @@
     along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 }}
 {{!
-    @template block_bookreport/userreport
+    @template block_bookreport/myreportchange
 
 
     Example context (json):
@@ -38,21 +38,22 @@
         </div>    
         <div class="form-group">
             <label for="defaulttype_Mainheroes">Основные действующие лица</label>
-            <textarea class="form-control" id="defaulttype_Mainactors" name="defaulttype_Mainheroes" rows="3" required disabled>{{mainactors}}</textarea>
+            <textarea class="form-control" id="defaulttype_Mainactors" name="defaulttype_Mainheroes" rows="3" required {{changecontrol}}>{{mainactors}}</textarea>
         </div>
         <div class="form-group">
             <label for="defaulttype_Mainidea">Главная идея</label>
-            <textarea class="form-control" id="defaulttype_MainMainidea" name="defaulttype_Mainidea" rows="3" required disabled>{{mainidea}}</textarea>
+            <textarea class="form-control" id="defaulttype_MainMainidea" name="defaulttype_Mainidea" rows="3" required {{changecontrol}}>{{mainidea}}</textarea>
         </div>
         <div class="form-group">
             <label for="defaulttype_Quotes">Запомнившиеся цитаты</label>
-            <textarea class="form-control" id="defaulttype_quotes" name="defaulttype_quotes" rows="3" required disabled>{{quotes}}</textarea>
+            <textarea class="form-control" id="defaulttype_quotes" name="defaulttype_quotes" rows="3" required {{changecontrol}}>{{quotes}}</textarea>
         </div>
         <div class="form-group">
             <label for="defaulttype_Conclusion">Вывод/Предложения к внедрению</label>
-            <textarea class="form-control" id="defaulttype_Conclusion" name="defaulttype_Conclusion" rows="3" required disabled >{{conclusion}}</textarea>
+            <textarea class="form-control" id="defaulttype_Conclusion" name="defaulttype_Conclusion" rows="3" required {{changecontrol}}>{{conclusion}}</textarea>
         </div>
-        <br>        
+        <br>
+        <button type="submit" class="btn btn-primary" id="submitStandartreport" name="submitStandartreport">Править</button>      
         {{/report}}
     </form>
 </div>
