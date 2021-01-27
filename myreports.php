@@ -45,8 +45,8 @@ $params = [
     'userid' => $USER->id    
 ];
 
-$PAGE->requires->js_call_amd('block_bookreport/main', 'dtInit', $params);
-$PAGE->requires->js_call_amd('block_bookreport/main', 'dpInit');
+$PAGE->requires->js_call_amd('block_bookreport/dataTables_main', 'dtInit', $params);
+$PAGE->requires->js_call_amd('block_bookreport/dataTables_main', 'dpInit');
 
 
 $templatecontext = [

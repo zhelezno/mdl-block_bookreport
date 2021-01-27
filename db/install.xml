@@ -21,12 +21,12 @@
 	  <FIELDS>
 		<FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
         <FIELD NAME="bookreportid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Bookreport id"/>
-        <FIELD NAME="author" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="Author"/>
-        <FIELD NAME="book" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="Book"/>
-        <FIELD NAME="mainactors" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="Main actors"/>
-        <FIELD NAME="mainidea" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="Main idea"/>
-        <FIELD NAME="quotes" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="Quotes"/>
-        <FIELD NAME="conclusion" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="Conclusion"/>
+        <FIELD NAME="author" TYPE="text" NOTNULL="false" SEQUENCE="false" COMMENT="Author"/>
+        <FIELD NAME="book" TYPE="text" NOTNULL="false" SEQUENCE="false" COMMENT="Book"/>
+        <FIELD NAME="mainactors" TYPE="text" NOTNULL="false" SEQUENCE="false" COMMENT="Main actors"/>
+        <FIELD NAME="mainidea" TYPE="text" NOTNULL="false" SEQUENCE="false" COMMENT="Main idea"/>
+        <FIELD NAME="quotes" TYPE="text" NOTNULL="false" SEQUENCE="false" COMMENT="Quotes"/>
+        <FIELD NAME="conclusion" TYPE="text" NOTNULL="false" SEQUENCE="false" COMMENT="Conclusion"/>
 	  </FIELDS>
 	  <KEYS>
 		<KEY NAME="primary" TYPE="primary" FIELDS="id"/>        

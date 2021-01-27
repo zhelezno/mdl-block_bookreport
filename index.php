@@ -23,8 +23,9 @@
 
 
 require_once(__DIR__ . '/../../config.php');
+require_once($CFG->dirroot . '/blocks/bookreport/classes/file/filemanager.php');
 
-global $DB;
+global $DB, $USER;
 
 $url = new moodle_url('/blocks/bookreport/index.php');
 $PAGE->set_url($url);
@@ -35,17 +36,41 @@ $PAGE->set_heading(get_string('pluginname', 'block_bookreport'));
 $navbookreport = get_string('bookreport', 'block_bookreport');
 $PAGE->navbar->add($navbookreport, $url);
 
-$PAGE->requires->js_call_amd('block_bookreport/selecttypereport', 'typereport');
-
 $myreporturl = new moodle_url('/blocks/bookreport/myreports.php');
 $allreporturl = new moodle_url('/blocks/bookreport/allreports.php');
 $insertreporturl = new moodle_url('/blocks/bookreport/insertreport.php');
+
 $templatecontext = [
     'myreporturl' => $myreporturl,
     'allreporturl' => $allreporturl,
-    'insertreporturl' => $insertreporturl
+    'insertreporturl' => $insertreporturl    
 ];
 
+//Если у пользователя есть сохраненный черновик, передать поля в шаблон
+$params = [
+    'user_id' => $USER->id
+];
+$sql = "";
+
+$sql .= "   SELECT bs.author, bs.book, bs.mainactors, bs.mainidea, bs.quotes, bs.conclusion
+            FROM {block_bookreport_strep} bs
+            JOIN {block_bookreport} bb ON (bb.id = bs.bookreportid)
+            WHERE bb.user_id = :user_id
+            AND bb.completed != 1
+    "; 
+$autosavedreport = $DB->get_records_sql($sql, $params);
+$amdcontext = [];
+if (!empty($autosavedreport)) {            
+    $stdreport = json_decode(json_encode($autosavedreport), true);   
+    $report = array_values($stdreport);   
+    $amdcontext = $report[0];
+}
+
+$PAGE->requires->js_call_amd('block_bookreport/insertForm_main', 'typereport', $amdcontext);
+$PAGE->requires->js_call_amd('block_bookreport/insertForm_main', 'ajax_call_db');  
+
 echo $OUTPUT->header();
+
 echo $OUTPUT->render_from_template('block_bookreport/index', $templatecontext);
+
 echo $OUTPUT->footer();

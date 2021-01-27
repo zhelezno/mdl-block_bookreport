@@ -33,12 +33,12 @@ $completed = 1;
 $timecreated = time();
 $timemodified = time();
 
-$author = $_POST['defaulttype_Author'];
-$book = $_POST['defaulttype_Book'];
-$heroes = $_POST['defaulttype_Mainheroes'];
-$idea = $_POST['defaulttype_Mainidea'];
+$author = $_POST['defaulttype_author'];
+$book = $_POST['defaulttype_book'];
+$heroes = $_POST['defaulttype_mainheroes'];
+$idea = $_POST['defaulttype_mainidea'];
 $quotes = $_POST['defaulttype_quotes'];
-$conclusion = $_POST['defaulttype_Conclusion'];
+$conclusion = $_POST['defaulttype_conclusion'];
 
 $params1 = [
     'userid' => $user,

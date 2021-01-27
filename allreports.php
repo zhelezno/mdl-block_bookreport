@@ -46,8 +46,8 @@ $params = [
     'allreports' => true,
     'userid' => null
 ];
-$PAGE->requires->js_call_amd('block_bookreport/main', 'dtInit', $params);
-$PAGE->requires->js_call_amd('block_bookreport/main', 'dpInit');
+$PAGE->requires->js_call_amd('block_bookreport/dataTables_main', 'dtInit', $params);
+$PAGE->requires->js_call_amd('block_bookreport/dataTables_main', 'dpInit');
 
 $templatecontext = [
     'h2head' => $navallreports

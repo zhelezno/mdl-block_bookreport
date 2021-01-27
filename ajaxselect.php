@@ -45,7 +45,7 @@ function fetch($userid){
                 ";
     };
         
-    return $reports = $DB->get_records_sql($sql, $params);
+    return $DB->get_records_sql($sql, $params);
 };
 
 function date_range($userid, $start_date, $end_date){
