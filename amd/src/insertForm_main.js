@@ -68,22 +68,18 @@ define([
                         quotes: quotes,
                         conclusion: conclusion                    
                     },
-                    dataType: "json",  
-                    complete: function(data){
-                        
-                        $("#autosavesuccess").show('slow');
-                        setTimeout(function() { $("#autosavesuccess").hide('slow'); }, 2000);
-
-                        $('#report').on('input', function() {  
-                            setTimeout(senddata,5000);                            
-                        });
-                    }            
+                    dataType: "text"
+                    //complete: function(data) {
+                    //    console.log(data);
+                    //}
+                }).done(function(){
+                    $("#autosavesuccess").show('slow');
+                    setTimeout(function() { $("#autosavesuccess").hide('slow'); }, 10000);                            
                 });
-            }
-            $('#report').on('input', function() {      
-                setTimeout(senddata,5000);
-            });          
+            }            
+            $('#report').on('change', function() {      
+                setTimeout(senddata,2000);                
+            });               
         },
-
     };
 });  

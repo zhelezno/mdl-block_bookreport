@@ -24,9 +24,11 @@
 
 require_once(__DIR__ . '/../../config.php');
 
+$indexurl = new moodle_url('/blocks/bookreport/index.php');
+
 global $DB,$USER;
 
-$type = 1;
+$type = 1;//////////
 
 $user = $USER->id;
 $completed = 1;
@@ -40,35 +42,78 @@ $idea = $_POST['defaulttype_mainidea'];
 $quotes = $_POST['defaulttype_quotes'];
 $conclusion = $_POST['defaulttype_conclusion'];
 
-$params1 = [
-    'userid' => $user,
-    'type' => $type,
-    'completed' => $completed,
-    'timecreated' => $timecreated,
-    'timemodified' => $timemodified    
+
+//Проверяем, есть ли у пользователя черновик
+$params = [
+    'user_id' => $USER->id
 ];
+$sql = "";
 
-$params2 = [    
-    'author' => $author,
-    'book' => $book,
-    'mainactors' => $heroes,
-    'mainidea' => $idea,
-    'quotes' => $quotes,
-    'conclusion' => $conclusion
-];
+$sql .= "   SELECT bb.id as bbid, bs.id AS bsid    
+            FROM {block_bookreport} bb
+            JOIN {block_bookreport_strep} bs ON (bs.bookreportid = bb.id)
+            WHERE bb.user_id = :user_id
+            AND bb.completed = 0
+    "; 
+$result = $DB->get_records_sql($sql, $params);
 
-$sql1 = "INSERT INTO 
-        mdl_block_bookreport(user_id, type, completed, timecreated, timemodified) 
-        VALUES(:userid, :type, :completed, :timecreated, :timemodified)       
-";
+//Если есть, записываем отчет в уже существующую запись в бд
+if(!empty($result)) {    
+    $result = json_decode(json_encode($result), true);//Конвертируем std to arr
+    $result = array_values($result);//Сбрасываем индексы
+    $id = $result[0]['bsid'];//id bookreport_strep
+    $bookreportid = $result[0]['bbid'];// id bookreport
+    
+    //Обновляем поля черновика
+    $recordstrep = new stdClass;
+    $recordstrep->id = $id;
+    $recordstrep->bookreportid = $bookreportid;
+    $recordstrep->author = $author;
+    $recordstrep->book = $book;
+    $recordstrep->mainactors = $mainactors;
+    $recordstrep->mainidea = $mainidea;
+    $recordstrep->quotes = $quotes;
+    $recordstrep->conclusion = $conclusion;
+    $DB->update_record('block_bookreport_strep', $recordstrep);     
+    
+    //Меняем значение completed на 1, выводим запись из статуса черновика
+    $recordrep = new stdClass;
+    $recordrep->id = $bookreportid;
+    $recordrep->completed = 1;
+    $DB->update_record('block_bookreport', $recordrep); 
+    
+    redirect($indexurl, 'Отчет создан!');
+} else {
 
-$sql2 = "INSERT INTO
-        mdl_block_bookreport_strep(bookreportid, author, book, mainactors, mainidea, quotes, conclusion)
-        VALUES(LAST_INSERT_ID(), :author, :book, :mainactors, :mainidea, :quotes, :conclusion)     
-";
+    $params1 = [
+        'userid' => $user,
+        'type' => $type,
+        'completed' => $completed,
+        'timecreated' => $timecreated,
+        'timemodified' => $timemodified    
+    ];
 
-$DB->execute($sql1, $params1);
-$DB->execute($sql2, $params2);
+    $params2 = [    
+        'author' => $author,
+        'book' => $book,
+        'mainactors' => $heroes,
+        'mainidea' => $idea,
+        'quotes' => $quotes,
+        'conclusion' => $conclusion
+    ];
 
-$indexurl = new moodle_url('/blocks/bookreport/index.php');
-redirect($indexurl, 'Отчет создан!');
+    $sql1 = "INSERT INTO 
+            mdl_block_bookreport(user_id, type, completed, timecreated, timemodified) 
+            VALUES(:userid, :type, :completed, :timecreated, :timemodified)       
+    ";
+
+    $sql2 = "INSERT INTO
+            mdl_block_bookreport_strep(bookreportid, author, book, mainactors, mainidea, quotes, conclusion)
+            VALUES(LAST_INSERT_ID(), :author, :book, :mainactors, :mainidea, :quotes, :conclusion)     
+    ";
+
+    $DB->execute($sql1, $params1);
+    $DB->execute($sql2, $params2);
+
+    redirect($indexurl, 'Отчет создан!');
+}
