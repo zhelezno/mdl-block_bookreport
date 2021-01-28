@@ -37,8 +37,8 @@ $timemodified = time();
 
 $author = $_POST['defaulttype_author'];
 $book = $_POST['defaulttype_book'];
-$heroes = $_POST['defaulttype_mainheroes'];
-$idea = $_POST['defaulttype_mainidea'];
+$mainactors = $_POST['defaulttype_mainactors'];
+$mainidea = $_POST['defaulttype_mainidea'];
 $quotes = $_POST['defaulttype_quotes'];
 $conclusion = $_POST['defaulttype_conclusion'];
 
@@ -53,7 +53,7 @@ $sql .= "   SELECT bb.id as bbid, bs.id AS bsid
             FROM {block_bookreport} bb
             JOIN {block_bookreport_strep} bs ON (bs.bookreportid = bb.id)
             WHERE bb.user_id = :user_id
-            AND bb.completed = 0
+            AND bb.completed != 1
     "; 
 $result = $DB->get_records_sql($sql, $params);
 
@@ -96,8 +96,8 @@ if(!empty($result)) {
     $params2 = [    
         'author' => $author,
         'book' => $book,
-        'mainactors' => $heroes,
-        'mainidea' => $idea,
+        'mainactors' => $mainactors,
+        'mainidea' => $mainidea,
         'quotes' => $quotes,
         'conclusion' => $conclusion
     ];

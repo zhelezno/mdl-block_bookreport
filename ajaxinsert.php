@@ -34,7 +34,7 @@ $mainidea = $_POST['mainidea'];
 $quotes = $_POST['quotes'];
 $conclusion = $_POST['conclusion'];
 
-
+//Проверяем, есть ли у пользователя черновик
 $params = [
     'user_id' => $USER->id
 ];
@@ -48,6 +48,7 @@ $sql .= "   SELECT bb.id as bbid, bs.id AS bsid
     "; 
 $result = $DB->get_records_sql($sql, $params);
 
+//Если нет, создаем запись
 if (empty($result)){
     $type = 1;
     $user = $USER->id;
@@ -84,7 +85,7 @@ if (empty($result)){
 
     $DB->execute($sql1, $params1);
     $DB->execute($sql2, $params2);
-} else {
+} else { //если есть, обновляем поля
     $result = json_decode(json_encode($result), true);
     $result = array_values($result);    
     $id = $result[0]['bsid'];   
