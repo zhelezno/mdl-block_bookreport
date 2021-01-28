@@ -58,7 +58,7 @@ define([
                 var conclusion = $('#defaulttype_conclusion').val();
                 
                 $.ajax({                
-                    url: "ajaxinsert.php",
+                    url: "sendreport.php",
                     type: "POST",
                     data: {
                         author: author,
@@ -68,10 +68,10 @@ define([
                         quotes: quotes,
                         conclusion: conclusion                    
                     },
-                    dataType: "text"
-                    //complete: function(data) {
-                    //    console.log(data);
-                    //}
+                    dataType: "text",
+                    complete: function(data) {
+                        console.log(data);
+                    }
                 }).done(function(){
                     $("#autosavesuccess").show('slow');
                     setTimeout(function() { $("#autosavesuccess").hide('slow'); }, 10000);                            

@@ -38,12 +38,12 @@ $PAGE->navbar->add($navbookreport, $url);
 
 $myreporturl = new moodle_url('/blocks/bookreport/myreports.php');
 $allreporturl = new moodle_url('/blocks/bookreport/allreports.php');
-$insertreporturl = new moodle_url('/blocks/bookreport/insertreport.php');
+$sendreporturl = new moodle_url('/blocks/bookreport/sendreport.php');
 
 $templatecontext = [
     'myreporturl' => $myreporturl,
     'allreporturl' => $allreporturl,
-    'insertreporturl' => $insertreporturl    
+    'sendreporturl' => $sendreporturl    
 ];
 
 //Если у пользователя есть сохраненный черновик, передать поля в шаблон
