@@ -31,6 +31,7 @@ $indexurl = new moodle_url('/blocks/bookreport/index.php');
 $myreportsurl = new moodle_url('/blocks/bookreport/myreports.php');
 $allreportsurl = new moodle_url('/blocks/bookreport/allreports.php');
 $myreporturl = new moodle_url('/blocks/bookreport/myreportchange.php');
+$updatereporturl = new moodle_url('/blocks/bookreport/updatereport.php');
 
 $PAGE->set_url($myreporturl);
 $PAGE->set_context(\context_system::instance());
@@ -54,7 +55,8 @@ $PAGE->navbar->add(get_string('userreport', 'block_bookreport'));
  */    
 $templatecontext = [
     'report' => $report,
-    'changecontrol' => get_change_control($reportinfo['user_id'])
+    'changecontrol' => get_change_control($reportinfo['user_id']),
+    'updatereporturl' => $updatereporturl.'?id='.$_GET['id'].'&bsid='.$_GET['bsid'].'&userid='.$_GET['userid']
 ];
 
 echo $OUTPUT->header();

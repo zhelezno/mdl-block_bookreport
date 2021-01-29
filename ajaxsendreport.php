@@ -22,23 +22,19 @@
  */
 
 require_once(__DIR__ . '/../../config.php');
-
-$refurl = get_local_referer(false);
-$redirectmessage = get_string('indexreportredirect', 'block_bookreport'); 
+$indexurl = new moodle_url('/blocks/bookreport/index.php');
 
 global $DB, $USER;
 
 $reporttype = 1;
-$completed = 1;
+$completed = 0;
 $timecreated = time();
 $timemodified = $timecreated;
-$report = getreport();//Получение полей отчета
+$report = getreport($completed);//Получение полей отчета
 
 if ((userhasdraft() == false)){//Если нет черновика, создаем запись     
 
-    create_newreport($reporttype, $completed, $timecreated, $timemodified ,$report);      
-
-    redirect($refurl, $redirectmessage);
+    create_newreport($reporttype, $completed, $timecreated, $timemodified ,$report);    
 
 } else { //если есть, обновляем поля
        
@@ -56,17 +52,7 @@ if ((userhasdraft() == false)){//Если нет черновика, созда�
     $record->quotes = $report['quotes'];
     $record->conclusion = $report['conclusion'];
 
-    $DB->update_record('block_bookreport_strep', $record);
-
-
-    $recordrep = new stdClass;
-    $recordrep->id = $bookreportid;
-    $recordrep->completed = 1;
-    $recordrep->timecreated = $timecreated;
-    $recordrep->timemodified = $timemodified;    
-    $DB->update_record('block_bookreport', $recordrep);
-
-    redirect($refurl, $redirectmessage);    
+    $DB->update_record('block_bookreport_strep', $record);  
 }
 
 
@@ -81,14 +67,14 @@ if ((userhasdraft() == false)){//Если нет черновика, созда�
  */
 function getreport(){
 
-    $arrreport = [];   
+    $arrreport = [];    
 
-    $arrreport['author'] = $_POST['defaulttype_author'];
-    $arrreport['book'] = $_POST['defaulttype_book'];
-    $arrreport['mainactors'] = $_POST['defaulttype_mainactors'];
-    $arrreport['mainidea'] = $_POST['defaulttype_mainidea'];
-    $arrreport['quotes'] = $_POST['defaulttype_quotes'];
-    $arrreport['conclusion'] = $_POST['defaulttype_conclusion'];        
+    $arrreport['author'] = $_POST['author'];   
+    $arrreport['book'] = $_POST['book'];
+    $arrreport['mainactors'] = $_POST['mainactors'];
+    $arrreport['mainidea'] = $_POST['mainidea'];
+    $arrreport['quotes'] = $_POST['quotes'];
+    $arrreport['conclusion'] = $_POST['conclusion'];        
 
     return $arrreport;    
 }

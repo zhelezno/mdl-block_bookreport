@@ -40,19 +40,19 @@ define([
                                 {
                                     "data": "author",
                                     "render": function(data, type, row, meta) {
-                                        return '<a href="../bookreport/viewreport.php?id='+row.id+'&userid='+row.user_id+'">'+row.author+'</a>';
+                                        return '<a href="../bookreport/viewreport.php?id='+row.id+'&bsid='+row.bsid+'&userid='+row.user_id+'">'+row.author+'</a>';
                                     }           
                                 },
                                 {
                                     "data": "book",
                                     "render": function(data, type, row, meta) {
-                                        return '<a href="../bookreport/viewreport.php?id='+row.id+'&userid='+row.user_id+'">'+row.book+'</a>';
+                                        return '<a href="../bookreport/viewreport.php?id='+row.id+'&bsid='+row.bsid+'&userid='+row.user_id+'">'+row.book+'</a>';
                                     }                 
                                 },
                                 {  
                                     "data": "fullname",
                                     "render": function(data, type, row, meta) {
-                                        return '<a href="../bookreport/viewreport.php?id='+row.id+'&userid='+row.user_id+'">'+row.fullname+'</a>';
+                                        return '<a href="../bookreport/viewreport.php?id='+row.id+'&bsid='+row.bsid+'&userid='+row.user_id+'">'+row.fullname+'</a>';
                                     }         
                                 }, 
                                 {

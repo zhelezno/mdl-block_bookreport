@@ -29,3 +29,7 @@ $string['myreports'] = 'Мои отчеты';
 $string['allreports'] = 'Все отчеты';
 $string['lastreports'] = 'Последние отчеты';
 $string['userreport'] = 'Просмотр отчета';
+
+$string['viewreportredirect'] = 'Отчет обновлен!';
+$string['indexreportredirect'] = 'Отчет создан!';
+$string['accessdenied'] = 'Отказано в доступе!';

@@ -58,7 +58,7 @@ define([
                 var conclusion = $('#defaulttype_conclusion').val();
                 
                 $.ajax({                
-                    url: "sendreport.php",
+                    url: "ajaxsendreport.php",
                     type: "POST",
                     data: {
                         author: author,

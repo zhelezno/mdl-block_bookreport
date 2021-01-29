@@ -32,20 +32,21 @@ function fetch($userid){
     $params = [];
     $sql = "";
 
-    $sql .= "   SELECT bs.author, bs.book, CONCAT(u.firstname, ' ', u.lastname) AS fullname, u.department, FROM_UNIXTIME(bb.timecreated) AS timecreated,  bb.type, bb.id, bb.user_id
+    $sql .= "   SELECT bs.id AS bsid, bs.author, bs.book, CONCAT(u.firstname, ' ', u.lastname) AS fullname, u.department, FROM_UNIXTIME(bb.timecreated) AS timecreated,  bb.type, bb.id, bb.user_id
                 FROM {block_bookreport} bb
                 JOIN {block_bookreport_strep} bs ON (bs.bookreportid = bb.id)
-                JOIN {user} u ON (u.id = bb.user_id)   
+                JOIN {user} u ON (u.id = bb.user_id)
+                WHERE bb.completed = 1
         ";   
 
     if ($userid != null) {
         $params['userid'] = $userid;        
-        $sql .= "   WHERE
+        $sql .= "   AND
                     u.id = :userid
                 ";
     };
         
-    return $DB->get_records_sql($sql, $params);
+    return $reports = $DB->get_records_sql($sql, $params);
 };
 
 function date_range($userid, $start_date, $end_date){
@@ -59,12 +60,13 @@ function date_range($userid, $start_date, $end_date){
         ];
         $sql = "";
         
-        $sql .= "SELECT bs.author, bs.book, CONCAT(u.firstname, ' ', u.lastname) AS fullname, u.department, FROM_UNIXTIME(bb.timecreated) AS timecreated,  bb.type, bb.id, bb.user_id
+        $sql .= "SELECT bs.id AS bsid, bs.author, bs.book, CONCAT(u.firstname, ' ', u.lastname) AS fullname, u.department, FROM_UNIXTIME(bb.timecreated) AS timecreated,  bb.type, bb.id, bb.user_id
                  FROM {block_bookreport} bb
                  JOIN {block_bookreport_strep} bs ON (bs.bookreportid = bb.id)
                  JOIN {user} u ON (u.id = bb.user_id)
                  WHERE bb.timecreated > :start_date
                  AND bb.timecreated < :end_date
+                 AND bb.completed = 1
         ";
         
         if ($userid != null) {
