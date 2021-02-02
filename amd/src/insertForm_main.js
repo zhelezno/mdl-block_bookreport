@@ -76,10 +76,15 @@ define([
                     $("#autosavesuccess").show('slow');
                     setTimeout(function() { $("#autosavesuccess").hide('slow'); }, 10000);                            
                 });
-            }            
-            $('#report').on('change', function() {      
-                setTimeout(senddata,2000);                
-            });               
+            }          
+                  
+            $('#report').on('change', function() {               
+                                 
+                var selectval = $('#typereport').find(":selected").val();
+                if (selectval == "default") {  
+                    setTimeout(senddata,2000);   
+                }                                    
+            });
         },
     };
 });  
