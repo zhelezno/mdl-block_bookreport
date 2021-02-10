@@ -23,7 +23,6 @@
 
 
 require_once(__DIR__ . '/../../config.php');
-require_once($CFG->dirroot . '/blocks/bookreport/classes/file/filemanager.php');
 
 global $DB, $USER;
 
@@ -40,11 +39,13 @@ $myreporturl = new moodle_url('/blocks/bookreport/myreports.php');
 $allreporturl = new moodle_url('/blocks/bookreport/allreports.php');
 $sendreporturl = new moodle_url('/blocks/bookreport/sendreport.php');
 
-$templatecontext = [
-    'myreporturl' => $myreporturl,
-    'allreporturl' => $allreporturl,
-    'sendreporturl' => $sendreporturl    
-];
+$PAGE->requires->js_call_amd('block_bookreport/insertForm_main', 'typereport');
+$PAGE->requires->js_call_amd('block_bookreport/insertForm_main', 'ajax_call_db');
+
+$templatecontext = new stdClass;
+$templatecontext->myreporturl = $myreporturl;
+$templatecontext->allreporturl = $allreporturl;
+$templatecontext->sendreporturl = $sendreporturl;
 
 //Если у пользователя есть сохраненный черновик, передать поля в шаблон
 $params = [
@@ -59,15 +60,17 @@ $sql .= "   SELECT bs.author, bs.book, bs.mainactors, bs.mainidea, bs.quotes, bs
             AND bb.completed != 1
     "; 
 $autosavedreport = $DB->get_records_sql($sql, $params);
-$amdcontext = [];
-if (!empty($autosavedreport)) {            
-    $stdreport = json_decode(json_encode($autosavedreport), true);   
-    $report = array_values($stdreport);   
-    $amdcontext = $report[0];
-}
+if (!empty($autosavedreport)) { 
 
-$PAGE->requires->js_call_amd('block_bookreport/insertForm_main', 'typereport', $amdcontext);
-$PAGE->requires->js_call_amd('block_bookreport/insertForm_main', 'ajax_call_db');  
+    $autosavedreport = array_values($autosavedreport);
+
+    $templatecontext->author = $autosavedreport[0]->author;
+    $templatecontext->book = $autosavedreport[0]->book;
+    $templatecontext->mainactors = $autosavedreport[0]->mainactors;
+    $templatecontext->mainidea = $autosavedreport[0]->mainidea;
+    $templatecontext->quotes = $autosavedreport[0]->quotes;
+    $templatecontext->conclusion = $autosavedreport[0]->conclusion;
+}
 
 echo $OUTPUT->header();
 

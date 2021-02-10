@@ -33,3 +33,10 @@ $string['userreport'] = 'Просмотр отчета';
 $string['viewreportredirect'] = 'Отчет обновлен!';
 $string['indexreportredirect'] = 'Отчет создан!';
 $string['accessdenied'] = 'Отказано в доступе!';
+
+$string['author'] = 'Автор';
+$string['book'] = 'Книга';
+$string['presentation'] = 'Презентация';
+
+$string['submitform'] = 'Отправить отчет';
+$string['updateform'] = 'Обновить отчет';

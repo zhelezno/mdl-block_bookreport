@@ -37,7 +37,8 @@
 		<FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
         <FIELD NAME="bookreportid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Bookreport id"/>
         <FIELD NAME="author" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="Author"/>
-        <FIELD NAME="book" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="Book"/>        
+        <FIELD NAME="book" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="Book"/>
+		<FIELD NAME="attachment" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false"/>
 	  </FIELDS>
 	  <KEYS>
 		<KEY NAME="primary" TYPE="primary" FIELDS="id"/>        

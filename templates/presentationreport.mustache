@@ -23,19 +23,20 @@
         
     }
 }}
-<div class="form-group">
-  <label for="presentationtype_Author">Автор</label>
-  <input type="text" class="form-control" id="presentationtype_Author" placeholder="Н. Гоголь">
-</div>
-<div class="form-group">
-  <label for="presentationtype_Book">Название книги</label>
-  <input type="text" class="form-control" id="presentationttype_Book" placeholder="Мертвые души">
-</div>
-<label for="presentationttype_Presentationinput">Презентация по книге в формате PDF</label>
-<div class="custom-file">
-  <input type="file" class="custom-file-input" id="presentationttype_Presentationinput" lang="ru">
-  <label class="custom-file-label" for="presentationttype_Presentationinput">Выбрать файл</label>
-</div>
+<h3 style="display:inline;"><a href="{{myreporturl}}" class="badge badge-primary">Мои отчеты</a></h3>
+<h3 style="display:inline;"><a href="{{allreporturl}}" class="badge badge-primary">Все отчеты</a></h3>
 <br>
 <br>
-<button type="submit" class="btn btn-primary">Отправить</button>
+<h2>Создать отчет <span class="badge badge-secondary"></span></h2>
+<br>
+<select class="form-control form-control-lg" name="typereport" id="typereport">
+  <option value="default">Обычный отчет</option>    
+  <option value="presentation" selected>Отчет в виде презентации</option> 
+</select>
+<div class="container-fluid">
+    <br>      
+    <div id="report2"></div>
+    
+    <br>
+    <div class="alert alert-primary" role="alert" id="autosavesuccess" style="display:none;">Черновик сохранен</div>   
+</div>

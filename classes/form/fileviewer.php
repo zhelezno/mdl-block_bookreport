@@ -23,17 +23,25 @@
 
 
 require_once("$CFG->libdir/formslib.php");
+//require_once($CFG->dirroot . '/blocks/bookreport/lib.php');
  
-class file_form extends moodleform {
-    //Add elements to form
+class fileviewer extends moodleform {
+    
     public function definition() {
         global $CFG;
  
-        $mform = $this->_form; // Don't forget the underscore! 
- 
-        $mform->addElement('text', 'email', get_string('email')); // Add elements to your form
-        $mform->setType('email', PARAM_NOTAGS);                   //Set type of element
-        $mform->setDefault('email', 'Please enter email');        //Default value
+        $mform = $this->_form;
+       
+        $filemanageropts['maxfiles'] = 1;
+        $filemanageropts['accepted_types'] = '.pptx';
+
         
+        $mform->addElement('text', 'author', get_string('author', 'block_bookreport'));
+
+        $mform->addElement('text', 'book', get_string('book', 'block_bookreport'));
+
+        $mform->addElement('filemanager', 'attachment', get_string('presentation', 'block_bookreport'), null, $filemanageropts);
+
+        $this->add_action_buttons(false, get_string('updateform', 'block_bookreport'));        
     }
 }

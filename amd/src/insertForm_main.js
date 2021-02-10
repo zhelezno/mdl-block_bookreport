@@ -5,44 +5,19 @@ define([
     'core/templates'   
 ], function($, ajax, notification, templates){
     return{
-        typereport: function(author, book, mainactors, mainidea, quotes, conclusion){ 
+        typereport: function(){ 
             $(document).ready(function(){
-                
-                $('#typereport option[value=default]').prop('selected', true);
-                
-                element = $('#report');
-                
-                templates.render('block_bookreport/standartreport', {author, book, mainactors, mainidea, quotes, conclusion})
-                .then(function(html, js) {                    
-                    templates.replaceNodeContents(element, html, js);
-                });
             
                 $('#typereport').change(function(){ 
                     
                     var selectedtypereport = $('#typereport').val(); 
                     
                     if (selectedtypereport == "default") {  
-                        
-                        ajax.call([{
-                            methodname: 'block_bookreport_changetodefaultreporttype',
-                            args: {},
-                            done:   templates.render('block_bookreport/standartreport', {author, book, mainactors, mainidea, quotes, conclusion})
-                                    .then(function(html, js) {                    
-                                       templates.replaceNodeContents(element, html, js);
-                                    }),
-                            //fail: notification.exception
-                        }]);
-                    } else if (selectedtypereport == "presentation") { 
-                        
-                        ajax.call([{
-                            methodname: 'block_bookreport_changetopresentationreporttype',
-                            args: {},
-                            done:   templates.render('block_bookreport/presentationreport', {})
-                                        .then(function(html, js) {                    
-                                        templates.replaceNodeContents(element, html, js);
-                                    }),
-                            //fail: notification.exception
-                        }]);
+
+                        $(location).attr('href', 'index.php');
+                    } else if (selectedtypereport == "presentation") {  
+
+                        $(location).attr('href', 'filepickform.php');
                     }
                 });
             });
@@ -70,20 +45,18 @@ define([
                     },
                     dataType: "text",
                     complete: function(data) {
-                        console.log(data);
+                        //console.log(data);
                     }
                 }).done(function(){
                     $("#autosavesuccess").show('slow');
                     setTimeout(function() { $("#autosavesuccess").hide('slow'); }, 10000);                            
                 });
-            }          
-                  
-            $('#report').on('change', function() {               
-                                 
-                var selectval = $('#typereport').find(":selected").val();
-                if (selectval == "default") {  
-                    setTimeout(senddata,2000);   
-                }                                    
+            }    
+             
+            $(document).ready(function(){
+                $('#report').change(function(){                                                        
+                    setTimeout(senddata,2000);                                    
+                });
             });
         },
     };
