@@ -56,7 +56,7 @@ $PAGE->navbar->add(get_string('userreport', 'block_bookreport'));
 $templatecontext = [
     'report' => $report,
     'changecontrol' => get_change_control($reportinfo['user_id']),
-    'updatereporturl' => $updatereporturl.'?id='.$_GET['id'].'&bsid='.$_GET['bsid'].'&userid='.$_GET['userid']
+    'updatereporturl' => $updatereporturl.'?id='.$_GET['id'].'&userid='.$_GET['userid']
 ];
 
 echo $OUTPUT->header();

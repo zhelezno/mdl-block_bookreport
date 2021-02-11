@@ -34,16 +34,17 @@ $PAGE->set_context(\context_system::instance());
 $PAGE->set_title('Отчет по книге');
 $PAGE->set_heading(get_string('pluginname', 'block_bookreport'));
 
+$myreporturl = new moodle_url('/blocks/bookreport/myreports.php');
+$allreporturl = new moodle_url('/blocks/bookreport/allreports.php');
+
 $navbookreport = get_string('bookreport', 'block_bookreport');
 $PAGE->navbar->add($navbookreport, $url);
 
 $PAGE->requires->js_call_amd('block_bookreport/insertForm_main', 'typereport');
 
-
-
-
-
-
+$templatecontext = new stdClass;
+$templatecontext->myreporturl = $myreporturl;
+$templatecontext->allreporturl = $allreporturl;
 
 $courseid = 1;//$courseid = required_param('courseid', PARAM_INT);
 $context = context_course::instance($courseid);
@@ -85,7 +86,7 @@ if ($form_submitted_data = $filepick_form->get_data()) {
     
     $site = get_site();
     echo $OUTPUT->header();
-    echo $OUTPUT->render_from_template('block_bookreport/presentationreport', '');
+    echo $OUTPUT->render_from_template('block_bookreport/presentationreport', $templatecontext);
     $filepick_form->display();
     echo $OUTPUT->footer();
 }

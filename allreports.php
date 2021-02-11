@@ -44,8 +44,9 @@ $PAGE->requires->css(new moodle_url($CFG->wwwroot . '/blocks/bookreport/style/cs
 
 $params = [
     'allreports' => true,
-    'userid' => null
+    'userid' => 0
 ];
+
 $PAGE->requires->js_call_amd('block_bookreport/dataTables_main', 'dtInit', $params);
 $PAGE->requires->js_call_amd('block_bookreport/dataTables_main', 'dpInit');
 

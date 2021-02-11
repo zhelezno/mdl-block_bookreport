@@ -10,8 +10,13 @@ define([
 ], function($, jszip){
     return{
         dtInit: function(allreports, userid){ 
-            function fetch(allreports, userid, start_date, end_date) {  
-                //console.log(userid);            
+            //console.log(allreports);  
+            //console.log(userid); 
+            function fetch(allreports, userid, start_date = 0, end_date = 0) {  
+                console.log(allreports);  
+                console.log(userid); 
+                console.log(start_date); 
+                console.log(end_date);            
                 $.ajax({
                     url: "ajaxselect.php",
                     type: "POST",
@@ -22,7 +27,7 @@ define([
                     },
                     dataType: "json",
                     success: function(data) {            
-                        //console.log(data);
+                        console.log(data);
                         window.JSZip = jszip;
                         // Datatables            
                         var table = $('#reporttable').DataTable({
@@ -40,19 +45,31 @@ define([
                                 {
                                     "data": "author",
                                     "render": function(data, type, row, meta) {
-                                        return '<a href="../bookreport/viewreport.php?id='+row.id+'&bsid='+row.bsid+'&userid='+row.user_id+'">'+row.author+'</a>';
+                                        if (row.type == 1) {
+                                            return '<a href="../bookreport/viewreport.php?id='+row.id+'&userid='+row.user_id+'">'+row.author+'</a>';
+                                        } else {
+                                            return '<a href="../bookreport/viewreport_pres.php?id='+row.id+'&userid='+row.user_id+'">'+row.author+'</a>';
+                                        }
                                     }           
                                 },
                                 {
                                     "data": "book",
                                     "render": function(data, type, row, meta) {
-                                        return '<a href="../bookreport/viewreport.php?id='+row.id+'&bsid='+row.bsid+'&userid='+row.user_id+'">'+row.book+'</a>';
+                                        if (row.type == 1) {
+                                            return '<a href="../bookreport/viewreport.php?id='+row.id+'&userid='+row.user_id+'">'+row.book+'</a>';
+                                        } else {
+                                            return '<a href="../bookreport/viewreport_pres.php?id='+row.id+'&userid='+row.user_id+'">'+row.book+'</a>';
+                                        }
                                     }                 
                                 },
                                 {  
                                     "data": "fullname",
                                     "render": function(data, type, row, meta) {
-                                        return '<a href="../bookreport/viewreport.php?id='+row.id+'&bsid='+row.bsid+'&userid='+row.user_id+'">'+row.fullname+'</a>';
+                                        if (row.type == 1) {
+                                            return '<a href="../bookreport/viewreport.php?id='+row.id+'&userid='+row.user_id+'">'+row.fullname+'</a>';
+                                        } else {
+                                            return '<a href="../bookreport/viewreport_pres.php?id='+row.id+'&userid='+row.user_id+'">'+row.fullname+'</a>';
+                                        }
                                     }         
                                 }, 
                                 {
@@ -63,8 +80,8 @@ define([
                                 },              
                                 {
                                     "data": "type",
-                                    "render": function(data, type, row, meta) {
-                                        if (row.type = 1) {
+                                    "render": function(data, type, row, meta) {            
+                                        if (row.type == 1) {
                                             return '<img style="margin-right: 10px;" width="30px" src="../bookreport/style/img/reportpix1.png">';
                                         } else {
                                             return '<img style="margin-right: 10px;" width="30px" src="../bookreport/style/img/reportpix2.png">';

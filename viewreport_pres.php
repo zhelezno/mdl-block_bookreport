@@ -29,6 +29,7 @@ require_once(__DIR__ . '/../../config.php');
 require_once($CFG->dirroot . '/blocks/bookreport/classes/form/fileviewer.php');
 
 $id = optional_param('id', 0, PARAM_INT);
+$userid = optional_param('userid', 0, PARAM_INT);
 
 $indexurl = new moodle_url('/blocks/bookreport/index.php');
 $myreportsurl = new moodle_url('/blocks/bookreport/myreports.php');
@@ -52,8 +53,12 @@ if ($form_submitted_data = $fileview_form->get_data()) {
     file_save_draft_area_files($form_submitted_data->attachment, $context->id, 'block_bookreport', 'attachment',
         $form_submitted_data->attachment, array('subdirs' => 0, 'maxbytes' => 500000, 'maxfiles' => 1));
 
-    if ($form_submitted_data->id != 0) {
-        if (!$DB->update_record('block_bookreport_prsrep', $form_submitted_data)) {
+    if ($form_submitted_data->id != 0){
+        if ($userid == $USER->id){
+            if (!$DB->update_record('block_bookreport_prsrep', $form_submitted_data)) {
+                print_error('updateerror');
+            }
+        } else {
             print_error('updateerror');
         }
     }

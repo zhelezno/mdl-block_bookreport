@@ -28,6 +28,7 @@ global $DB, $USER;
 
 $myreporturl = new moodle_url('/blocks/bookreport/myreports.php');
 $indexurl = new moodle_url('/blocks/bookreport/index.php');
+
 $PAGE->set_url($myreporturl);
 $PAGE->set_context(\context_system::instance());
 $PAGE->set_title('Мои отчеты');
@@ -35,6 +36,7 @@ $PAGE->set_heading(get_string('pluginname', 'block_bookreport'));
 
 $navmyreports = get_string('myreports', 'block_bookreport');
 $navindex = get_string('bookreport', 'block_bookreport');
+
 $PAGE->navbar->add($navindex, $indexurl);
 $PAGE->navbar->add($navmyreports, $myreporturl);
 

@@ -38,24 +38,13 @@ class filemanager extends moodleform {
 
         
         $mform->addElement('text', 'author', get_string('author', 'block_bookreport'));
+        $mform->addRule('author', null, 'required', null, 'client');
 
         $mform->addElement('text', 'book', get_string('book', 'block_bookreport'));
+        $mform->addRule('book', null, 'required', null, 'client');
 
         $mform->addElement('filemanager', 'attachment', get_string('presentation', 'block_bookreport'), null, $filemanageropts);
-
-        
-        /*$mform->addElement(
-                    'filepicker', 
-                    'pptxfile', 
-                    get_string('presentation', 'block_bookreport'), null,
-                    array(
-                       //'maxbytes' => $maxbytes, 
-                       'accepted_types' => '.pptx'
-                    )
-                );
-        
-        $fullpath = $CFG->dataroot;
-        $success = $this->save_file('pptxfile', $fullpath);*/
+        $mform->addRule('attachment', null, 'required', null, 'client');
 
         $this->add_action_buttons(false, get_string('submitform', 'block_bookreport'));        
     }

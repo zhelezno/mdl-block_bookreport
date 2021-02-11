@@ -37,6 +37,7 @@ $string['accessdenied'] = 'Отказано в доступе!';
 $string['author'] = 'Автор';
 $string['book'] = 'Книга';
 $string['presentation'] = 'Презентация';
+$string['presreport'] = 'Отчет в виде презентации';
 
 $string['submitform'] = 'Отправить отчет';
 $string['updateform'] = 'Обновить отчет';
