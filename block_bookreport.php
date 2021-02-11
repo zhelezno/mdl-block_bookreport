@@ -49,31 +49,55 @@ class block_bookreport extends block_base {
         $info .= '<h5>'. get_string('lastreports', 'block_bookreport') .'</h5>';
 
         $params = [
-            'userid' => $USER->id
+            'userid' => $USER->id,
+            'userid_p' => $USER->id
         ];
         
-        $sql =" SELECT bb.id, bb.type, bb.timecreated, bb.type, bs.author, bs.book
+        $sql = "((";
+        
+        $sql .="SELECT bb.id AS bid, bb.type, bb.timecreated, bb.type, bs.author, bs.book
                 FROM {block_bookreport} bb
                 JOIN {block_bookreport_strep} bs ON (bs.bookreportid = bb.id) 
                 WHERE bb.user_id = :userid
-                LIMIT 4
-        ";
+                )
+                UNION ALL
+                (
+                SELECT bb.id AS bid, bb.type, bb.timecreated, bb.type, br.author, br.book
+                FROM {block_bookreport} bb
+                JOIN {block_bookreport_prsrep} br ON (br.bookreportid = bb.id) 
+                WHERE bb.user_id = :userid_p
+                )
+                ORDER BY bid DESC LIMIT 4)
 
-        $lastreports = $DB->get_records_sql($sql, $params);   
-        $info .= '<div class="list-group-flush">';        
-            $reports = '';
-            foreach ($lastreports as $report) {
-                $date = DateTime::createFromFormat('U', $report->timecreated+10800);
-                $reports .= '<a href="#" class="list-group-item list-group-item-action text-truncate text-nowrap">'
-                                .'<p class="rounded float-left"><img style="margin-right: 10px;" width="30px" src="../blocks/bookreport/style/img/reportpix' . $report->type . '.png"></p>'                
-                                .'<p class="rounded float-right" style="margin-left: 20px">'.$date->format('d.m.Y H:i:s').'</p>' 
-                                .$report->author . ' - ' 
-                                .$report->book                                                               
-                            .'</a>';     
-            }
-            
-            $info .= $reports;
-        $info .= '</div>';
+        ";
+        
+        $lastreports = $DB->get_records_sql($sql, $params);
+
+        if (!empty($lastreports)) {
+            $info .= '<div class="list-group-flush">';        
+                $reports = '';
+                foreach ($lastreports as $report) {                
+                    $date = DateTime::createFromFormat('U', $report->timecreated+10800);
+                    if ($report->type == 1) {
+                        $p = '';
+                    } else {
+                        $p = '_pres';
+                    }
+                    $reports .= '<a href="../blocks/bookreport/viewreport'.$p.'.php?id='.$report->bid.'&userid='.$USER->id.'" class="list-group-item list-group-item-action text-truncate text-nowrap">'
+                                    .'<p class="rounded float-left"><img style="margin-right: 10px;" width="30px" src="../blocks/bookreport/style/img/reportpix' . $report->type . '.png"></p>'                
+                                    .'<p class="rounded float-right" style="margin-left: 20px">'.$date->format('d.m.Y H:i:s').'</p>' 
+                                    .$report->author . ' - ' 
+                                    .$report->book                                                               
+                                .'</a>';     
+                }
+                
+                $info .= $reports;
+            $info .= '</div>';
+        } else {
+            $info .= '<h5>...</h5>';
+        }
+        
+        
 
         $this->content->text .= $info;
         $this->content->footer = '';               
