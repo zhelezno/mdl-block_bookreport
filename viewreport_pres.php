@@ -72,9 +72,10 @@ if ($form_submitted_data = $fileview_form->get_data()) {
     if ($indexurl) {
         $reportpage = $DB->get_record('block_bookreport_prsrep', array('bookreportid' => $id));
         $fileview_form->set_data($reportpage);
-        $draftitemid = $reportpage->attachment ; //file_get_submitted_draft_itemid('attachment');
-        file_prepare_draft_area($draftitemid, $context->id, 'block_bookreport', 'attachment', $reportpage->attachment,
-            array('subdirs' => 0, 'maxbytes' => 5000000, 'maxfiles' => 1));
+        $draftitemid = $reportpage->attachment; //file_get_submitted_draft_itemid('attachment');
+        //print_r($context->id); die;
+        file_prepare_draft_area($draftitemid, $context->id, 'block_bookreport', 'attachment', $draftitemid,
+            array('subdirs' => 0, 'maxbytes' => 5000000, 'maxfiles' => 1));            
     } 
     $fileview_form->display();
     echo $OUTPUT->footer();

@@ -49,11 +49,15 @@ if ($USER->id == $_GET['userid']){
  */
 function get_report(){
 
+    global $DB;
+
+    $param = ['bookreportid' => required_param('id', PARAM_INT)];
+    $sql = "SELECT id FROM {block_bookreport_strep} WHERE bookreportid = :bookreportid";
+    $bsid = $DB->get_records_sql($sql, $param);
+    $bsid = array_values($bsid);
+    
     $stdreport = new stdClass;
-
-    $stdreport->id = required_param('bsid', PARAM_INT);
-    $stdreport->bookreportid = required_param('id', PARAM_INT);
-
+    $stdreport->id = $bsid[0]->id;
     $stdreport->mainactors = required_param('defaulttype_mainactors', PARAM_TEXT);
     $stdreport->mainidea = required_param('defaulttype_mainidea', PARAM_TEXT);
     $stdreport->quotes = required_param('defaulttype_quotes', PARAM_TEXT);

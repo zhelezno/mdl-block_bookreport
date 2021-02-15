@@ -61,11 +61,7 @@ $templatecontext = [
 
 echo $OUTPUT->header();
 
-    if ($reportinfo['type'] == 1){
-        echo $OUTPUT->render_from_template('block_bookreport/viewstandartreport', $templatecontext);
-    } else {
-        echo $OUTPUT->render_from_template('block_bookreport/viewpresreport', $templatecontext);
-    }
+echo $OUTPUT->render_from_template('block_bookreport/viewstandartreport', $templatecontext);    
 
 echo $OUTPUT->footer();
 

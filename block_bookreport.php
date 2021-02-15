@@ -59,6 +59,7 @@ class block_bookreport extends block_base {
                 FROM {block_bookreport} bb
                 JOIN {block_bookreport_strep} bs ON (bs.bookreportid = bb.id) 
                 WHERE bb.user_id = :userid
+                AND bb.completed = 1
                 )
                 UNION ALL
                 (
@@ -66,6 +67,7 @@ class block_bookreport extends block_base {
                 FROM {block_bookreport} bb
                 JOIN {block_bookreport_prsrep} br ON (br.bookreportid = bb.id) 
                 WHERE bb.user_id = :userid_p
+                AND bb.completed = 1
                 )
                 ORDER BY bid DESC LIMIT 4)
 

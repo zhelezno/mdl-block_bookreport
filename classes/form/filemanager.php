@@ -23,7 +23,6 @@
 
 
 require_once("$CFG->libdir/formslib.php");
-//require_once($CFG->dirroot . '/blocks/bookreport/lib.php');
  
 class filemanager extends moodleform {
     
