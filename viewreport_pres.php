@@ -30,6 +30,7 @@ require_once($CFG->dirroot . '/blocks/bookreport/classes/form/fileviewer.php');
 
 $id = optional_param('id', 0, PARAM_INT);
 $userid = optional_param('userid', 0, PARAM_INT);
+$refurl = get_local_referer(false);
 
 $indexurl = new moodle_url('/blocks/bookreport/index.php');
 $myreportsurl = new moodle_url('/blocks/bookreport/myreports.php');
@@ -38,13 +39,17 @@ $myreporturl = new moodle_url('/blocks/bookreport/myreportchange.php');
 $updatereporturl = new moodle_url('/blocks/bookreport/updatereport.php');
 
 $PAGE->set_url($myreporturl);
-$PAGE->set_context(\context_system::instance());
+//$PAGE->set_context(\context_system::instance());
 $PAGE->set_title('Отчет');
 $PAGE->set_heading(get_string('pluginname', 'block_bookreport'));
 
 $PAGE->navbar->add(get_string('bookreport', 'block_bookreport'), $indexurl);
 $PAGE->navbar->add(get_string('allreports', 'block_bookreport'), $allreportsurl);
 $PAGE->navbar->add(get_string('userreport', 'block_bookreport'));
+
+$courseid = 1;//contex = 1; context->id = 2 for moodle/my
+$context = context_course::instance($courseid);
+$contextid = $context->id;
 
 $fileview_form = new fileviewer();
 
@@ -62,21 +67,38 @@ if ($form_submitted_data = $fileview_form->get_data()) {
             print_error('updateerror');
         }
     }
-    //print_r($form_submitted_data);die;
-    $refurl = get_local_referer(false);
+   
     redirect($refurl, get_string('viewreportredirect', 'block_bookreport'));
 } else {
     
     $site = get_site();
-    echo $OUTPUT->header(); 
-    if ($indexurl) {
-        $reportpage = $DB->get_record('block_bookreport_prsrep', array('bookreportid' => $id));
+    echo $OUTPUT->header();
+
+    $reportpage = $DB->get_record('block_bookreport_prsrep', array('bookreportid' => $id));
+    $draftitemid = $reportpage->attachment;
+    $fs = get_file_storage();
+    if ($files = $fs->get_area_files($contextid, 'block_bookreport', 'attachment', $draftitemid, 'sortorder', false)){
+        foreach ($files as $file) {
+            $fileurl = moodle_url::make_pluginfile_url(
+                $file->get_contextid(), 
+                $file->get_component(), 
+                $file->get_filearea(), 
+                $file->get_itemid(), 
+                $file->get_filepath(), 
+                $file->get_filename(),
+                true
+            );
+
+            $filelink =  '<a href="' . $fileurl . '" class="btn btn-outline-info"><img style="margin-right: 10px;" width="30px" src="../bookreport/style/img/downloadicon.png">' . $file->get_filename() . '</a>';
+        }
+    };
+
+    if ($id) {
         $fileview_form->set_data($reportpage);
-        $draftitemid = $reportpage->attachment; //file_get_submitted_draft_itemid('attachment');
-        //print_r($context->id); die;
         file_prepare_draft_area($draftitemid, $context->id, 'block_bookreport', 'attachment', $draftitemid,
             array('subdirs' => 0, 'maxbytes' => 5000000, 'maxfiles' => 1));            
     } 
     $fileview_form->display();
+    echo $filelink;
     echo $OUTPUT->footer();
 }

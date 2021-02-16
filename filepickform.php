@@ -30,7 +30,7 @@ global $DB, $USER;
 $url = new moodle_url('/blocks/bookreport/filepickform.php');
 $refurl = get_local_referer(false);
 $PAGE->set_url($url);
-$PAGE->set_context(\context_system::instance());
+//$PAGE->set_context(\context_system::instance());
 $PAGE->set_title('Отчет по книге');
 $PAGE->set_heading(get_string('pluginname', 'block_bookreport'));
 
@@ -49,7 +49,9 @@ $templatecontext->allreporturl = $allreporturl;
 $courseid = 1;//$courseid = required_param('courseid', PARAM_INT);
 $context = context_course::instance($courseid);
 $contextid = $context->id;
+
 $PAGE->set_context($context);
+
 $filemanageropts = array('subdirs' => 0, 'maxbytes' => '0', 'maxfiles' => 100, 'context' => $context);
 $customdata = array('filemanageropts' => $filemanageropts);
 $filepick_form = new filemanager(null, $customdata);
@@ -58,8 +60,8 @@ if ($form_submitted_data = $filepick_form->get_data()) {
     
     file_save_draft_area_files(
         $form_submitted_data->attachment, 
-        $context->id, 
-        'block_bookreport', 
+        $contextid, 
+        'block_bookreport',
         'attachment',
         $form_submitted_data->attachment, 
         array(
@@ -75,9 +77,9 @@ if ($form_submitted_data = $filepick_form->get_data()) {
     $reportinfo->completed = 1;
     $reportinfo->timecreated = time();  
     $reportinfo->timemodified = $reportinfo->timecreated; 
-    //print_r($reportinfo); die; 
+    
     $lastinsertid = $DB->insert_record('block_bookreport', $reportinfo, $returnid=true, $bulk=false);
-    //print_r($lastinsertid); die; 
+   
     $form_submitted_data->bookreportid = $lastinsertid;
     $DB->insert_record('block_bookreport_prsrep', $form_submitted_data);
    
