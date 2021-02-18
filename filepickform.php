@@ -18,6 +18,7 @@
  * Version information
  *
  * @package   block_bookreport
+ * @author    chasnikovandrew@gmail.com
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -30,9 +31,14 @@ global $DB, $USER;
 $url = new moodle_url('/blocks/bookreport/filepickform.php');
 $refurl = get_local_referer(false);
 $PAGE->set_url($url);
-//$PAGE->set_context(\context_system::instance());
+
+$PAGE->set_context(\context_system::instance());
 $PAGE->set_title('Отчет по книге');
 $PAGE->set_heading(get_string('pluginname', 'block_bookreport'));
+
+$courseid = 1;
+$context = context_course::instance($courseid);
+$PAGE->set_context($context);
 
 $myreporturl = new moodle_url('/blocks/bookreport/myreports.php');
 $allreporturl = new moodle_url('/blocks/bookreport/allreports.php');
@@ -46,29 +52,30 @@ $templatecontext = new stdClass;
 $templatecontext->myreporturl = $myreporturl;
 $templatecontext->allreporturl = $allreporturl;
 
-$courseid = 1;//$courseid = required_param('courseid', PARAM_INT);
-$context = context_course::instance($courseid);
-$contextid = $context->id;
-
-$PAGE->set_context($context);
-
-$filemanageropts = array('subdirs' => 0, 'maxbytes' => '0', 'maxfiles' => 100, 'context' => $context);
+$filemanageropts = array('subdirs' => 0, 'maxbytes' => 0, 'maxfiles' => 1000, 'context' => $context);
 $customdata = array('filemanageropts' => $filemanageropts);
 $filepick_form = new filemanager(null, $customdata);
 
 if ($form_submitted_data = $filepick_form->get_data()) {
     
+    $filerecord = new stdClass;
+    $filerecord->attachment = $form_submitted_data->attachment;
+    $filerecord->contextid = $context->id;
+    $filerecord->component =  'block_bookreport';
+    $filerecord->filearea = 'item_file';
+    $filerecord->options = array(
+                                    'subdirs' => 0, 
+                                    'maxbytes' => 0, 
+                                    'maxfiles' => 1000
+                                );
+    
     file_save_draft_area_files(
-        $form_submitted_data->attachment, 
-        $contextid, 
-        'block_bookreport',
-        'attachment',
-        $form_submitted_data->attachment, 
-        array(
-            'subdirs' => 0, 
-            'maxbytes' => 500000, 
-            'maxfiles' => 1
-        )
+        $filerecord->attachment, 
+        $filerecord->contextid, 
+        $filerecord->component,
+        $filerecord->filearea,
+        $filerecord->attachment, 
+        $filerecord->options
     );    
     
     $reportinfo = new stdClass();

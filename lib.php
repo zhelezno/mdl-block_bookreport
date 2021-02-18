@@ -51,7 +51,7 @@ function block_bookreport_pluginfile($course, $cm, $context, $filearea, $args, $
     $fs = get_file_storage();
     $file = $fs->get_file($context->id, 'block_bookreport', $filearea, $itemid, $filepath, $filename);
     if (!$file) {
-        return false; // The file does not exist.
+        return false; 
     }
     send_stored_file($file, 0, 0, true, $options); // download MUST be forced - security!
 }

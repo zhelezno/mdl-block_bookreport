@@ -18,6 +18,7 @@
  * Version information
  *
  * @package   block_bookreport
+ * @author    chasnikovandrew@gmail.com
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -28,38 +29,70 @@
 require_once(__DIR__ . '/../../config.php');
 require_once($CFG->dirroot . '/blocks/bookreport/classes/form/fileviewer.php');
 
+global $CFG, $DB, $USER;
+
+//Get optional params
 $id = optional_param('id', 0, PARAM_INT);
 $userid = optional_param('userid', 0, PARAM_INT);
 $refurl = get_local_referer(false);
 
+//Urls
 $indexurl = new moodle_url('/blocks/bookreport/index.php');
 $myreportsurl = new moodle_url('/blocks/bookreport/myreports.php');
 $allreportsurl = new moodle_url('/blocks/bookreport/allreports.php');
 $myreporturl = new moodle_url('/blocks/bookreport/myreportchange.php');
 $updatereporturl = new moodle_url('/blocks/bookreport/updatereport.php');
 
+//Set page
 $PAGE->set_url($myreporturl);
-//$PAGE->set_context(\context_system::instance());
 $PAGE->set_title('Отчет');
 $PAGE->set_heading(get_string('pluginname', 'block_bookreport'));
 
+//Only main page ..site/my/ plugin, therefore we will explicitly set the id course
+$courseid = 1;
+$context = context_course::instance($courseid);
+$PAGE->set_context($context);
+
+//Add navbar
 $PAGE->navbar->add(get_string('bookreport', 'block_bookreport'), $indexurl);
 $PAGE->navbar->add(get_string('allreports', 'block_bookreport'), $allreportsurl);
 $PAGE->navbar->add(get_string('userreport', 'block_bookreport'));
 
-$courseid = 1;//contex = 1; context->id = 2 for moodle/my
-$context = context_course::instance($courseid);
-$contextid = $context->id;
-
+//Initialize mform
 $fileview_form = new fileviewer();
 
+//If the form was submitted
 if ($form_submitted_data = $fileview_form->get_data()) {
-    
-    file_save_draft_area_files($form_submitted_data->attachment, $context->id, 'block_bookreport', 'attachment',
-        $form_submitted_data->attachment, array('subdirs' => 0, 'maxbytes' => 500000, 'maxfiles' => 1));
-
+    //And bookreport id != 0
     if ($form_submitted_data->id != 0){
+        //And report belongs to its creator
         if ($userid == $USER->id){
+            
+            //File settings
+            $filerecord = new stdClass;
+            $filerecord->attachment = $form_submitted_data->attachment; //Form attachment
+            $filerecord->contextid = $context->id;
+            $filerecord->component =  'block_bookreport';
+            $filerecord->filearea = 'item_file';
+            $filerecord->options = array(
+                                            'subdirs' => 0, 
+                                            'maxbytes' => 0,  
+                                            'maxfiles' => 1000
+                                        );
+            
+            //Update file into user draft area and custom item_file area
+            if(!file_save_draft_area_files(
+                $filerecord->attachment, 
+                $filerecord->contextid, 
+                $filerecord->component,
+                $filerecord->filearea,
+                $filerecord->attachment, 
+                $filerecord->options
+            )) {
+                print_error('updateerror');
+            }; 
+
+            //Update main data into the custom table 
             if (!$DB->update_record('block_bookreport_prsrep', $form_submitted_data)) {
                 print_error('updateerror');
             }
@@ -71,34 +104,71 @@ if ($form_submitted_data = $fileview_form->get_data()) {
     redirect($refurl, get_string('viewreportredirect', 'block_bookreport'));
 } else {
     
+    //If the form is displayed for the first time
     $site = get_site();
     echo $OUTPUT->header();
 
+    //Get record info
     $reportpage = $DB->get_record('block_bookreport_prsrep', array('bookreportid' => $id));
+
+    //Set draftitemid(report attachment)
     $draftitemid = $reportpage->attachment;
-    $fs = get_file_storage();
-    if ($files = $fs->get_area_files($contextid, 'block_bookreport', 'attachment', $draftitemid, 'sortorder', false)){
-        foreach ($files as $file) {
-            $fileurl = moodle_url::make_pluginfile_url(
-                $file->get_contextid(), 
-                $file->get_component(), 
-                $file->get_filearea(), 
-                $file->get_itemid(), 
-                $file->get_filepath(), 
-                $file->get_filename(),
-                true
-            );
 
-            $filelink =  '<a href="' . $fileurl . '" class="btn btn-outline-info"><img style="margin-right: 10px;" width="30px" src="../bookreport/style/img/downloadicon.png">' . $file->get_filename() . '</a>';
-        }
-    };
+    //If report belongs to its creator
+    if (($userid == $USER->id) && ($id)){
 
-    if ($id) {
         $fileview_form->set_data($reportpage);
-        file_prepare_draft_area($draftitemid, $context->id, 'block_bookreport', 'attachment', $draftitemid,
-            array('subdirs' => 0, 'maxbytes' => 5000000, 'maxfiles' => 1));            
-    } 
-    $fileview_form->display();
-    echo $filelink;
+        file_prepare_draft_area(
+            $draftitemid, 
+            $context->id, 
+            'block_bookreport', 
+            'item_file', 
+            $draftitemid,
+            array('subdirs' => 0, 'maxbytes' => 0, 'maxfiles' => 1));
+        
+        $fileview_form->display();
+    } elseif($id) {    
+        
+        //Get file storage
+        $fs = get_file_storage();
+        
+        //If files were getting
+        if ($files = $fs->get_area_files(
+                $context->id, 
+                'block_bookreport', 
+                'item_file', 
+                $draftitemid, 
+                'sortorder', 
+                false
+            )){ 
+                foreach ($files as $file) {
+                    //Create report.pptx url
+                    $fileurl = moodle_url::make_pluginfile_url(
+                        $file->get_contextid(),
+                        $file->get_component(),
+                        $file->get_filearea(),
+                        $file->get_itemid(),
+                        $file->get_filepath(), 
+                        $file->get_filename(),
+                        true
+                    );
+                    $filename = $file->get_filename();
+                }
+        };
+
+        //Get main report info
+        $reportinfo = $DB->get_record('block_bookreport_prsrep', array('bookreportid' => $id), 'author,book');     
+
+        //Set templatesettings
+        $templatecontext = new stdClass();
+        $templatecontext->fileurl = $fileurl;
+        $templatecontext->filename = $filename;
+        $templatecontext->author = $reportinfo->author;
+        $templatecontext->book = $reportinfo->book;
+       
+        echo $OUTPUT->render_from_template('block_bookreport/viewpresentationreport', $templatecontext);
+    }
+    
+
     echo $OUTPUT->footer();
 }

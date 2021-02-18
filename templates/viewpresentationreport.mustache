@@ -1,0 +1,43 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template block_bookreport/viewpresentationreport
+
+
+    Example context (json):
+    {
+        
+    }
+}}
+
+<div class="container-fluid">
+    <h2>Отчет в виде презентации</h2>
+    <br>
+    <form action="{{updatereporturl}}" method="POST" id="report">     
+        <div class="form-group">
+            <label for="defaulttype_author">Автор</label>
+            <input type="text" class="form-control" id="defaulttype_author" name="defaulttype_author" value="{{author}}" required disabled>
+        </div>
+        <div class="form-group">
+            <label for="defaulttype_book">Название книги</label>
+            <input type="text" class="form-control" id="defaulttype_book" name="defaulttype_book" value="{{book}}" required disabled>
+        </div>  
+        <label for="download_presenation_link">Скачать презентацию</label>
+        <br>
+        <a href="{{fileurl}}" class="btn btn-outline-info" id="download_presenation_link"><img style="margin-right: 10px;" width="30px" src="../bookreport/style/img/downloadicon.png">{{filename}}</a>
+    </form>
+</div>
