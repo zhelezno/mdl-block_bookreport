@@ -30,21 +30,23 @@
 <h2>Создать отчет <span class="badge badge-secondary"></span></h2>
 <br>
 <select class="form-control form-control-lg" name="typereport" id="typereport">
-  <option value="default" selected>Обычный отчет</option>    
+  <option value="default" selected>Отчет в виде ответов на вопросы</option>    
   <option value="presentation">Отчет в виде презентации</option> 
 </select>
 <div class="container-fluid">
     <br>      
-    <form action="{{sendreporturl}}" method="POST" id="report">
-        
-        <div class="form-group">
-            <label for="defaulttype_author">Автор</label>
-            <input type="text" class="form-control" id="defaulttype_author" name="defaulttype_author" placeholder="А.С. Пушкин" value="{{author}}" required>
-        </div>
+    <form action="{{sendreporturl}}" method="POST" id="report">        
         <div class="form-group">
             <label for="defaulttype_book">Название книги</label>
             <input type="text" class="form-control" id="defaulttype_book" name="defaulttype_book" placeholder="Дубровский" value="{{book}}" required>
-        </div>    
+        </div>        
+        <div class="col-md-12" style="position: relative; margin-top: 0px; margin-left: 0px;">
+            <div class="list-group" id="show-list"></div>
+        </div>       
+        <div class="form-group">
+            <label for="defaulttype_author">Автор</label>
+            <input type="text" class="form-control" id="defaulttype_author" name="defaulttype_author" placeholder="А.С. Пушкин" value="{{author}}" required>
+        </div>  
         <div class="form-group">
             <label for="defaulttype_mainactors">Основные действующие лица</label>
             <textarea class="form-control" id="defaulttype_mainactors" name="defaulttype_mainactors" rows="3" required>{{mainactors}}</textarea>

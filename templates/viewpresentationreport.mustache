@@ -27,14 +27,14 @@
 <div class="container-fluid">
     <h2>Отчет в виде презентации</h2>
     <br>
-    <form action="{{updatereporturl}}" method="POST" id="report">     
-        <div class="form-group">
-            <label for="defaulttype_author">Автор</label>
-            <input type="text" class="form-control" id="defaulttype_author" name="defaulttype_author" value="{{author}}" required disabled>
-        </div>
+    <form action="{{updatereporturl}}" method="POST" id="report">
         <div class="form-group">
             <label for="defaulttype_book">Название книги</label>
             <input type="text" class="form-control" id="defaulttype_book" name="defaulttype_book" value="{{book}}" required disabled>
+        </div>     
+        <div class="form-group">
+            <label for="defaulttype_author">Автор</label>
+            <input type="text" class="form-control" id="defaulttype_author" name="defaulttype_author" value="{{author}}" required disabled>
         </div>  
         <label for="download_presenation_link">Скачать презентацию</label>
         <br>

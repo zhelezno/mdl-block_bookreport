@@ -31,7 +31,7 @@ require_once($CFG->dirroot . '/blocks/bookreport/classes/form/fileviewer.php');
 
 global $CFG, $DB, $USER;
 
-//Get optional params
+//Get optional params . Получение get параметров
 $id = optional_param('id', 0, PARAM_INT);
 $userid = optional_param('userid', 0, PARAM_INT);
 $refurl = get_local_referer(false);
@@ -48,7 +48,7 @@ $PAGE->set_url($myreporturl);
 $PAGE->set_title('Отчет');
 $PAGE->set_heading(get_string('pluginname', 'block_bookreport'));
 
-//Only main page ..site/my/ plugin, therefore we will explicitly set the id course
+//Only main page ..site/my/ plugin, therefore we will explicitly set the id course . Курс задан явно, так как плагин будет применяться только на главной странице
 $courseid = 1;
 $context = context_course::instance($courseid);
 $PAGE->set_context($context);

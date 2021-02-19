@@ -41,6 +41,7 @@ $sendreporturl = new moodle_url('/blocks/bookreport/sendreport.php');
 
 $PAGE->requires->js_call_amd('block_bookreport/insertForm_main', 'typereport');
 $PAGE->requires->js_call_amd('block_bookreport/insertForm_main', 'ajax_call_db');
+$PAGE->requires->js_call_amd('block_bookreport/insertForm_main', 'ajax_call_booksearch');
 
 $templatecontext = new stdClass;
 $templatecontext->myreporturl = $myreporturl;

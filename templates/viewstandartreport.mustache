@@ -28,14 +28,14 @@
      <form action="{{updatereporturl}}" method="POST" id="report">     
 
         {{#report}}
+         <div class="form-group">
+            <label for="defaulttype_book">Название книги</label>
+            <input type="text" class="form-control" id="defaulttype_book" name="defaulttype_book" value="{{book}}" required disabled>
+        </div>       
         <div class="form-group">
             <label for="defaulttype_author">Автор</label>
             <input type="text" class="form-control" id="defaulttype_author" name="defaulttype_author" value="{{author}}" required disabled>
-        </div>
-        <div class="form-group">
-            <label for="defaulttype_book">Название книги</label>
-            <input type="text" class="form-control" id="defaulttype_book" name="defaulttype_book" value="{{book}}" required disabled>
-        </div>    
+        </div>   
         <div class="form-group">
             <label for="defaulttype_mainactors">Основные действующие лица</label>
             <textarea class="form-control" id="defaulttype_mainactors" name="defaulttype_mainactors" rows="3" required {{changecontrol}}>{{mainactors}}</textarea>

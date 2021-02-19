@@ -59,5 +59,34 @@ define([
                 });
             });
         },
+        ajax_call_booksearch: function(){            
+            $('#defaulttype_book').keyup(function(){ 
+                let booksearch = $("#defaulttype_book").val();                                                                      
+                $.ajax({                
+                    url: "ajaxsearch.php",
+                    type: "POST",
+                    data: {                           
+                        booksearch: booksearch                                                
+                    },
+                    dataType: "html",
+                    complete: function(data) {
+                        console.log(data);
+                    }
+                }).done(function(data){
+                    $("#show-list").html(data);                        
+                }).fail(function(){
+                    $("#show-list").html("");   
+                });
+            });
+            $(document).on("click", "#searchresult", function (e) {
+                let selectedbook = e.target.text;
+                let strindex = selectedbook.indexOf('-');
+                let book = selectedbook.substr(strindex+1).trim();
+                let author = selectedbook.split('-')[0].trim();
+                $("#defaulttype_book").val(book);
+                $("#defaulttype_author").val(author);
+                $("#show-list").html("");  
+            });     
+        }
     };
 });  
