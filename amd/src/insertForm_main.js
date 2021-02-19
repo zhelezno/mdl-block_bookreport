@@ -85,7 +85,8 @@ define([
                 let author = selectedbook.split('-')[0].trim();
                 $("#defaulttype_book").val(book);
                 $("#defaulttype_author").val(author);
-                $("#show-list").html("");  
+                $("#show-list").html("");
+                
             });     
         }
     };
