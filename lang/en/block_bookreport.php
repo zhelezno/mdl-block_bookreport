@@ -33,6 +33,7 @@ $string['userreport'] = 'Просмотр отчета';
 $string['viewreportredirect'] = 'Отчет обновлен!';
 $string['indexreportredirect'] = 'Отчет создан!';
 $string['accessdenied'] = 'Отказано в доступе!';
+$string['wrongmonth'] = 'Вы не можете редактировать отчет прошлого месяца!';
 
 $string['author'] = 'Автор';
 $string['book'] = 'Книга';
