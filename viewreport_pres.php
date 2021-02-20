@@ -67,35 +67,42 @@ if ($form_submitted_data = $fileview_form->get_data()) {
     if ($form_submitted_data->id != 0){
         //And report belongs to its creator
         if ($userid == $USER->id){
-            
-            //File settings
-            $filerecord = new stdClass;
-            $filerecord->attachment = $form_submitted_data->attachment; //Form attachment
-            $filerecord->contextid = $context->id;
-            $filerecord->component =  'block_bookreport';
-            $filerecord->filearea = 'item_file';
-            $filerecord->options = array(
-                                            'subdirs' => 0, 
-                                            'maxbytes' => 0,  
-                                            'maxfiles' => 1000
-                                        );
-            
-            //Update file into user draft area and custom item_file area
-            if(!file_save_draft_area_files(
-                $filerecord->attachment, 
-                $filerecord->contextid, 
-                $filerecord->component,
-                $filerecord->filearea,
-                $filerecord->attachment, 
-                $filerecord->options
-            )) {
-                print_error('updateerror');
-            }; 
 
-            //Update main data into the custom table 
-            if (!$DB->update_record('block_bookreport_prsrep', $form_submitted_data)) {
-                print_error('updateerror');
-            }
+            $mountcreated = gmdate("m", check_date($id));
+            $monthupdate = date('m');
+
+            //And the report is updated in the current month . Если отчет апдейтят в этом месяце
+            if ($mountcreated == $monthupdate) {
+
+                //File settings
+                $filerecord = new stdClass;
+                $filerecord->attachment = $form_submitted_data->attachment; //Form attachment
+                $filerecord->contextid = $context->id;
+                $filerecord->component =  'block_bookreport';
+                $filerecord->filearea = 'item_file';
+                $filerecord->options = array(
+                                                'subdirs' => 0, 
+                                                'maxbytes' => 0,  
+                                                'maxfiles' => 1000
+                                            );
+                
+                //Update file into user draft area and custom item_file area
+                if(!file_save_draft_area_files(
+                    $filerecord->attachment, 
+                    $filerecord->contextid, 
+                    $filerecord->component,
+                    $filerecord->filearea,
+                    $filerecord->attachment, 
+                    $filerecord->options
+                )) {
+                    print_error('updateerror');
+                }; 
+
+                //Update main data into the custom table 
+                if (!$DB->update_record('block_bookreport_prsrep', $form_submitted_data)) {
+                    print_error('updateerror');
+                }
+            }  
         } else {
             print_error('updateerror');
         }
@@ -171,4 +178,22 @@ if ($form_submitted_data = $fileview_form->get_data()) {
     
 
     echo $OUTPUT->footer();
+}
+
+/**
+ * 
+ * 
+ * 
+ * Func)
+ * 
+ * 
+ * 
+ */
+function check_date($id){
+
+    global $DB;
+
+    $time = $DB->get_record('block_bookreport', array('id' => $id), 'timecreated');
+
+    return $time->timecreated;
 }

@@ -26,27 +26,38 @@ require_once(__DIR__ . '/../../config.php');
 
 global $DB, $USER;
 
-$refurl = get_local_referer(false);
-$userid = required_param('userid', PARAM_INT);
-$id = required_param('id', PARAM_INT);
+//Get params
+$id = optional_param('id', 0, PARAM_INT);
+$userid = optional_param('userid', 0, PARAM_INT);
 
+//reference url
+$refurl = get_local_referer(false);
+
+//if the report belongs to the current user . Если это отчет текущего юзера
 if ($USER->id == $userid){
 
-    $mountcreated = gmdate("m", check_date($id)->timecreated);
+    $mountcreated = gmdate("m", check_date($id));
     $monthupdate = date('m');
 
+    //if the report is updated in the current month . Если отчет апдейтят в этом месяце
     if ($mountcreated == $monthupdate) {
 
         $report = get_report($id);
         $DB->update_record('block_bookreport_strep', $report);
+
+        $reportinfo = new stdClass;
+        $reportinfo->id = $id;
+        $reportinfo->timemodified = time();
+        $DB->update_record('block_bookreport', $reportinfo);    
     
         redirect($refurl, get_string('viewreportredirect', 'block_bookreport'));
+
     } else {
+
         redirect($refurl, get_string('wrongmonth', 'block_bookreport'), null, \core\output\notification::NOTIFY_WARNING);
     }
    
 } else {
-
     redirect($refurl, get_string('accessdenied', 'block_bookreport'), null, \core\output\notification::NOTIFY_WARNING);
 }
 
@@ -64,8 +75,10 @@ function get_report($id){
 
     global $DB;
 
+    //Get standart report id from DB
     $bsid = $DB->get_record('block_bookreport_strep', array('bookreportid' => $id), 'id'); 
     
+    //Get params from POST
     $stdreport = new stdClass;
     $stdreport->id = $bsid->id;
     $stdreport->mainactors = required_param('defaulttype_mainactors', PARAM_TEXT);
@@ -79,7 +92,7 @@ function check_date($id){
 
     global $DB;
 
-    $timecreated = $DB->get_record('block_bookreport', array('id' => $id), 'timecreated');
+    $time = $DB->get_record('block_bookreport', array('id' => $id), 'timecreated');
 
-    return $timecreated;
+    return $time->timecreated;
 }
