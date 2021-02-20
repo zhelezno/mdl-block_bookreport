@@ -13,10 +13,10 @@ define([
             //console.log(allreports);  
             //console.log(userid); 
             function fetch(allreports, userid, start_date = 0, end_date = 0) {  
-                console.log(allreports);  
-                console.log(userid); 
-                console.log(start_date); 
-                console.log(end_date);            
+                //console.log(allreports);  
+                //console.log(userid); 
+                //console.log(start_date); 
+                //console.log(end_date);            
                 $.ajax({
                     url: "ajaxselect.php",
                     type: "POST",
@@ -27,7 +27,7 @@ define([
                     },
                     dataType: "json",
                     success: function(data) {            
-                        console.log(data);
+                        //console.log(data);
                         window.JSZip = jszip;
                         // Datatables            
                         var table = $('#reporttable').DataTable({
@@ -127,7 +127,13 @@ define([
             });
             $("#end_date").datepicker({
                 "dateFormat": "yy-mm-dd"
-            }); 
+            });
+            $("#calendariconstart").on("click", function() {
+                $("#start_date").focus();
+            });
+            $("#calendariconend").on("click", function() {
+                $("#end_date").focus();
+            });
         }
     };
 });  
