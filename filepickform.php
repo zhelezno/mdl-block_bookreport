@@ -47,6 +47,7 @@ $navbookreport = get_string('bookreport', 'block_bookreport');
 $PAGE->navbar->add($navbookreport, $url);
 
 $PAGE->requires->js_call_amd('block_bookreport/insertForm_main', 'typereport');
+$PAGE->requires->js_call_amd('block_bookreport/insertForm_main', 'ajax_call_booksearch_pr');
 
 $templatecontext = new stdClass;
 $templatecontext->myreporturl = $myreporturl;
@@ -57,40 +58,45 @@ $customdata = array('filemanageropts' => $filemanageropts);
 $filepick_form = new filemanager(null, $customdata);
 
 if ($form_submitted_data = $filepick_form->get_data()) {
+
+    if (check_resub_report($form_submitted_data->author, $form_submitted_data->book) == true){
     
-    $filerecord = new stdClass;
-    $filerecord->attachment = $form_submitted_data->attachment;
-    $filerecord->contextid = $context->id;
-    $filerecord->component =  'block_bookreport';
-    $filerecord->filearea = 'item_file';
-    $filerecord->options = array(
-                                    'subdirs' => 0, 
-                                    'maxbytes' => 0, 
-                                    'maxfiles' => 1000
-                                );
+        $filerecord = new stdClass;
+        $filerecord->attachment = $form_submitted_data->attachment;
+        $filerecord->contextid = $context->id;
+        $filerecord->component =  'block_bookreport';
+        $filerecord->filearea = 'item_file';
+        $filerecord->options = array(
+                                        'subdirs' => 0, 
+                                        'maxbytes' => 0, 
+                                        'maxfiles' => 1000
+                                    );
+        
+        file_save_draft_area_files(
+            $filerecord->attachment, 
+            $filerecord->contextid, 
+            $filerecord->component,
+            $filerecord->filearea,
+            $filerecord->attachment, 
+            $filerecord->options
+        );    
+        
+        $reportinfo = new stdClass();
+        $reportinfo->user_id = $USER->id;
+        $reportinfo->type = 2;
+        $reportinfo->completed = 1;
+        $reportinfo->timecreated = time();  
+        $reportinfo->timemodified = $reportinfo->timecreated; 
+        
+        $lastinsertid = $DB->insert_record('block_bookreport', $reportinfo, $returnid=true, $bulk=false);
     
-    file_save_draft_area_files(
-        $filerecord->attachment, 
-        $filerecord->contextid, 
-        $filerecord->component,
-        $filerecord->filearea,
-        $filerecord->attachment, 
-        $filerecord->options
-    );    
+        $form_submitted_data->bookreportid = $lastinsertid;
+        $DB->insert_record('block_bookreport_prsrep', $form_submitted_data);
     
-    $reportinfo = new stdClass();
-    $reportinfo->user_id = $USER->id;
-    $reportinfo->type = 2;
-    $reportinfo->completed = 1;
-    $reportinfo->timecreated = time();  
-    $reportinfo->timemodified = $reportinfo->timecreated; 
-    
-    $lastinsertid = $DB->insert_record('block_bookreport', $reportinfo, $returnid=true, $bulk=false);
-   
-    $form_submitted_data->bookreportid = $lastinsertid;
-    $DB->insert_record('block_bookreport_prsrep', $form_submitted_data);
-   
-    redirect($refurl, get_string('indexreportredirect', 'block_bookreport'));
+        redirect($refurl, get_string('indexreportredirect', 'block_bookreport'));
+    } else {
+        redirect($refurl, get_string('error_resubmissionreport', 'block_bookreport'));
+    }
 } else {
     
     $site = get_site();
@@ -102,28 +108,51 @@ if ($form_submitted_data = $filepick_form->get_data()) {
 
 
 
+/**
+ * 
+ * 
+ * Func
+ * 
+ * 
+ */
+function check_resub_report($author, $book){
+    
+    global $DB;
+
+    $sql = "";
+    $params = [
+        'author' => trim($report['author']),
+        'book' => trim($report['book']),
+        'author2' => trim($report['author']),
+        'book2' => trim($report['book'])
+    ];
+    
+    $sql .="SELECT
+            bs.author AS author, bs.book AS book
+            FROM {block_bookreport} AS bb
+            JOIN {block_bookreport_strep} AS bs ON (bs.bookreportid = bb.id)
+            WHERE
+            bs.author LIKE CONCAT('%', :author, '%')
+            AND
+            bs.book LIKE CONCAT('%', :book, '%')
+            
+            UNION ALL
+
+            SELECT
+            br.author AS author, br.book AS book
+            FROM {block_bookreport} AS bb
+            JOIN {block_bookreport_prsrep} AS br ON (br.bookreportid = bb.id)
+            WHERE
+            br.author LIKE CONCAT('%', :author2, '%')
+            AND
+            br.book LIKE CONCAT('%', :book2, '%')
+            ";
 
 
 
+    if (!empty($DB->get_records_sql($sql, $params))){
+        return false;
+    };
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*$mform = new filemanager();
-echo $OUTPUT->header();
-
-echo $OUTPUT->render_from_template('block_bookreport/presentationreport', $templatecontext);
-
-$mform->display();
-
-echo $OUTPUT->footer();*/
+    return true;
+}

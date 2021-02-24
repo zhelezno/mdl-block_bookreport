@@ -66,13 +66,10 @@ if ($form_submitted_data = $fileview_form->get_data()) {
     //And bookreport id != 0
     if ($form_submitted_data->id != 0){
         //And report belongs to its creator
-        if ($userid == $USER->id){
-
-            $mountcreated = gmdate("m", check_date($id));
-            $monthupdate = date('m');
+        if ($userid == $USER->id){            
 
             //And the report is updated in the current month . Если отчет апдейтят в этом месяце
-            if ($mountcreated == $monthupdate) {
+            if (check_date($id) == true) {
 
                 //File settings
                 $filerecord = new stdClass;
@@ -122,7 +119,7 @@ if ($form_submitted_data = $fileview_form->get_data()) {
     $draftitemid = $reportpage->attachment;
 
     //If report belongs to its creator
-    if (($userid == $USER->id) && ($id)){
+    if (($userid == $USER->id) && ($id) && (check_date($id) == true)){
 
         $fileview_form->set_data($reportpage);
         file_prepare_draft_area(
@@ -195,5 +192,12 @@ function check_date($id){
 
     $time = $DB->get_record('block_bookreport', array('id' => $id), 'timecreated');
 
-    return $time->timecreated;
+    $mountcreated = gmdate("m", $time->timecreated);
+    $monthupdate = date('m');
+
+    if ($mountcreated == $monthupdate){
+        return true;
+    } 
+
+    return false;
 }

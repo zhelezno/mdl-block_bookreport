@@ -40,7 +40,7 @@ if ($USER->id == $userid){
     $monthupdate = date('m');
 
     //if the report is updated in the current month . Если отчет апдейтят в этом месяце
-    if ($mountcreated == $monthupdate) {
+    if (check_date($id) == true) {
 
         $report = get_report($id);
         $DB->update_record('block_bookreport_strep', $report);
@@ -94,5 +94,12 @@ function check_date($id){
 
     $time = $DB->get_record('block_bookreport', array('id' => $id), 'timecreated');
 
-    return $time->timecreated;
+    $mountcreated = gmdate("m", $time->timecreated);
+    $monthupdate = date('m');
+
+    if ($mountcreated == $monthupdate){
+        return true;
+    } 
+
+    return false;
 }

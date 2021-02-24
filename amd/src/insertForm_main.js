@@ -15,7 +15,7 @@ define([
                     if (selectedtypereport == "default") {  
 
                         $(location).attr('href', 'index.php');
-                    } else if (selectedtypereport == "presentation") {  
+                    } else if (selectedtypereport == "presentation") {
 
                         $(location).attr('href', 'filepickform.php');
                     }
@@ -59,7 +59,7 @@ define([
                 });
             });
         },
-        ajax_call_booksearch: function(){            
+        ajax_call_booksearch_st: function(){            
             $('#defaulttype_book').keyup(function(){ 
                 let booksearch = $("#defaulttype_book").val();                                                                      
                 $.ajax({                
@@ -68,10 +68,7 @@ define([
                     data: {                           
                         booksearch: booksearch                                                
                     },
-                    dataType: "html",
-                    complete: function(data) {
-                        console.log(data);
-                    }
+                    dataType: "html"
                 }).done(function(data){
                     $("#show-list").html(data);                        
                 }).fail(function(){
@@ -85,6 +82,38 @@ define([
                 let author = selectedbook.split('-')[0].trim();
                 $("#defaulttype_book").val(book);
                 $("#defaulttype_author").val(author);
+                $("#show-list").html("");
+                
+            });     
+        },
+        ajax_call_booksearch_pr: function(){       
+            
+            $("#id_book").after("<div class=\"col-md-12\" style=\"position: relative; margin-top: 0px; margin-left: 0px;\"><div class=\"list-group\" id=\"show-list\"></div></div>");      
+            
+            $('#id_book').keyup(function(){                 
+                let booksearch = $("#id_book").val();                                                                   
+                $.ajax({                
+                    url: "ajaxsearch.php",
+                    type: "POST",
+                    data: {                           
+                        booksearch: booksearch                                                
+                    },
+                    dataType: "html"                    
+                }).done(function(data){
+                    $("#show-list").html(data);
+                }).fail(function(){
+                    $("#show-list").html(""); 
+                });
+            });
+            $(document).on("click", "#searchresult", function (e) {
+
+                let selectedbook = e.target.text;
+                let strindex = selectedbook.indexOf('-');
+                let book = selectedbook.substr(strindex+1).trim();
+                let author = selectedbook.split('-')[0].trim();
+                
+                $("#id_book").val(book);
+                $("#id_author").val(author);
                 $("#show-list").html("");
                 
             });     

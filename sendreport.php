@@ -34,39 +34,44 @@ $timecreated = time();
 $timemodified = $timecreated;
 $report = getreport();//Получение полей отчета
 
-if ((userhasdraft() == false)){//Если нет черновика, создаем запись     
+if (check_resub_report($report) == true){
 
-    create_newreport($reporttype, $completed, $timecreated, $timemodified ,$report);      
+    if ((userhasdraft() == false)){//Если нет черновика, создаем запись     
 
-    redirect($refurl, $redirectmessage);
+        create_newreport($reporttype, $completed, $timecreated, $timemodified ,$report);      
 
-} else { //если есть, обновляем поля
-       
-    $reportinfo = userhasdraft();
-    $id = $reportinfo['bsid'];
-    $bookreportid = $reportinfo['bbid'];
+        redirect($refurl, $redirectmessage);
 
-    $record = new stdClass;
-    $record->id = $id;
-    $record->bookreportid = $bookreportid;
-    $record->author = $report['author'];
-    $record->book = $report['book'];
-    $record->mainactors = $report['mainactors'];
-    $record->mainidea = $report['mainidea'];
-    $record->quotes = $report['quotes'];
-    $record->conclusion = $report['conclusion'];
+    } else { //если есть, обновляем поля
+        
+        $reportinfo = userhasdraft();
+        $id = $reportinfo['bsid'];
+        $bookreportid = $reportinfo['bbid'];
 
-    $DB->update_record('block_bookreport_strep', $record);
+        $record = new stdClass;
+        $record->id = $id;
+        $record->bookreportid = $bookreportid;
+        $record->author = $report['author'];
+        $record->book = $report['book'];
+        $record->mainactors = $report['mainactors'];
+        $record->mainidea = $report['mainidea'];
+        $record->quotes = $report['quotes'];
+        $record->conclusion = $report['conclusion'];
+
+        $DB->update_record('block_bookreport_strep', $record);
 
 
-    $recordrep = new stdClass;
-    $recordrep->id = $bookreportid;
-    $recordrep->completed = 1;
-    $recordrep->timecreated = $timecreated;
-    $recordrep->timemodified = $timemodified;    
-    $DB->update_record('block_bookreport', $recordrep);
+        $recordrep = new stdClass;
+        $recordrep->id = $bookreportid;
+        $recordrep->completed = 1;
+        $recordrep->timecreated = $timecreated;
+        $recordrep->timemodified = $timemodified;    
+        $DB->update_record('block_bookreport', $recordrep);
 
-    redirect($refurl, $redirectmessage);    
+        redirect($refurl, $redirectmessage);    
+    }
+} else {
+    redirect($refurl, get_string('error_resubmissionreport', 'block_bookreport'));    
 }
 
 
@@ -160,4 +165,45 @@ function create_newreport($reporttype, $completed, $timecreated, $timemodified, 
 
     $DB->execute($sql1, $params1);
     $DB->execute($sql2, $params2);
+}
+
+function check_resub_report($report){
+    
+    global $DB;
+
+    $sql = "";
+    $params = [
+        'author' => trim($report['author']),
+        'book' => trim($report['book']),
+        'author2' => trim($report['author']),
+        'book2' => trim($report['book'])
+    ];
+    
+    $sql .="SELECT
+            bs.author AS author, bs.book AS book
+            FROM {block_bookreport} AS bb
+            JOIN {block_bookreport_strep} AS bs ON (bs.bookreportid = bb.id)
+            WHERE
+            bs.author LIKE CONCAT('%', :author, '%')
+            AND
+            bs.book LIKE CONCAT('%', :book, '%')
+            
+            UNION ALL
+
+            SELECT
+            br.author AS author, br.book AS book
+            FROM {block_bookreport} AS bb
+            JOIN {block_bookreport_prsrep} AS br ON (br.bookreportid = bb.id)
+            WHERE
+            br.author LIKE CONCAT('%', :author2, '%')
+            AND
+            br.book LIKE CONCAT('%', :book2, '%')
+            ";
+
+
+    if (!empty($DB->get_records_sql($sql, $params))){
+        return false;
+    };
+
+    return true;
 }

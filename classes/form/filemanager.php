@@ -35,12 +35,12 @@ class filemanager extends moodleform {
         $filemanageropts['maxfiles'] = 1;
         $filemanageropts['accepted_types'] = '.pptx';
 
-        
-        $mform->addElement('text', 'author', get_string('author', 'block_bookreport'));
-        $mform->addRule('author', null, 'required', null, 'client');
 
         $mform->addElement('text', 'book', get_string('book', 'block_bookreport'));
         $mform->addRule('book', null, 'required', null, 'client');
+
+        $mform->addElement('text', 'author', get_string('author', 'block_bookreport'));
+        $mform->addRule('author', null, 'required', null, 'client');
 
         $mform->addElement('filemanager', 'attachment', get_string('presentation', 'block_bookreport'), null, $filemanageropts);
         $mform->addRule('attachment', null, 'required', null, 'client');

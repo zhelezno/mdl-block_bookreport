@@ -45,7 +45,7 @@ if ($book) {
             c.fullname LIKE 'Книга: %'
             AND
             c.fullname LIKE CONCAT('%', :booksearch, '%')
-            LIMIT 10
+            LIMIT 6
             ";
     
     $result = $DB->get_records_sql($sql, $params);
