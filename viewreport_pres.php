@@ -153,9 +153,10 @@ if ($form_submitted_data = $fileview_form->get_data()) {
                         $file->get_filearea(),
                         $file->get_itemid(),
                         $file->get_filepath(), 
-                        $file->get_filename(),
-                        true
+                        $file->get_filename()      
+                        //,true для slasharguments true                  
                     );
+
                     $filename = $file->get_filename();
                 }
         };

@@ -59,7 +59,7 @@ $filepick_form = new filemanager(null, $customdata);
 
 if ($form_submitted_data = $filepick_form->get_data()) {
 
-    if (check_resub_report($form_submitted_data->author, $form_submitted_data->book) == true){
+    if (check_resub_report($form_submitted_data->author, $form_submitted_data->book) == false){
     
         $filerecord = new stdClass;
         $filerecord->attachment = $form_submitted_data->attachment;
@@ -117,14 +117,16 @@ if ($form_submitted_data = $filepick_form->get_data()) {
  */
 function check_resub_report($author, $book){
     
-    global $DB;
+    global $DB, $USER;
 
     $sql = "";
     $params = [
-        'author' => trim($report['author']),
-        'book' => trim($report['book']),
-        'author2' => trim($report['author']),
-        'book2' => trim($report['book'])
+        'author' => trim($author),
+        'book' => trim($book),
+        'author2' => trim($author),
+        'book2' => trim($book),
+        'userid1' => $USER->id,
+        'userid2' => $USER->id
     ];
     
     $sql .="SELECT
@@ -135,6 +137,8 @@ function check_resub_report($author, $book){
             bs.author LIKE CONCAT('%', :author, '%')
             AND
             bs.book LIKE CONCAT('%', :book, '%')
+            AND 
+            bb.user_id = :userid1
             
             UNION ALL
 
@@ -146,13 +150,15 @@ function check_resub_report($author, $book){
             br.author LIKE CONCAT('%', :author2, '%')
             AND
             br.book LIKE CONCAT('%', :book2, '%')
+            AND 
+            bb.user_id = :userid2
             ";
 
 
 
     if (!empty($DB->get_records_sql($sql, $params))){
-        return false;
+        return true;
     };
 
-    return true;
+    return false;
 }
