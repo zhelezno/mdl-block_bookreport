@@ -1,11 +1,4 @@
 <?php
-/**
- *  
- * Этот скрипт получает отчеты из старых источников и записывает их в бд плагина
- * Тут всё криво(как и везде), но работает вроде
- * Лучше сделай бакуп таблиц плагина 
- */
-defined('MOODLE_INTERNAL') || die(); //ЗАКОММЕНТИРУЙ ШОБ РАБОТАЛО ВСЁ ПО КРАСОТЕ////////////////////////////////////////////////////////////
   
 require_once(__DIR__ . '/../../../../config.php'); 
 
@@ -158,39 +151,3 @@ foreach ($questionnairereports as $report){
 
 $reports = array_merge($reports, $questionnairereports);
 //print_r(($reports)); die;
-
-//Запись в бд блока
-foreach ($reports as $report){
-
-    $params1 = [
-        'userid' => $report->userid,
-        'type' => 1,
-        'completed' => 1,
-        'timecreated' => $report->timecreated,
-        'timemodified' => $report->timecreated    
-    ];
-
-    $params2 = [    
-        'author' => $report->author,
-        'book' => $report->book,
-        'mainactors' => $report->mainactors,
-        'mainidea' => $report->mainidea,
-        'quotes' => $report->quotes,
-        'conclusion' => $report->conclusion
-    ];
-
-    $sql1 = "INSERT INTO 
-            mdl_block_bookreport(user_id, type, completed, timecreated, timemodified) 
-            VALUES(:userid, :type, :completed, :timecreated, :timemodified)       
-    ";
-
-    $sql2 = "INSERT INTO
-            mdl_block_bookreport_strep(bookreportid, author, book, mainactors, mainidea, quotes, conclusion)
-            VALUES(LAST_INSERT_ID(), :author, :book, :mainactors, :mainidea, :quotes, :conclusion)     
-    ";
-
-    $DB->execute($sql1, $params1);
-    $DB->execute($sql2, $params2);
-}
-
-redirect('/blocks/bookreport/allreports.php', 'Скрипт номер 228 успешно сработал, удачи с БД, лол');
