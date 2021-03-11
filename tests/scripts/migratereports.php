@@ -32,6 +32,7 @@ $sql = "SELECT
         ";
 
 $reports = $DB->get_records_sql($sql, array()); 
+//print_r(count($reports));die;
 
 /** 
  * Получение старых отчетов по книгам, доступным на портале(старый отчет)---------------------------------------------------
@@ -40,8 +41,8 @@ $sql = "SELECT DISTINCT
         feedback_completed.id,
         user_info.id AS userid,
         feedback_completed.timemodified AS timecreted,
-        feedback_value.value AS 'author',
-        feedback_value2.value AS 'book'
+        TRIM(feedback_value.value) AS author,
+        TRIM(feedback_value2.value) AS book
 
         FROM 
         mdl_feedback_value AS feedback_value
@@ -58,8 +59,9 @@ $sql = "SELECT DISTINCT
         feedback_value2.item = 6281
         ";
 
-$reports = array_merge($reports, $DB->get_records_sql($sql, array()));
-//print_r($reports); die;
+$oldreports = $DB->get_records_sql($sql, array()); 
+$reports = array_merge($reports, $oldreports);
+//print_r($oldreports); die;
 
 /** 
  * Получение отчетов по прочитанным личным книгам(старый отчет)
@@ -157,17 +159,22 @@ foreach ($questionnairereports as $report){
 //print_r($questionnairereports); die;
 
 $reports = array_merge($reports, $questionnairereports);
-//print_r(($reports)); die;
+//print_r(($reports));die;
 
 //Запись в бд блока
 foreach ($reports as $report){
 
+    
+    $timecreated = $report->timecreated;
+    if($timecreated == NULL){
+        $timecreated = 0;
+    }
     $params1 = [
         'userid' => $report->userid,
         'type' => 1,
         'completed' => 1,
-        'timecreated' => $report->timecreated,
-        'timemodified' => $report->timecreated    
+        'timecreated' => $timecreated,
+        'timemodified' => $timecreated   
     ];
 
     $params2 = [    
@@ -189,8 +196,8 @@ foreach ($reports as $report){
             VALUES(LAST_INSERT_ID(), :author, :book, :mainactors, :mainidea, :quotes, :conclusion)     
     ";
 
-    $DB->execute($sql1, $params1);
-    $DB->execute($sql2, $params2);
+    //$DB->execute($sql1, $params1);//А ЭТО РАСКОМЕНТИРУЙ
+    //$DB->execute($sql2, $params2);//А ЭТО РАСКОМЕНТИРУЙ
 }
 
 redirect('/blocks/bookreport/allreports.php', 'Скрипт номер 228 успешно сработал, удачи с БД, лол');

@@ -69,7 +69,7 @@ class block_bookreport extends block_base {
                 WHERE bb.user_id = :userid_p
                 AND bb.completed = 1
                 )
-                ORDER BY bid DESC LIMIT 4)
+                ORDER BY timecreated DESC LIMIT 4)
 
         ";
         
