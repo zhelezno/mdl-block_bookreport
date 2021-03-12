@@ -22,7 +22,24 @@ define([
                 });
             });
         },
-        ajax_call_db: function(){
+        ajax_call_db: function(){           
+            
+            $('#report').change(function(){                                                        
+                setTimeout(senddata,2000);
+                setTimeout(show_autosave_success, 2000);                                
+            }); 
+            
+            $('#button_clear').click(function(){
+                $('.report-field').val('');
+                senddata();
+            });
+
+            function show_autosave_success(){
+                $("#autosavesuccess").show('slow');
+                setTimeout(function(){
+                    $("#autosavesuccess").hide('slow');
+                }, 10000); 
+            }
 
             function senddata(){            
                 var author = $('#defaulttype_author').val();
@@ -43,21 +60,9 @@ define([
                         quotes: quotes,
                         conclusion: conclusion                    
                     },
-                    dataType: "text",
-                    complete: function(data) {
-                        //console.log(data);
-                    }
-                }).done(function(){
-                    $("#autosavesuccess").show('slow');
-                    setTimeout(function() { $("#autosavesuccess").hide('slow'); }, 10000);                            
+                    dataType: "text"
                 });
             }    
-             
-            $(document).ready(function(){
-                $('#report').change(function(){                                                        
-                    setTimeout(senddata,2000);                                    
-                });
-            });
         },
         ajax_call_booksearch_st: function(){            
             $('#defaulttype_book').keyup(function(){ 
@@ -117,12 +122,6 @@ define([
                 $("#show-list").html("");
                 
             });     
-        },
-        reset_button: function(){
-            $('#button_clear').click(function(){
-                $('.report-field').val('');
-                $('#report').change();
-            });
-        }        
+        }    
     };
 });  
