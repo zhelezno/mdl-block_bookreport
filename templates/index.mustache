@@ -38,33 +38,34 @@
     <form action="{{sendreporturl}}" method="POST" id="report">        
         <div class="form-group">
             <label for="defaulttype_book">Название книги</label>
-            <input type="text" class="form-control" id="defaulttype_book" name="defaulttype_book" placeholder="Дубровский" value="{{book}}" autocomplete="off" required>
+            <input type="text" class="form-control report-field" id="defaulttype_book" name="defaulttype_book" placeholder="Дубровский" value="{{book}}" autocomplete="off" required>
         </div>        
         <div class="col-md-12" style="position: relative; margin-top: 0px; margin-left: 0px;">
             <div class="list-group" id="show-list"></div>
         </div>       
         <div class="form-group">
             <label for="defaulttype_author">Автор</label>
-            <input type="text" class="form-control" id="defaulttype_author" name="defaulttype_author" placeholder="А.С. Пушкин" value="{{author}}" autocomplete="off" required>
+            <input type="text" class="form-control report-field" id="defaulttype_author" name="defaulttype_author" placeholder="А.С. Пушкин" value="{{author}}" autocomplete="off" required>
         </div>  
         <div class="form-group">
             <label for="defaulttype_mainactors">Основные действующие лица</label>
-            <textarea class="form-control" id="defaulttype_mainactors" name="defaulttype_mainactors" rows="3" required>{{mainactors}}</textarea>
+            <textarea class="form-control report-field" id="defaulttype_mainactors" name="defaulttype_mainactors" rows="3" required>{{mainactors}}</textarea>
         </div>
         <div class="form-group">
             <label for="defaulttype_mainidea">Главная идея</label>
-            <textarea class="form-control" id="defaulttype_mainidea" name="defaulttype_mainidea" rows="3" required>{{mainidea}}</textarea>
+            <textarea class="form-control report-field" id="defaulttype_mainidea" name="defaulttype_mainidea" rows="3" required>{{mainidea}}</textarea>
         </div>
         <div class="form-group">
             <label for="defaulttype_quotes">Запомнившиеся цитаты</label>
-            <textarea class="form-control" id="defaulttype_quotes" name="defaulttype_quotes" rows="3" required>{{quotes}}</textarea>
+            <textarea class="form-control report-field" id="defaulttype_quotes" name="defaulttype_quotes" rows="3" required>{{quotes}}</textarea>
         </div>
         <div class="form-group">
             <label for="defaulttype_conclusion">Вывод/Предложения к внедрению</label>
-            <textarea class="form-control" id="defaulttype_conclusion" name="defaulttype_conclusion" rows="3" required>{{conclusion}}</textarea>
+            <textarea class="form-control report-field" id="defaulttype_conclusion" name="defaulttype_conclusion" rows="3" required>{{conclusion}}</textarea>
         </div>
         <br>
-        <button type="submit" class="btn btn-primary" id="submitstandartreport" name="submitstandartreport">Отправить</button>
+        <button type="submit" class="btn btn-primary" id="submitstandartreport" name="submitstandartreport">Отправить отчет</button>
+        <button type="button" class="btn btn-secondary" id="button_clear">Очистить черновик</button>
     </form>
 
     <br>

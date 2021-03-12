@@ -117,6 +117,12 @@ define([
                 $("#show-list").html("");
                 
             });     
-        }
+        },
+        reset_button: function(){
+            $('#button_clear').click(function(){
+                $('.report-field').val('');
+                $('#report').change();
+            });
+        }        
     };
 });  

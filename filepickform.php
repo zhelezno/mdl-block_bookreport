@@ -134,6 +134,8 @@ function check_resub_report($author, $book){
             FROM {block_bookreport} AS bb
             JOIN {block_bookreport_strep} AS bs ON (bs.bookreportid = bb.id)
             WHERE
+            bb.completed != 0
+            AND
             bs.author LIKE CONCAT('%', :author, '%')
             AND
             bs.book LIKE CONCAT('%', :book, '%')
@@ -147,6 +149,8 @@ function check_resub_report($author, $book){
             FROM {block_bookreport} AS bb
             JOIN {block_bookreport_prsrep} AS br ON (br.bookreportid = bb.id)
             WHERE
+            bb.completed != 0
+            AND
             br.author LIKE CONCAT('%', :author2, '%')
             AND
             br.book LIKE CONCAT('%', :book2, '%')

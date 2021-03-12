@@ -169,21 +169,27 @@ function create_newreport($reporttype, $completed, $timecreated, $timemodified, 
 
 function check_resub_report($report){
     
-    global $DB;
+    global $DB, $USER;
 
     $sql = "";
     $params = [
         'author' => trim($report['author']),
         'book' => trim($report['book']),
         'author2' => trim($report['author']),
-        'book2' => trim($report['book'])
+        'book2' => trim($report['book']),
+        'userid1' => $USER->id,
+        'userid2' => $USER->id
     ];
     
     $sql .="SELECT
             bs.author AS author, bs.book AS book
             FROM {block_bookreport} AS bb
             JOIN {block_bookreport_strep} AS bs ON (bs.bookreportid = bb.id)
-            WHERE
+            WHERE            
+            bb.completed != 0
+            AND
+            bb.user_id = :userid1
+            AND
             bs.author LIKE CONCAT('%', :author, '%')
             AND
             bs.book LIKE CONCAT('%', :book, '%')
@@ -194,7 +200,11 @@ function check_resub_report($report){
             br.author AS author, br.book AS book
             FROM {block_bookreport} AS bb
             JOIN {block_bookreport_prsrep} AS br ON (br.bookreportid = bb.id)
-            WHERE
+            WHERE            
+            bb.completed != 0
+            AND
+            bb.user_id = :userid2
+            AND
             br.author LIKE CONCAT('%', :author2, '%')
             AND
             br.book LIKE CONCAT('%', :book2, '%')
