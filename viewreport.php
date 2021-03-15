@@ -32,13 +32,25 @@ $myreportsurl = new moodle_url('/blocks/bookreport/myreports.php');
 $allreportsurl = new moodle_url('/blocks/bookreport/allreports.php');
 $myreporturl = new moodle_url('/blocks/bookreport/myreportchange.php');
 $updatereporturl = new moodle_url('/blocks/bookreport/updatereport.php');
+$refurl = get_local_referer(false);
 
 $PAGE->set_url($myreporturl);
-$PAGE->set_context(\context_system::instance());
+$context = \context_system::instance();
+$PAGE->set_context($context);
 $PAGE->set_title('Отчет');
 $PAGE->set_heading(get_string('pluginname', 'block_bookreport'));
 
+//Report exist?
 $reportinfo = std_to_arr(get_report_info());
+if (empty($reportinfo)) {
+    redirect($refurl, get_string('error_reportdoesnotexist', 'block_bookreport'),null, \core\output\notification::NOTIFY_ERROR);
+}
+
+//User is admin?
+if(!is_siteadmin()) {
+    redirect($refurl, get_string('error_reportwronguser', 'block_bookreport'),null, \core\output\notification::NOTIFY_ERROR);
+}
+
 $report = std_to_arr(get_standart_report($reportinfo['id']));
 
 $PAGE->navbar->add(get_string('bookreport', 'block_bookreport'), $indexurl);

@@ -35,6 +35,8 @@ $string['indexreportredirect'] = 'Отчет создан!';
 $string['accessdenied'] = 'Отказано в доступе!';
 $string['wrongmonth'] = 'Вы не можете редактировать отчет прошлого месяца!';
 $string['error_resubmissionreport'] = 'Вы уже сдавали отчет по этой книге!';
+$string['error_reportdoesnotexist'] = 'Такого отчета не существует!';
+$string['error_reportwronguser'] = 'Вам запрещено просматривать чужие отчеты!';
 
 $string['author'] = 'Автор';
 $string['book'] = 'Книга';
