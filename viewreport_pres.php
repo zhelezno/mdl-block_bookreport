@@ -108,7 +108,7 @@ if ($form_submitted_data = $fileview_form->get_data()) {
     redirect($refurl, get_string('viewreportredirect', 'block_bookreport'));
 } else {
     
-    //If the form is displayed for the first time
+    //If the form is displayed
     $site = get_site();
     echo $OUTPUT->header();
 
@@ -118,7 +118,7 @@ if ($form_submitted_data = $fileview_form->get_data()) {
     //Set draftitemid(report attachment)
     $draftitemid = $reportpage->attachment;
 
-    //If report belongs to its creator
+    //If report belongs to its creator and report was submitted in this month
     if (($userid == $USER->id) && ($id) && (check_date($id) == true)){
 
         $fileview_form->set_data($reportpage);
@@ -128,10 +128,10 @@ if ($form_submitted_data = $fileview_form->get_data()) {
             'block_bookreport', 
             'item_file', 
             $draftitemid,
-            array('subdirs' => 0, 'maxbytes' => 0, 'maxfiles' => 1));
+            array('subdirs' => 0, 'maxbytes' => 0, 'maxfiles' => 1000));
         
         $fileview_form->display();
-    } elseif($id) {    
+    } elseif($id) {
         
         //Get file storage
         $fs = get_file_storage();

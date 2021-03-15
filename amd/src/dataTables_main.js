@@ -39,6 +39,7 @@ define([
                             "buttons": [
                                 'excelHtml5', 'copyHtml5', 'print'
                             ],
+                            "order": [[ 4, "desc" ]],
                             // russian localization
                             "language": {
                                             "processing": "Подождите...",

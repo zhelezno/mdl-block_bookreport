@@ -27,60 +27,70 @@
 <div class="container-fluid">
     <div class="allreports" id="allreports">
         {{! Заголовок }}
-        <br />
+        <br>
         <div>
             <h2>{{h2head}} <span class="badge badge-secondary"></span></h2>
         </div>
-        <br />
-
-        <div class="row">
+        <br>
+        <div class="row no-gutters">
             <div class="col-md-12">
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
+                <div class="row ">
+                    <div class="col">
+                        <div class="row no-gutters">
+                            <div class="col-md-1">
                                 <a href="#" id="calendariconstart">
-                                    <span class="input-group-text bg-info text-white" id="basic-addon1"><img width="25px" src="../bookreport/style/img/calendar-alt-solid.svg"></span>
+                                    <div style="background-color: #12b3cd; height: 100%">
+                                        <img width="70%" style="padding-left: 27%; padding-top: 10%" src="../bookreport/style/img/calendar-alt-solid.svg">
+                                    </div>
                                 </a>
                             </div>
-                            <input type="text" class="form-control" id="start_date" placeholder="Дата начала" readonly />
+                            <div class="col-md-11 input-group">
+                                <input type="text" class="form-control" id="start_date" placeholder="Дата начала" readonly />
+                            </div>
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <div class="input-group mb-3">                            
-                            <div class="input-group-prepend">
+                    <div class="col">
+                        <div class="row no-gutters">
+                            <div class="col-md-1">
                                 <a href="#" id="calendariconend">
-                                    <span class="input-group-text bg-info text-white" id="basic-addon1"><img width="25px" src="../bookreport/style/img/calendar-alt-solid.svg"></span>
+                                    <div style="background-color: #12b3cd; height: 100%">
+                                        <img width="70%" style="padding-left: 27%; padding-top: 10%" src="../bookreport/style/img/calendar-alt-solid.svg">
+                                    </div>
                                 </a>
-                            </div>                            
-                            <input type="text" class="form-control" id="end_date" placeholder="Дата конца" readonly />
-                        </div>
-                    </div>
-                </div>
-                <div>
-                    <button id="filter" class="btn btn-outline-info btn-sm">Фильтровать</button>
-                    <button id="reset" class="btn btn-outline-warning btn-sm">Сбросить</button>
-                </div>
-                <div class="row mt-3">
-                    <div class="col-md-12">
-                        <!-- Table -->
-                        <div class="table-responsive">
-                            <table class="display" id="reporttable">
-                                <thead>
-                                    <tr>
-                                        <th>Автор</th>
-                                        <th>Книга</th>
-                                        <th>ФИО</th>
-                                        <th>Отдел</th>
-                                        <th>Дата</th>
-                                        <th>Тип</th>
-                                    </tr>
-                                </thead>
-                            </table>
+                            </div>
+                            <div class="col-md-11 input-group">
+                                <input type="text" class="form-control" id="end_date" placeholder="Дата конца" readonly />
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+        <br>
+        <br>
+        <div>
+            <button id="filter" class="btn btn-outline-info btn-sm">Фильтровать</button>
+            <button id="reset" class="btn btn-outline-warning btn-sm">Сбросить</button>
+        </div>
+
+        <div class="row mt-3">
+            <div class="col-md-12">
+                <!-- Table -->
+                <div class="table-responsive">
+                    <table class="display" id="reporttable">
+                        <thead>
+                            <tr>
+                                <th>Автор</th>
+                                <th>Книга</th>
+                                <th>ФИО</th>
+                                <th>Отдел</th>
+                                <th>Дата</th>
+                                <th>Тип</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
         </div>
     </div>
 </div>

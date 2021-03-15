@@ -1,4 +1,5 @@
 <?php
+
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -24,7 +25,7 @@
 
 require_once(__DIR__ . '/../../config.php');
 
-global $DB, $USER;
+global $DB, $USER, $PAGE;
 
 $url = new moodle_url('/blocks/bookreport/index.php');
 $PAGE->set_url($url);
