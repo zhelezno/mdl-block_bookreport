@@ -58,15 +58,15 @@ $PAGE->navbar->add(get_string('bookreport', 'block_bookreport'), $indexurl);
 $PAGE->navbar->add(get_string('allreports', 'block_bookreport'), $allreportsurl);
 $PAGE->navbar->add(get_string('userreport', 'block_bookreport'));
 
+//User is admin?
+if((!is_siteadmin()) && ($USER->id != $userid)) {
+    redirect($refurl, get_string('error_reportwronguser', 'block_bookreport'),null, \core\output\notification::NOTIFY_ERROR);
+}
+
 //Report exists?
 $checkreport = $DB->get_record('block_bookreport_prsrep', array('bookreportid' => $id));
 if (empty($checkreport)) {
     redirect($refurl, get_string('error_reportdoesnotexist', 'block_bookreport'),null, \core\output\notification::NOTIFY_ERROR);
-}
-
-//User is admin?
-if(!is_siteadmin()) {
-    redirect($refurl, get_string('error_reportwronguser', 'block_bookreport'),null, \core\output\notification::NOTIFY_ERROR);
 }
 
 //Initialize mform
