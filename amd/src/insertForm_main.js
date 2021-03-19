@@ -5,35 +5,15 @@ define([
     'core/templates'   
 ], function($, ajax, notification, templates){
     return{
-        typereport: function(){ 
-            $(document).ready(function(){
-            
-                $('#typereport').change(function(){ 
-                    
-                    var selectedtypereport = $('#typereport').val(); 
-                    
-                    if (selectedtypereport == "default") {  
-
-                        $(location).attr('href', 'index.php');
-                    } else if (selectedtypereport == "presentation") {
-
-                        $(location).attr('href', 'filepickform.php');
-                    }
-                });
-            });
-        },
-        ajax_call_db: function(){           
-            
+        ajax_call_db: function(){
             $('#report').change(function(){                                                        
                 setTimeout(senddata,2000);
                 setTimeout(show_autosave_success, 2000);                                
-            }); 
-            
+            });
             $('#button_clear').click(function(){
                 $('.report-field').val('');
                 senddata();
             });
-
             function show_autosave_success(){
                 $("#autosavesuccess").show('slow');
                 setTimeout(function(){

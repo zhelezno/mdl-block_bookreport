@@ -22,12 +22,15 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['pluginname'] = 'Отчет о прочтении книги';
+$string['pluginname'] = 'Книжки';
 $string['bookreport'] = 'Отчет';
+$string['bookreports'] = 'Отчеты';
+$string['shortpluginname'] = 'Книжки';
+$string['mainpage'] = 'Главная страница';
 
 $string['myreports'] = 'Мои отчеты';
-$string['allreports'] = 'Все отчеты';
-$string['lastreports'] = 'Последние отчеты';
+$string['allreports'] = 'Отчеты пользователей';
+$string['lastreports'] = 'Последние книжки';
 $string['userreport'] = 'Просмотр отчета';
 
 $string['viewreportredirect'] = 'Отчет обновлен!';
@@ -41,7 +44,8 @@ $string['error_reportwronguser'] = 'Вам запрещено просматри
 $string['author'] = 'Автор';
 $string['book'] = 'Книга';
 $string['presentation'] = 'Презентация';
-$string['presreport'] = 'Отчет в виде презентации';
+$string['prsreport'] = 'Отчет презентацией';
+$string['streport'] = 'Текстовый отчет';
 
 $string['submitform'] = 'Отправить отчет';
 $string['updateform'] = 'Обновить отчет';

@@ -27,22 +27,28 @@
  */
 require_once(__DIR__ . '/../../config.php');
 
-global $PAGE, $USER;
+global $DB, $USER, $PAGE;
 
+//Get optional params . Получение get параметров
 $id = optional_param('id', 0, PARAM_INT);
 $userid = optional_param('userid', 0, PARAM_INT);
 $refurl = get_local_referer(false);
 
+//Urls
 $indexurl = new moodle_url('/blocks/bookreport/index.php');
-$myreportsurl = new moodle_url('/blocks/bookreport/myreports.php');
-$allreportsurl = new moodle_url('/blocks/bookreport/allreports.php');
-$myreporturl = new moodle_url('/blocks/bookreport/myreportchange.php');
+$table_myreportsurl = new moodle_url('/blocks/bookreport/table_myreports.php');
+$table_allreportsurl = new moodle_url('/blocks/bookreport/table_allreports.php');
+$create_streporturl = new moodle_url('/blocks/bookreport/create_streport.php');
+$create_prsreporturl = new moodle_url('/blocks/bookreport/create_prsreport.php');
+$view_streporturl = new moodle_url('/blocks/bookreport/view_streport.php');
+$libraryurl = new moodle_url('/course/index.php?categoryid=30');
+$sendreporturl = new moodle_url('/blocks/bookreport/sendreport.php');
 $updatereporturl = new moodle_url('/blocks/bookreport/updatereport.php');
 
-$PAGE->set_url($myreporturl);
-$context = \context_system::instance();
-$PAGE->set_context($context);
-$PAGE->set_title('Отчет');
+//Set page
+$PAGE->set_url($view_streporturl);
+$PAGE->set_context(\context_system::instance());
+$PAGE->set_title(get_string('bookreport', 'block_bookreport'));
 $PAGE->set_heading(get_string('pluginname', 'block_bookreport'));
 
 //User is admin?
@@ -56,29 +62,39 @@ if (empty($reportinfo)) {
     redirect($refurl, get_string('error_reportdoesnotexist', 'block_bookreport'),null, \core\output\notification::NOTIFY_ERROR);
 }
 
-$report = std_to_arr(get_standart_report($reportinfo['id']));
-
-$PAGE->navbar->add(get_string('bookreport', 'block_bookreport'), $indexurl);
+$PAGE->navbar->add(get_string('shortpluginname', 'block_bookreport'), $indexurl);
 if(get_change_control($reportinfo['user_id']) === 'disabled') {
-    $PAGE->navbar->add(get_string('allreports', 'block_bookreport'), $allreportsurl);
+    $PAGE->navbar->add(get_string('allreports', 'block_bookreport'), $table_allreportsurl);
 } else {
-    $PAGE->navbar->add(get_string('myreports', 'block_bookreport'), $myreportsurl);
+    $PAGE->navbar->add(get_string('myreports', 'block_bookreport'), $table_myreportsurl);
 }
 $PAGE->navbar->add(get_string('userreport', 'block_bookreport'));
 
 
 /**
  * Main
- */    
-$templatecontext = [
-    'report' => $report,
-    'changecontrol' => get_change_control($reportinfo['user_id']),
-    'updatereporturl' => $updatereporturl.'?id='.$_GET['id'].'&userid='.$_GET['userid']
-];
+ */
+$report = std_to_arr(get_standart_report($reportinfo['id']));
+
+$templatecontext = new stdClass;
+$templatecontext->all_my_reports = get_string('allreports', 'block_bookreport');
+$templatecontext->streport = get_string('streport', 'block_bookreport');
+$templatecontext->prsreport = get_string('prsreport', 'block_bookreport');
+$templatecontext->bookreport = get_string('bookreport', 'block_bookreport');
+$templatecontext->indexurl = $indexurl;
+$templatecontext->sendreporturl = $sendreporturl;
+$templatecontext->table_myreportsurl = $table_myreportsurl;
+$templatecontext->table_allreportsurl = $table_allreportsurl;
+$templatecontext->create_streporturl = $create_streporturl;
+$templatecontext->create_prsreporturl = $create_prsreporturl;
+$templatecontext->libraryurl = $libraryurl;
+$templatecontext->report = $report;
+$templatecontext->changecontrol = get_change_control($userid);
+$templatecontext->updatereporturl = $updatereporturl.'?id='.$id.'&userid='.$userid;
 
 echo $OUTPUT->header();
 
-echo $OUTPUT->render_from_template('block_bookreport/viewstandartreport', $templatecontext);    
+echo $OUTPUT->render_from_template('block_bookreport/view_streport', $templatecontext);
 
 echo $OUTPUT->footer();
 

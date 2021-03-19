@@ -38,15 +38,19 @@ $refurl = get_local_referer(false);
 
 //Urls
 $indexurl = new moodle_url('/blocks/bookreport/index.php');
-$myreportsurl = new moodle_url('/blocks/bookreport/myreports.php');
-$allreportsurl = new moodle_url('/blocks/bookreport/allreports.php');
-$myreporturl = new moodle_url('/blocks/bookreport/myreportchange.php');
+$table_myreportsurl = new moodle_url('/blocks/bookreport/table_myreports.php');
+$table_allreportsurl = new moodle_url('/blocks/bookreport/table_allreports.php');
+$create_streporturl = new moodle_url('/blocks/bookreport/create_streport.php');
+$create_prsreporturl = new moodle_url('/blocks/bookreport/create_prsreport.php');
+$view_streporturl = new moodle_url('/blocks/bookreport/view_streport.php');
+$libraryurl = new moodle_url('/course/index.php?categoryid=30');
+$sendreporturl = new moodle_url('/blocks/bookreport/sendreport.php');
 $updatereporturl = new moodle_url('/blocks/bookreport/updatereport.php');
 
 //Set page
-$PAGE->set_url($myreporturl);
-$PAGE->set_title('Отчет');
-$PAGE->set_heading(get_string('pluginname', 'block_bookreport'));
+$PAGE->set_url($table_myreportsurl);
+$PAGE->set_title(get_string('bookreport', 'block_bookreport'));
+$PAGE->set_heading(get_string('bookreport', 'block_bookreport'));
 
 //Only main page ..site/my/ plugin, therefore we will explicitly set the id course . Курс задан явно, так как плагин будет применяться только на главной странице
 $courseid = 1;
@@ -54,8 +58,8 @@ $context = context_course::instance($courseid);
 $PAGE->set_context($context);
 
 //Add navbar
-$PAGE->navbar->add(get_string('bookreport', 'block_bookreport'), $indexurl);
-$PAGE->navbar->add(get_string('allreports', 'block_bookreport'), $allreportsurl);
+$PAGE->navbar->add(get_string('shortpluginname', 'block_bookreport'), $indexurl);
+$PAGE->navbar->add(get_string('allreports', 'block_bookreport'), $table_allreportsurl);
 $PAGE->navbar->add(get_string('userreport', 'block_bookreport'));
 
 //User is admin?
@@ -68,6 +72,19 @@ $checkreport = $DB->get_record('block_bookreport_prsrep', array('bookreportid' =
 if (empty($checkreport)) {
     redirect($refurl, get_string('error_reportdoesnotexist', 'block_bookreport'),null, \core\output\notification::NOTIFY_ERROR);
 }
+
+//Template context
+$templatecontext = new stdClass();
+$templatecontext->streport = get_string('streport', 'block_bookreport');
+$templatecontext->prsreport = get_string('prsreport', 'block_bookreport');
+$templatecontext->bookreport = get_string('bookreport', 'block_bookreport');
+$templatecontext->indexurl = $indexurl;
+$templatecontext->sendreporturl = $sendreporturl;
+$templatecontext->table_myreportsurl = $table_myreportsurl;
+$templatecontext->table_allreportsurl = $table_allreportsurl;
+$templatecontext->create_streporturl = $create_streporturl;
+$templatecontext->create_prsreporturl = $create_prsreporturl;
+$templatecontext->libraryurl = $libraryurl;
 
 //Initialize mform
 $fileview_form = new fileviewer();
@@ -139,7 +156,8 @@ if ($form_submitted_data = $fileview_form->get_data()) {
             'item_file', 
             $draftitemid,
             array('subdirs' => 0, 'maxbytes' => 0, 'maxfiles' => 1000));
-        
+
+        echo $OUTPUT->render_from_template('block_bookreport/navbar', $templatecontext);
         $fileview_form->display();
     } elseif($id) {
         
@@ -175,16 +193,13 @@ if ($form_submitted_data = $fileview_form->get_data()) {
         $reportinfo = $DB->get_record('block_bookreport_prsrep', array('bookreportid' => $id), 'author,book');     
 
         //Set templatesettings
-        $templatecontext = new stdClass();
         $templatecontext->fileurl = $fileurl;
         $templatecontext->filename = $filename;
         $templatecontext->author = $reportinfo->author;
         $templatecontext->book = $reportinfo->book;
        
-        echo $OUTPUT->render_from_template('block_bookreport/viewpresentationreport', $templatecontext);
+        echo $OUTPUT->render_from_template('block_bookreport/view_prsreport', $templatecontext);
     }
-    
-
     echo $OUTPUT->footer();
 }
 

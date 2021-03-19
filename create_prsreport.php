@@ -26,32 +26,44 @@
 require_once(__DIR__ . '/../../config.php');
 require_once($CFG->dirroot . '/blocks/bookreport/classes/form/filemanager.php');
 
-global $DB, $USER;
+global $DB, $USER, $PAGE;
 
-$url = new moodle_url('/blocks/bookreport/filepickform.php');
+/*
+ * Page settings
+ */
 $refurl = get_local_referer(false);
-$PAGE->set_url($url);
+$indexurl = new moodle_url('/blocks/bookreport/index.php');
+$table_myreportsurl = new moodle_url('/blocks/bookreport/table_myreports.php');
+$table_allreportsurl = new moodle_url('/blocks/bookreport/table_allreports.php');
+$create_streporturl = new moodle_url('/blocks/bookreport/create_streport.php');
+$create_prsreporturl = new moodle_url('/blocks/bookreport/create_prsreport.php');
+$libraryurl = new moodle_url('/course/index.php?categoryid=30');
+$sendreporturl = new moodle_url('/blocks/bookreport/sendreport.php');
 
+$PAGE->set_url($create_prsreporturl);
 $PAGE->set_context(\context_system::instance());
 $PAGE->set_title('Отчет по книге');
-$PAGE->set_heading(get_string('pluginname', 'block_bookreport'));
+$PAGE->set_heading(get_string('prsreport', 'block_bookreport'));
 
 $courseid = 1;
 $context = context_course::instance($courseid);
 $PAGE->set_context($context);
 
-$myreporturl = new moodle_url('/blocks/bookreport/myreports.php');
-$allreporturl = new moodle_url('/blocks/bookreport/allreports.php');
+$PAGE->navbar->add(get_string('shortpluginname', 'block_bookreport'), $indexurl);
+$PAGE->navbar->add(get_string('prsreport', 'block_bookreport'));
 
-$navbookreport = get_string('bookreport', 'block_bookreport');
-$PAGE->navbar->add($navbookreport, $url);
-
-$PAGE->requires->js_call_amd('block_bookreport/insertForm_main', 'typereport');
 $PAGE->requires->js_call_amd('block_bookreport/insertForm_main', 'ajax_call_booksearch_pr');
 
 $templatecontext = new stdClass;
-$templatecontext->myreporturl = $myreporturl;
-$templatecontext->allreporturl = $allreporturl;
+$templatecontext->indexurl = $indexurl;
+$templatecontext->sendreporturl = $sendreporturl;
+$templatecontext->streport = get_string('streport', 'block_bookreport');
+$templatecontext->prsreport = get_string('prsreport', 'block_bookreport');
+$templatecontext->table_myreportsurl = $table_myreportsurl;
+$templatecontext->table_allreportsurl = $table_allreportsurl;
+$templatecontext->create_streporturl = $create_streporturl;
+$templatecontext->create_prsreporturl = $create_prsreporturl;
+$templatecontext->libraryurl = $libraryurl;
 
 $filemanageropts = array('subdirs' => 0, 'maxbytes' => 0, 'maxfiles' => 1000, 'context' => $context);
 $customdata = array('filemanageropts' => $filemanageropts);
@@ -101,7 +113,7 @@ if ($form_submitted_data = $filepick_form->get_data()) {
     
     $site = get_site();
     echo $OUTPUT->header();
-    echo $OUTPUT->render_from_template('block_bookreport/presentationreport', $templatecontext);
+    echo $OUTPUT->render_from_template('block_bookreport/create_prsreport', $templatecontext);
     $filepick_form->display();
     echo $OUTPUT->footer();
 }

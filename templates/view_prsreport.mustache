@@ -25,7 +25,9 @@
 }}
 
 <div class="container-fluid">
-    <h2>Отчет в виде презентации</h2>
+    {{> block_bookreport/navbar}}
+    <br>
+    <h2>{{bookreport}}</h2>
     <br>
     <form action="{{updatereporturl}}" method="POST" id="report">
         <div class="form-group">

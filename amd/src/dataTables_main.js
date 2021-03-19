@@ -9,14 +9,8 @@ define([
     'block_bookreport/buttons.bootstrap4', //button.html5 подключает jquery.dataTables
 ], function($, jszip){
     return{
-        dtInit: function(allreports, userid){ 
-            //console.log(allreports);  
-            //console.log(userid); 
-            function fetch(allreports, userid, start_date = 0, end_date = 0) {  
-                //console.log(allreports);  
-                //console.log(userid); 
-                //console.log(start_date); 
-                //console.log(end_date);            
+        dtInit: function(allreports, userid){
+            function fetch(allreports, userid, start_date = 0, end_date = 0) {
                 $.ajax({
                     url: "ajaxselect.php",
                     type: "POST",
@@ -180,9 +174,9 @@ define([
                                     "data": "author",
                                     "render": function(data, type, row, meta) {
                                         if (row.type == 1) {
-                                            return '<a href="../bookreport/viewreport.php?id='+row.id+'&userid='+row.user_id+'">'+row.author+'</a>';
+                                            return '<a href="../bookreport/view_streport.php?id='+row.id+'&userid='+row.user_id+'">'+row.author+'</a>';
                                         } else {
-                                            return '<a href="../bookreport/viewreport_pres.php?id='+row.id+'&userid='+row.user_id+'">'+row.author+'</a>';
+                                            return '<a href="../bookreport/view_prsreport.php?id='+row.id+'&userid='+row.user_id+'">'+row.author+'</a>';
                                         }
                                     }           
                                 },
@@ -190,9 +184,9 @@ define([
                                     "data": "book",
                                     "render": function(data, type, row, meta) {
                                         if (row.type == 1) {
-                                            return '<a href="../bookreport/viewreport.php?id='+row.id+'&userid='+row.user_id+'">'+row.book+'</a>';
+                                            return '<a href="../bookreport/view_streport.php?id='+row.id+'&userid='+row.user_id+'">'+row.book+'</a>';
                                         } else {
-                                            return '<a href="../bookreport/viewreport_pres.php?id='+row.id+'&userid='+row.user_id+'">'+row.book+'</a>';
+                                            return '<a href="../bookreport/view_prsreport.php?id='+row.id+'&userid='+row.user_id+'">'+row.book+'</a>';
                                         }
                                     }                 
                                 },
@@ -200,9 +194,9 @@ define([
                                     "data": "fullname",
                                     "render": function(data, type, row, meta) {
                                         if (row.type == 1) {
-                                            return '<a href="../bookreport/viewreport.php?id='+row.id+'&userid='+row.user_id+'">'+row.fullname+'</a>';
+                                            return '<a href="../bookreport/view_streport.php?id='+row.id+'&userid='+row.user_id+'">'+row.fullname+'</a>';
                                         } else {
-                                            return '<a href="../bookreport/viewreport_pres.php?id='+row.id+'&userid='+row.user_id+'">'+row.fullname+'</a>';
+                                            return '<a href="../bookreport/view_prsreport.php?id='+row.id+'&userid='+row.user_id+'">'+row.fullname+'</a>';
                                         }
                                     }         
                                 }, 

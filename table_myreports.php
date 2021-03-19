@@ -1,5 +1,4 @@
 <?php
-
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -19,73 +18,55 @@
  * Version information
  *
  * @package   block_bookreport
- * @author    chasnikovandrew@gmail.com
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+
 require_once(__DIR__ . '/../../config.php');
 
-global $DB, $USER, $PAGE;
+global $DB, $USER;
 
-/*
- * Page settings
- */
-$url = new moodle_url('/blocks/bookreport/index.php');
+$refurl = get_local_referer(false);
+$indexurl = new moodle_url('/blocks/bookreport/index.php');
 $table_myreportsurl = new moodle_url('/blocks/bookreport/table_myreports.php');
 $table_allreportsurl = new moodle_url('/blocks/bookreport/table_allreports.php');
 $create_streporturl = new moodle_url('/blocks/bookreport/create_streport.php');
 $create_prsreporturl = new moodle_url('/blocks/bookreport/create_prsreport.php');
 $libraryurl = new moodle_url('/course/index.php?categoryid=30');
+$sendreporturl = new moodle_url('/blocks/bookreport/sendreport.php');
 
-$PAGE->set_url($url);
+$PAGE->set_url($table_myreportsurl);
 $PAGE->set_context(\context_system::instance());
-$PAGE->set_title(get_string('shortpluginname', 'block_bookreport'));
-$PAGE->set_heading(get_string('mainpage', 'block_bookreport'));
-$PAGE->navbar->add(get_string('shortpluginname', 'block_bookreport'), $url);
-$PAGE->requires->js_call_amd('block_bookreport/insertForm_main', 'typereport');
-$PAGE->requires->js_call_amd('block_bookreport/insertForm_main', 'ajax_call_db');
-$PAGE->requires->js_call_amd('block_bookreport/insertForm_main', 'ajax_call_booksearch_st');
+$PAGE->set_title(get_string('myreports', 'block_bookreport'));
+$PAGE->set_heading(get_string('myreports', 'block_bookreport'));
+
+$PAGE->navbar->add(get_string('shortpluginname', 'block_bookreport'), $indexurl);
+$PAGE->navbar->add(get_string('myreports', 'block_bookreport'));
+
+$PAGE->requires->css(new moodle_url($CFG->wwwroot . '/blocks/bookreport/style/css/jquery-ui.css'));
+
+$params = [    
+    'allreports' => false,
+    'userid' => $USER->id    
+];
+
+$PAGE->requires->js_call_amd('block_bookreport/dataTables_main', 'dtInit', $params);
+$PAGE->requires->js_call_amd('block_bookreport/dataTables_main', 'dpInit');
 
 $templatecontext = new stdClass;
-$templatecontext->indexurl = $url;
+$templatecontext->all_my_reports = get_string('bookreports', 'block_bookreport');
+$templatecontext->streport = get_string('streport', 'block_bookreport');
+$templatecontext->prsreport = get_string('prsreport', 'block_bookreport');
+$templatecontext->indexurl = $indexurl;
+$templatecontext->sendreporturl = $sendreporturl;
 $templatecontext->table_myreportsurl = $table_myreportsurl;
 $templatecontext->table_allreportsurl = $table_allreportsurl;
 $templatecontext->create_streporturl = $create_streporturl;
 $templatecontext->create_prsreporturl = $create_prsreporturl;
 $templatecontext->libraryurl = $libraryurl;
 
-/*
- * Main
- */
-$params = [
-    'userid' => $USER->id,
-    'userid_2' => $USER->id
-];
-$sql = "SELECT bb.id, bb.type, bb.timecreated, bb.type, bs.author, bs.book
-        FROM {block_bookreport} bb
-        JOIN {block_bookreport_strep} bs ON (bs.bookreportid = bb.id) 
-        WHERE bb.user_id = :userid
-        AND bb.completed = 1
-        
-        UNION ALL
-        
-        SELECT bb.id, bb.type, bb.timecreated, bb.type, br.author, br.book
-        FROM {block_bookreport} bb
-        JOIN {block_bookreport_prsrep} br ON (br.bookreportid = bb.id) 
-        WHERE bb.user_id = :userid_2
-        AND bb.completed = 1
-        
-        ORDER BY timecreated DESC LIMIT 10
-        ";
-
-$myreports = $DB->get_records_sql($sql, $params);
-
-if (empty($myreports)) {
-    $templatecontext->empty = '...';
-} else {
-    $templatecontext->myreports = array_values($myreports);
-}
-
 echo $OUTPUT->header();
-echo $OUTPUT->render_from_template('block_bookreport/index', $templatecontext);
+
+echo $OUTPUT->render_from_template('block_bookreport/table_reports', $templatecontext);
+
 echo $OUTPUT->footer();

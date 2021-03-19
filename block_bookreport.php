@@ -55,7 +55,7 @@ class block_bookreport extends block_base {
         
         $sql = "((";
         
-        $sql .="SELECT bb.id AS bid, bb.type, bb.timecreated, bb.type, bs.author, bs.book
+        $sql .="SELECT bb.id AS bid, bb.timecreated, bb.type, bs.author, bs.book
                 FROM {block_bookreport} bb
                 JOIN {block_bookreport_strep} bs ON (bs.bookreportid = bb.id) 
                 WHERE bb.user_id = :userid
@@ -63,7 +63,7 @@ class block_bookreport extends block_base {
                 )
                 UNION ALL
                 (
-                SELECT bb.id AS bid, bb.type, bb.timecreated, bb.type, br.author, br.book
+                SELECT bb.id AS bid, bb.timecreated, bb.type, br.author, br.book
                 FROM {block_bookreport} bb
                 JOIN {block_bookreport_prsrep} br ON (br.bookreportid = bb.id) 
                 WHERE bb.user_id = :userid_p

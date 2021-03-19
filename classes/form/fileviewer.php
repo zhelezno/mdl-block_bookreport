@@ -34,7 +34,7 @@ class fileviewer extends moodleform {
         $filemanageropts['maxfiles'] = 1;
         $filemanageropts['accepted_types'] = '.pptx';
 
-        $mform->addElement('header', 'presheader', get_string('presreport', 'block_bookreport'));
+        $mform->addElement('header', 'presheader', get_string('prsreport', 'block_bookreport'));
         
         $mform->addElement('text', 'author', get_string('author', 'block_bookreport'));
         $mform->addRule('author', null, 'required', null, 'client');

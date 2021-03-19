@@ -200,4 +200,4 @@ foreach ($reports as $report){
     //$DB->execute($sql2, $params2);//А ЭТО РАСКОМЕНТИРУЙ
 }
 
-redirect('/blocks/bookreport/allreports.php', 'Скрипт номер 228 успешно сработал, удачи с БД, лол');
+redirect('/blocks/bookreport/table_allreports.php', 'Скрипт номер 228 успешно сработал, удачи с БД, лол');
