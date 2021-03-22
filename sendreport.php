@@ -26,6 +26,8 @@ require_once(__DIR__ . '/../../config.php');
 
 global $DB, $USER;
 
+require_login();
+
 $refurl = get_local_referer(false);
 $redirectmessage = get_string('indexreportredirect', 'block_bookreport');
 

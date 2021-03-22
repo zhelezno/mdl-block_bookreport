@@ -51,6 +51,8 @@ $PAGE->navbar->add(get_string('prsreport', 'block_bookreport'));
 
 $PAGE->requires->js_call_amd('block_bookreport/insertForm_main', 'ajax_call_booksearch_pr');
 
+require_login();
+
 //Mustache context
 $templatecontext = new stdClass;
 $templatecontext->indexurl = $indexurl;

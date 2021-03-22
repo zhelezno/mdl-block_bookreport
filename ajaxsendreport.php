@@ -26,6 +26,8 @@ require_once(__DIR__ . '/../../config.php');
 
 global $DB, $USER;
 
+require_login();
+
 $indexurl = new moodle_url('/blocks/bookreport/index.php');
 
 //Main params

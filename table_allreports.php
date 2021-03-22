@@ -46,6 +46,8 @@ $PAGE->navbar->add(get_string('allreports', 'block_bookreport'));
 
 $PAGE->requires->css(new moodle_url($CFG->wwwroot . '/blocks/bookreport/style/css/jquery-ui.css'));
 
+require_login();
+
 //JS params
 $params = [
     'allreports' => true,

@@ -47,6 +47,8 @@ $PAGE->navbar->add(get_string('streport', 'block_bookreport'));
 $PAGE->requires->js_call_amd('block_bookreport/insertForm_main', 'ajax_call_db');
 $PAGE->requires->js_call_amd('block_bookreport/insertForm_main', 'ajax_call_booksearch_st');
 
+require_login();
+
 $templatecontext = new stdClass;
 $templatecontext->indexurl = $indexurl;
 $templatecontext->sendreporturl = $sendreporturl;

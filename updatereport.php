@@ -26,6 +26,8 @@ require_once(__DIR__ . '/../../config.php');
 
 global $DB, $USER;
 
+require_login();
+
 //Get params
 $id = optional_param('id', 0, PARAM_INT);
 $userid = optional_param('userid', 0, PARAM_INT);

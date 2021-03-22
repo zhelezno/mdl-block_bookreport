@@ -55,6 +55,7 @@ $params = [
 $PAGE->requires->js_call_amd('block_bookreport/dataTables_main', 'dtInit', $params);
 $PAGE->requires->js_call_amd('block_bookreport/dataTables_main', 'dpInit');
 
+require_login();
 
 //Mustache context
 $templatecontext = new stdClass;

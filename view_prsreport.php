@@ -61,6 +61,8 @@ $PAGE->navbar->add(get_string('shortpluginname', 'block_bookreport'), $indexurl)
 $PAGE->navbar->add(get_string('allreports', 'block_bookreport'), $table_allreportsurl);
 $PAGE->navbar->add(get_string('userreport', 'block_bookreport'));
 
+require_login();
+
 //Template context
 $templatecontext = new stdClass();
 $templatecontext->streport = get_string('streport', 'block_bookreport');

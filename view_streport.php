@@ -70,10 +70,10 @@ if($userid !==  $USER->id) {
 }
 $PAGE->navbar->add(get_string('userreport', 'block_bookreport'));
 
+require_login();
 
-/**
- * Main
- */
+//Main
+
 $report = std_to_arr(get_standart_report($reportinfo['id']));
 
 $templatecontext = new stdClass;
