@@ -31,7 +31,7 @@ global $DB, $USER, $PAGE;
 
 //Get optional params . Получение get параметров
 $id = optional_param('id', 0, PARAM_INT);
-$userid = optional_param('userid', 0, PARAM_INT);
+$userid = optional_param('userid', $USER->id, PARAM_INT);
 $refurl = get_local_referer(false);
 
 //Urls
@@ -63,7 +63,7 @@ if (empty($reportinfo)) {
 }
 
 $PAGE->navbar->add(get_string('shortpluginname', 'block_bookreport'), $indexurl);
-if(get_change_control($reportinfo['user_id']) === 'disabled') {
+if($userid !==  $USER->id) {
     $PAGE->navbar->add(get_string('allreports', 'block_bookreport'), $table_allreportsurl);
 } else {
     $PAGE->navbar->add(get_string('myreports', 'block_bookreport'), $table_myreportsurl);
@@ -89,13 +89,10 @@ $templatecontext->create_streporturl = $create_streporturl;
 $templatecontext->create_prsreporturl = $create_prsreporturl;
 $templatecontext->libraryurl = $libraryurl;
 $templatecontext->report = $report;
-$templatecontext->changecontrol = get_change_control($userid);
 $templatecontext->updatereporturl = $updatereporturl.'?id='.$id.'&userid='.$userid;
 
 echo $OUTPUT->header();
-
 echo $OUTPUT->render_from_template('block_bookreport/view_streport', $templatecontext);
-
 echo $OUTPUT->footer();
 
 
@@ -150,18 +147,4 @@ function std_to_arr($stdArr) {
     foreach ($defArr as $arr){ 
         return $arr;  
     }   
-}
-
-function get_change_control($userid){
-    
-    global $USER;
-
-    //атрибут disabled для исключения возможности править записи другим пользователям
-    $changecontrol = '';
-    
-    if ($userid !==  $USER->id) {
-        $changecontrol = 'disabled'; 
-    }
-
-    return $changecontrol;
 }

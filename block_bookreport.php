@@ -17,13 +17,14 @@
 /**
  * Block for displaying earned local badges to users
  *
- * @package    block_bookreport
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- * @author     Chasnikov Andrey
+ * @package   block_bookreport
+ * @author    chasnikovandrew@gmail.com
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 class block_bookreport extends block_base {
 
+    //Set title
     function init() {
         $this->title = '<a href="../blocks/bookreport/index.php">' . get_string('pluginname', 'block_bookreport') . "</a>";
     }
@@ -33,7 +34,7 @@ class block_bookreport extends block_base {
     }
 
     function get_content() {
-        global $CFG, $DB, $USER, $OUTPUT;
+        global $CFG, $DB, $USER;
 
         require_once($CFG->libdir . '/filelib.php');
 
@@ -44,10 +45,10 @@ class block_bookreport extends block_base {
         $this->content = new stdClass;
         $this->content->text = '';
 
-
         $info = '';
         $info .= '<h5>'. get_string('lastreports', 'block_bookreport') .'</h5>';
 
+        //Getting last reports
         $params = [
             'userid' => $USER->id,
             'userid_p' => $USER->id
@@ -75,6 +76,7 @@ class block_bookreport extends block_base {
         
         $lastreports = $DB->get_records_sql($sql, $params);
 
+        //If the reports exists
         if (!empty($lastreports)) {
             $info .= '<div class="list-group-flush">';        
                 $reports = '';
@@ -98,8 +100,6 @@ class block_bookreport extends block_base {
         } else {
             $info .= '<h5>...</h5>';
         }
-        
-        
 
         $this->content->text .= $info;
         $this->content->footer = '';               

@@ -18,31 +18,32 @@
  * Version information
  *
  * @package   block_bookreport
+ * @author    chasnikovandrew@gmail.com
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 require_once(__DIR__ . '/../../config.php');
 
-$refurl = get_local_referer(false);
-$redirectmessage = get_string('indexreportredirect', 'block_bookreport'); 
-
 global $DB, $USER;
+
+$refurl = get_local_referer(false);
+$redirectmessage = get_string('indexreportredirect', 'block_bookreport');
 
 $reporttype = 1;
 $completed = 1;
 $timecreated = time();
 $timemodified = $timecreated;
-$report = getreport();//Получение полей отчета
+$report = getreport();//Getting report/Получение полей отчета
 
 if (check_resub_report($report) == true){
 
-    if ((userhasdraft() == false)){//Если нет черновика, создаем запись     
+    if ((userhasdraft() == false)){//If draft is empty we create a report/Если нет черновика, создаем запись
 
         create_newreport($reporttype, $completed, $timecreated, $timemodified ,$report);      
 
         redirect($refurl, $redirectmessage);
 
-    } else { //если есть, обновляем поля
+    } else {//If user has draf we update the fields/Если есть, обновляем поля
         
         $reportinfo = userhasdraft();
         $id = $reportinfo['bsid'];
@@ -60,7 +61,6 @@ if (check_resub_report($report) == true){
 
         $DB->update_record('block_bookreport_strep', $record);
 
-
         $recordrep = new stdClass;
         $recordrep->id = $bookreportid;
         $recordrep->completed = 1;
@@ -76,13 +76,7 @@ if (check_resub_report($report) == true){
 
 
 /**
- * 
- * 
- * 
- * Func)
- * 
- * 
- * 
+ * Func
  */
 function getreport(){
 

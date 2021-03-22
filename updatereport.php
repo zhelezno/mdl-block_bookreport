@@ -30,7 +30,7 @@ global $DB, $USER;
 $id = optional_param('id', 0, PARAM_INT);
 $userid = optional_param('userid', 0, PARAM_INT);
 
-//reference url
+//Reference url
 $refurl = get_local_referer(false);
 
 //if the report belongs to the current user . Если это отчет текущего юзера

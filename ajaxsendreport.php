@@ -18,27 +18,30 @@
  * Version information
  *
  * @package   block_bookreport
+ * @author    chasnikovandrew@gmail.com
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 require_once(__DIR__ . '/../../config.php');
-$indexurl = new moodle_url('/blocks/bookreport/index.php');
 
 global $DB, $USER;
 
+$indexurl = new moodle_url('/blocks/bookreport/index.php');
+
+//Main params
 $reporttype = 1;
 $completed = 0;
 $timecreated = time();
 $timemodified = $timecreated;
-$report = getreport($completed);//Получение полей отчета
+$report = getreport($completed);//Getting report from form/Получение полей отчета
 
-if ((userhasdraft() == false)){//Если нет черновика, создаем запись     
+if ((userhasdraft() == false)){//If the draft not exists, we create a recod/Если нет черновика, создаем запись
 
-    create_newreport($reporttype, $completed, $timecreated, $timemodified ,$report);    
+    create_newreport($reporttype, $completed, $timecreated, $timemodified ,$report);//Creating new draft report
 
-} else { //если есть, обновляем поля
-       
-    $reportinfo = userhasdraft();
+} else {//Else update fields/Если есть, обновляем поля
+
+    $reportinfo = userhasdraft();//Get user draft
     $id = $reportinfo['bsid'];
     $bookreportid = $reportinfo['bbid'];
 
@@ -52,18 +55,12 @@ if ((userhasdraft() == false)){//Если нет черновика, созда�
     $record->quotes = $report['quotes'];
     $record->conclusion = $report['conclusion'];
 
-    $DB->update_record('block_bookreport_strep', $record);  
+    $DB->update_record('block_bookreport_strep', $record);//Update draft
 }
 
 
 /**
- * 
- * 
- * 
- * Func)
- * 
- * 
- * 
+ * Func
  */
 function getreport(){
 

@@ -22,15 +22,12 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-
 require_once(__DIR__ . '/../../config.php');
 require_once($CFG->dirroot . '/blocks/bookreport/classes/form/filemanager.php');
 
 global $DB, $USER, $PAGE;
 
-/*
- * Page settings
- */
+//Page settings
 $refurl = get_local_referer(false);
 $indexurl = new moodle_url('/blocks/bookreport/index.php');
 $table_myreportsurl = new moodle_url('/blocks/bookreport/table_myreports.php');
@@ -54,6 +51,7 @@ $PAGE->navbar->add(get_string('prsreport', 'block_bookreport'));
 
 $PAGE->requires->js_call_amd('block_bookreport/insertForm_main', 'ajax_call_booksearch_pr');
 
+//Mustache context
 $templatecontext = new stdClass;
 $templatecontext->indexurl = $indexurl;
 $templatecontext->sendreporturl = $sendreporturl;
@@ -65,13 +63,14 @@ $templatecontext->create_streporturl = $create_streporturl;
 $templatecontext->create_prsreporturl = $create_prsreporturl;
 $templatecontext->libraryurl = $libraryurl;
 
+//Filemanager settings
 $filemanageropts = array('subdirs' => 0, 'maxbytes' => 0, 'maxfiles' => 1000, 'context' => $context);
 $customdata = array('filemanageropts' => $filemanageropts);
 $filepick_form = new filemanager(null, $customdata);
 
-if ($form_submitted_data = $filepick_form->get_data()) {
+if ($form_submitted_data = $filepick_form->get_data()) {//If the form was submitted
 
-    if (check_resub_report($form_submitted_data->author, $form_submitted_data->book) == false){
+    if (check_resub_report($form_submitted_data->author, $form_submitted_data->book) == false){//If this is a unique user report/Если отчет уникальный
     
         $filerecord = new stdClass;
         $filerecord->attachment = $form_submitted_data->attachment;
@@ -109,8 +108,7 @@ if ($form_submitted_data = $filepick_form->get_data()) {
     } else {
         redirect($refurl, get_string('error_resubmissionreport', 'block_bookreport'));
     }
-} else {
-    
+} else {//If the form displayed first time(not submitted)
     $site = get_site();
     echo $OUTPUT->header();
     echo $OUTPUT->render_from_template('block_bookreport/create_prsreport', $templatecontext);
@@ -121,11 +119,7 @@ if ($form_submitted_data = $filepick_form->get_data()) {
 
 
 /**
- * 
- * 
  * Func
- * 
- * 
  */
 function check_resub_report($author, $book){
     
@@ -169,8 +163,6 @@ function check_resub_report($author, $book){
             AND 
             bb.user_id = :userid2
             ";
-
-
 
     if (!empty($DB->get_records_sql($sql, $params))){
         return true;

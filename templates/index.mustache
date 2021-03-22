@@ -26,18 +26,22 @@
 <div class="container-fluid">
     {{> block_bookreport/navbar}}
     <p><h5>Добро пожаловать в Книжки!</h5></p>
-    <p>Плагин создан с целью объеденить в одном месте прочитанные вами книжки, удобно отправлять отчеты, а также дать возможность посмотреть, что читают ваши коллеги.</p>
+    <p>Плагин создан с целью объединить в одном месте прочитанные вами книжки, удобно отправлять отчеты, а также дать возможность посмотреть, что читают ваши коллеги.</p>
     <p>Вы можете выбрать удобный для вас способ сдачи отчетов: <a href="{{create_prsreporturl}}">презентация</a>, либо <a href="{{create_streporturl}}">отчет в текстовом виде</a>.</p>
     <p>Имейте ввиду, что за одну прочитанную книгу вы оставляете один отчет в удобном для вас виде. Не следует оставлять отчет по одной книге сразу в обеих вариантах!</p>
     <h3>Последние книжки</h3>
     <div class="list-group">
     {{#myreports}}
         {{#.}}
-            <a href="{{reporturl}}" class="list-group-item list-group-item-action list-group-item-light"><img style="margin-right: 10px;" width="30px" src="../bookreport/style/img/reportpix{{type}}.png"><span>{{author}} - {{book}}</span><span class="pull-right">{{#userdate}} {{timecreated}}, %A, %d %B %Y, %I:%M %p {{/userdate}}</span></a>
+            <a href="{{reporturl}}" class="list-group-item list-group-item-action list-group-item-light text-truncate">
+                <img style="margin-right: 10px;" width="30px" src="{{pixurl}}">
+                <span class="float-right">&nbsp;{{#userdate}} {{timecreated}}, %A, %d %B %Y, %H:%M %p {{/userdate}}</span>
+                <span>{{author}} - {{book}}</span>
+            </a>
         {{/.}}
     {{/myreports}}
     </div>
     <h4>{{empty}}</h4>
     <br>
-    <a href="mailto:chasnikov.aa@zhcom.ru?subject=Вопрос по плагину bookreport" class="text-secondary float-right">Нашли баг?</a>
+    <a href="mailto:{{adminmail}}?subject=Вопрос по плагину bookreport" class="text-secondary float-right">Нашли баг?</a>
 </div>

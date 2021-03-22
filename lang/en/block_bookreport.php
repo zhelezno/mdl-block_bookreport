@@ -49,3 +49,5 @@ $string['streport'] = 'Текстовый отчет';
 
 $string['submitform'] = 'Отправить отчет';
 $string['updateform'] = 'Обновить отчет';
+
+$string['adminmail'] = 'chasnikov.aa@zhcom.ru';

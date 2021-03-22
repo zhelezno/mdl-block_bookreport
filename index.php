@@ -27,9 +27,7 @@ require_once(__DIR__ . '/../../config.php');
 
 global $DB, $USER, $PAGE;
 
-/*
- * Page settings
- */
+//Page settings
 $url = new moodle_url('/blocks/bookreport/index.php');
 $table_myreportsurl = new moodle_url('/blocks/bookreport/table_myreports.php');
 $table_allreportsurl = new moodle_url('/blocks/bookreport/table_allreports.php');
@@ -53,10 +51,9 @@ $templatecontext->table_allreportsurl = $table_allreportsurl;
 $templatecontext->create_streporturl = $create_streporturl;
 $templatecontext->create_prsreporturl = $create_prsreporturl;
 $templatecontext->libraryurl = $libraryurl;
+$templatecontext->adminmail = get_string('adminmail', 'block_bookreport');
 
-/*
- * Main
- */
+//Main
 $params = [
     'userid' => $USER->id,
     'userid_2' => $USER->id
@@ -83,6 +80,15 @@ $myreports = $DB->get_records_sql($sql, $params);
 if (empty($myreports)) {
     $templatecontext->empty = '...';
 } else {
+    foreach ($myreports as $myreport){
+        if ($myreport->type == 1){
+            $myreport->pixurl = '/blocks/bookreport/style/img/reportpix1.png';
+            $myreport->reporturl = '/blocks/bookreport/view_streport.php?id='. $myreport->id .'&userid=' . $USER->id;
+        } else {
+            $myreport->pixurl = '/blocks/bookreport/style/img/reportpix2.png';
+            $myreport->reporturl = '/blocks/bookreport/view_prsreport.php?id='. $myreport->id .'&userid=' . $USER->id;
+        }
+    }
     $templatecontext->myreports = array_values($myreports);
 }
 

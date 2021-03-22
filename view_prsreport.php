@@ -23,9 +23,8 @@
  */
 
 
- /**
- * Page settings
- */
+//Page settings
+
 require_once(__DIR__ . '/../../config.php');
 require_once($CFG->dirroot . '/blocks/bookreport/classes/form/fileviewer.php');
 
@@ -61,17 +60,6 @@ $PAGE->set_context($context);
 $PAGE->navbar->add(get_string('shortpluginname', 'block_bookreport'), $indexurl);
 $PAGE->navbar->add(get_string('allreports', 'block_bookreport'), $table_allreportsurl);
 $PAGE->navbar->add(get_string('userreport', 'block_bookreport'));
-
-//User is admin?
-if((!is_siteadmin()) && ($USER->id != $userid)) {
-    redirect($refurl, get_string('error_reportwronguser', 'block_bookreport'),null, \core\output\notification::NOTIFY_ERROR);
-}
-
-//Report exists?
-$checkreport = $DB->get_record('block_bookreport_prsrep', array('bookreportid' => $id));
-if (empty($checkreport)) {
-    redirect($refurl, get_string('error_reportdoesnotexist', 'block_bookreport'),null, \core\output\notification::NOTIFY_ERROR);
-}
 
 //Template context
 $templatecontext = new stdClass();
@@ -135,6 +123,17 @@ if ($form_submitted_data = $fileview_form->get_data()) {
    
     redirect($refurl, get_string('viewreportredirect', 'block_bookreport'));
 } else { //The form is displayed
+
+    //User is admin?
+    if((!is_siteadmin()) && ($USER->id != $userid)) {
+        redirect($refurl, get_string('error_reportwronguser', 'block_bookreport'),null, \core\output\notification::NOTIFY_ERROR);
+    }
+
+    //Report exists?
+    $checkreport = $DB->get_record('block_bookreport_prsrep', array('bookreportid' => $id));
+    if (empty($checkreport)) {
+        redirect($refurl, get_string('error_reportdoesnotexist', 'block_bookreport'),null, \core\output\notification::NOTIFY_ERROR);
+    }
 
     $site = get_site();
     echo $OUTPUT->header();
@@ -204,13 +203,7 @@ if ($form_submitted_data = $fileview_form->get_data()) {
 }
 
 /**
- * 
- * 
- * 
- * Func)
- * 
- * 
- * 
+ * Func
  */
 function check_date($id){
 

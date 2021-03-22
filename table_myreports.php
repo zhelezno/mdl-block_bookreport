@@ -26,6 +26,7 @@ require_once(__DIR__ . '/../../config.php');
 
 global $DB, $USER;
 
+//Page settings
 $refurl = get_local_referer(false);
 $indexurl = new moodle_url('/blocks/bookreport/index.php');
 $table_myreportsurl = new moodle_url('/blocks/bookreport/table_myreports.php');
@@ -45,6 +46,7 @@ $PAGE->navbar->add(get_string('myreports', 'block_bookreport'));
 
 $PAGE->requires->css(new moodle_url($CFG->wwwroot . '/blocks/bookreport/style/css/jquery-ui.css'));
 
+//JS params
 $params = [    
     'allreports' => false,
     'userid' => $USER->id    
@@ -53,6 +55,8 @@ $params = [
 $PAGE->requires->js_call_amd('block_bookreport/dataTables_main', 'dtInit', $params);
 $PAGE->requires->js_call_amd('block_bookreport/dataTables_main', 'dpInit');
 
+
+//Mustache context
 $templatecontext = new stdClass;
 $templatecontext->all_my_reports = get_string('bookreports', 'block_bookreport');
 $templatecontext->streport = get_string('streport', 'block_bookreport');
@@ -66,7 +70,5 @@ $templatecontext->create_prsreporturl = $create_prsreporturl;
 $templatecontext->libraryurl = $libraryurl;
 
 echo $OUTPUT->header();
-
 echo $OUTPUT->render_from_template('block_bookreport/table_reports', $templatecontext);
-
 echo $OUTPUT->footer();

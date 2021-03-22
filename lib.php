@@ -15,9 +15,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 /**
  * library file
- * @package     block
- * @author      
- * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package   block_bookreport
+ * @author    chasnikovandrew@gmail.com
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 /**
@@ -33,6 +33,7 @@
  * @return bool
  */
 
+//I duno what this func doing, but it works and you need it
 function block_bookreport_pluginfile($course, $cm, $context, $filearea, $args, $forcedownload, array $options = array())
 {
 

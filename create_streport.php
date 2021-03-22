@@ -19,6 +19,7 @@
  * Version information
  *
  * @package   block_bookreport
+ * @author    chasnikovandrew@gmail.com
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -26,9 +27,7 @@ require_once(__DIR__ . '/../../config.php');
 
 global $DB, $USER, $PAGE;
 
-/*
- * Page settings
- */
+//Page settings
 $indexurl = new moodle_url('/blocks/bookreport/index.php');
 $table_myreportsurl = new moodle_url('/blocks/bookreport/table_myreports.php');
 $table_allreportsurl = new moodle_url('/blocks/bookreport/table_allreports.php');
@@ -59,7 +58,7 @@ $templatecontext->create_streporturl = $create_streporturl;
 $templatecontext->create_prsreporturl = $create_prsreporturl;
 $templatecontext->libraryurl = $libraryurl;
 
-//Если у пользователя есть сохраненный черновик, передать поля в шаблон
+//If user has draft trasfer the report to form/Если у пользователя есть сохраненный черновик, передать поля в шаблон
 $params = [
     'user_id' => $USER->id
 ];
@@ -71,8 +70,10 @@ $sql .= "   SELECT bs.author, bs.book, bs.mainactors, bs.mainidea, bs.quotes, bs
             WHERE bb.user_id = :user_id
             AND bb.completed != 1
     ";
+
 $autosavedreport = $DB->get_records_sql($sql, $params);
-if (!empty($autosavedreport)) {
+
+if (!empty($autosavedreport)) {//If draft report exists
 
     $autosavedreport = array_values($autosavedreport);
 
@@ -85,7 +86,5 @@ if (!empty($autosavedreport)) {
 }
 
 echo $OUTPUT->header();
-
 echo $OUTPUT->render_from_template('block_bookreport/create_streport', $templatecontext);
-
 echo $OUTPUT->footer();

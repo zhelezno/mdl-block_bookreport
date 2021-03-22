@@ -29,10 +29,13 @@ require_once(__DIR__ . '/../../config.php');
 
 global $DB;
 
+//Get param
 $book = required_param('booksearch', PARAM_TEXT);
 
+//If $book exists
 if ($book) {
-    
+
+    //Query param
     $params = [
         'booksearch' => $book
     ];    
@@ -50,6 +53,7 @@ if ($book) {
     
     $result = $DB->get_records_sql($sql, $params);
 
+    //Result output
     foreach ($result as $row) {
         echo '<a href="#" class="list-group-item list-group-item-action border-1" id="searchresult">' . mb_substr($row->bookfullname, 7) . '</a>';
     }
