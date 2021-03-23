@@ -150,12 +150,12 @@ function create_newreport($reporttype, $completed, $timecreated, $timemodified, 
     ];
 
     $sql1 = "INSERT INTO 
-            mdl_block_bookreport(user_id, type, completed, timecreated, timemodified) 
+            {block_bookreport}(user_id, type, completed, timecreated, timemodified) 
             VALUES(:userid, :type, :completed, :timecreated, :timemodified)       
     ";
 
     $sql2 = "INSERT INTO
-            mdl_block_bookreport_strep(bookreportid, author, book, mainactors, mainidea, quotes, conclusion)
+            {block_bookreport_strep}(bookreportid, author, book, mainactors, mainidea, quotes, conclusion)
             VALUES(LAST_INSERT_ID(), :author, :book, :mainactors, :mainidea, :quotes, :conclusion)     
     ";
 
