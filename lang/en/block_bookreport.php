@@ -22,7 +22,7 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['pluginname'] = 'Книжки';
+$string['pluginname'] = 'Эксперт книги';
 $string['bookreport'] = 'Отчет';
 $string['bookreports'] = 'Отчеты';
 $string['shortpluginname'] = 'Книжки';
