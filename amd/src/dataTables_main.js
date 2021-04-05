@@ -217,13 +217,13 @@ define([
                                         }
                                     }
                                 },                   
-                            ]                            
+                            ],
+                            colReorder: {
+                                order: [4,0,1,2,3,5]
+                            }                            
                         });
                         table.column( 2 ).visible( allreports );
                         table.column( 3 ).visible( allreports );
-
-                        new $.fn.dataTable.ColReorder(table, {                            
-                        });
                     }
                 });
             }
