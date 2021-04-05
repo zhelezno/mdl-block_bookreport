@@ -7,6 +7,7 @@ define([
     'block_bookreport/buttons.print',//button.print подключает dataTables.buttons  и jquery.dataTables
     'block_bookreport/buttons.html5',//button.html5 подключает dataTables.buttons  и jquery.dataTables
     'block_bookreport/buttons.bootstrap4', //button.html5 подключает jquery.dataTables
+    'block_bookreport/dataTables.colReorder' 
 ], function($, jszip){
     return{
         dtInit: function(allreports, userid){
@@ -220,6 +221,9 @@ define([
                         });
                         table.column( 2 ).visible( allreports );
                         table.column( 3 ).visible( allreports );
+
+                        new $.fn.dataTable.ColReorder(table, {                            
+                        });
                     }
                 });
             }

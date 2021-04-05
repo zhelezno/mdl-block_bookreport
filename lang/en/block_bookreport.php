@@ -25,7 +25,7 @@
 $string['pluginname'] = 'Эксперт книги';
 $string['bookreport'] = 'Отчет';
 $string['bookreports'] = 'Отчеты';
-$string['shortpluginname'] = 'Книжки';
+$string['shortpluginname'] = 'Эксперт книги';
 $string['mainpage'] = 'Главная страница';
 
 $string['myreports'] = 'Мои отчеты';
