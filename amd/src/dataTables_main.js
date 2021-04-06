@@ -22,7 +22,7 @@ define([
                     },
                     dataType: "json",
                     success: function(data) {            
-                        //console.log(data);
+                        
                         window.JSZip = jszip;
                         // Datatables            
                         var table = $('#reporttable').DataTable({
@@ -172,6 +172,9 @@ define([
                             "responsive": true,
                             "columns": [
                                 {
+                                    "data": "timecreated"           
+                                },   
+                                {
                                     "data": "author",
                                     "render": function(data, type, row, meta) {
                                         if (row.type == 1) {
@@ -203,10 +206,7 @@ define([
                                 }, 
                                 {
                                     "data": "department"                
-                                },
-                                {
-                                    "data": "timecreated"           
-                                },              
+                                },                                           
                                 {
                                     "data": "type",
                                     "render": function(data, type, row, meta) {            
@@ -218,17 +218,15 @@ define([
                                     }
                                 },                   
                             ],
-                            colReorder: {
-                                order: [4,0,1,2,3,5]
-                            }                            
-                        });
-                        table.column( 2 ).visible( allreports );
-                        table.column( 3 ).visible( allreports );
+                            colReorder: true                                               
+                        });                        
+
+                        table.column(2).visible(allreports);
+                        table.column(3).visible(allreports);
                     }
                 });
             }
             fetch(allreports, userid);
-
 
             // Filter
             $(document).on("click", "#filter", function(e) {
@@ -236,7 +234,7 @@ define([
                 var start_date = $("#start_date").val();
                 var end_date = $("#end_date").val();    
                 if (start_date == "" || end_date == "") {
-                    alert("both date required");
+                    alert("Выберите дату!");
                 } else {
                     $('#reporttable').DataTable().destroy();                    
                     start_date = new Date(start_date).getTime() / 1000;
