@@ -41,7 +41,11 @@ if (check_resub_report($report) == true){
 
     if ((userhasdraft() == false)){//If draft is empty we create a report/Если нет черновика, создаем запись
 
-        create_newreport($reporttype, $completed, $timecreated, $timemodified ,$report);      
+        create_newreport($reporttype, $completed, $timecreated, $timemodified, $report);
+        
+        $bookname = $report['book'] . ' ' . $report['author'];
+
+        sendmsg($USER->id, $bookname);
 
         redirect($refurl, $redirectmessage);
 
@@ -69,6 +73,10 @@ if (check_resub_report($report) == true){
         $recordrep->timecreated = $timecreated;
         $recordrep->timemodified = $timemodified;    
         $DB->update_record('block_bookreport', $recordrep);
+
+        $bookname = $record->book . ' ' . $record->author;
+
+        sendmsg($USER->id, $bookname);
 
         redirect($refurl, $redirectmessage);    
     }
@@ -212,4 +220,28 @@ function check_resub_report($report){
     };
 
     return true;
+}
+
+function sendmsg($userid, $bookname) {
+
+    $message = new \core\message\message();
+    $message->component = 'moodle';
+    $message->name = 'instantmessage';
+    $message->userfrom = \core_user::get_noreply_user();
+    $message->userto = $userid;
+    $message->subject = 'Отчет по книге!';
+
+    $message->fullmessageformat = FORMAT_MARKDOWN;
+
+    $content = array(
+        '*' => array(
+            'header' => '<h4>Ваш отчет по книге ' . $bookname . ' принят!</h4>', 
+            'footer' => '')
+        ); 
+    $message->set_additional_content('email', $content);
+    
+
+    $message->fullmessagehtml = '<a></a>';
+
+    message_send($message);  
 }

@@ -32,7 +32,9 @@ $start_date = required_param('start_date', PARAM_INT);
 $end_date = required_param('end_date', PARAM_INT);
 
 if (($start_date != 0) && ($end_date != 0)) {
-    $rows = date_range($start_date, $end_date, $userid);    
+    $start_date_daystart = strtotime("today", $start_date);
+    $end_date_dayend = strtotime("tomorrow", $end_date) - 1;
+    $rows = date_range($start_date_daystart, $end_date_dayend, $userid);    
 } else {
     $rows = fetch($userid);    
 }
@@ -56,7 +58,7 @@ function fetch($userid){
                 JOIN {block_bookreport_strep} bs ON (bs.bookreportid = bb.id)
                 JOIN {user} u ON (u.id = bb.user_id)
                 WHERE bb.completed = 1
-        ";   
+            ";   
 
     if ($userid != 0) {
         $params['userid'] = $userid;        
@@ -65,7 +67,7 @@ function fetch($userid){
                 ";
     };
 
-    $sql .="    UNION ALL
+    $sql .= "   UNION ALL
 
                 SELECT bp.id, bp.author, bp.book, CONCAT(u.firstname, ' ', u.lastname) AS fullname, u.department, FROM_UNIXTIME(bb.timecreated) AS timecreated,  bb.type, bb.id, bb.user_id
                 FROM {block_bookreport} bb
@@ -94,7 +96,7 @@ function date_range($start_date, $end_date, $userid){
         ];
         $sql = "";
         
-        $sql .= "SELECT bs.id AS bsid, bs.author, bs.book, CONCAT(u.firstname, ' ', u.lastname) AS fullname, u.department, FROM_UNIXTIME(bb.timecreated) AS timecreated,  bb.type, bb.id, bb.user_id
+        $sql .= "SELECT bs.id, bs.author, bs.book, CONCAT(u.firstname, ' ', u.lastname) AS fullname, u.department, FROM_UNIXTIME(bb.timecreated) AS timecreated,  bb.type, bb.id, bb.user_id
                  FROM {block_bookreport} bb
                  JOIN {block_bookreport_strep} bs ON (bs.bookreportid = bb.id)
                  JOIN {user} u ON (u.id = bb.user_id)
@@ -112,7 +114,7 @@ function date_range($start_date, $end_date, $userid){
         
         $sql .="UNION ALL
 
-                SELECT bp.id AS bpid, bp.author, bp.book, CONCAT(u.firstname, ' ', u.lastname) AS fullname, u.department, FROM_UNIXTIME(bb.timecreated) AS timecreated,  bb.type, bb.id, bb.user_id
+                SELECT bp.id, bp.author, bp.book, CONCAT(u.firstname, ' ', u.lastname) AS fullname, u.department, FROM_UNIXTIME(bb.timecreated) AS timecreated,  bb.type, bb.id, bb.user_id
                 FROM {block_bookreport} bb
                 JOIN {block_bookreport_prsrep} bp ON (bp.bookreportid = bb.id)
                 JOIN {user} u ON (u.id = bb.user_id)

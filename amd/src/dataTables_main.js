@@ -21,7 +21,7 @@ define([
                         userid: userid
                     },
                     dataType: "json",
-                    success: function(data) {            
+                    success: function(data) {        
                         
                         window.JSZip = jszip;
                         // Datatables            
@@ -34,7 +34,6 @@ define([
                             "buttons": [
                                 'excelHtml5', 'copyHtml5', 'print'
                             ],
-                            "order": [[ 4, "desc" ]],
                             // russian localization
                             "language": {
                                             "processing": "Подождите...",
@@ -218,7 +217,8 @@ define([
                                     }
                                 },                   
                             ],
-                            colReorder: true                                               
+                            "colReorder": true,
+                            "order": [ 0, "desc" ]                                             
                         });                        
 
                         table.column(2).visible(allreports);
